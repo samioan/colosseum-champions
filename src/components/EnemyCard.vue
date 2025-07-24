@@ -1,40 +1,44 @@
 <script setup lang="ts">
+import { computed } from "vue";
 import type { Enemy } from "@/types";
+import { CardHeader, CardStatBar, CardContainer } from "@/components";
 
-defineProps<{
-  gladiator?: Enemy;
+const props = defineProps<{
+  enemy?: Enemy;
 }>();
+
+const headerProps = computed(() => ({
+  name: `⚔️ ${props.enemy?.name}`,
+  level: props.enemy?.level ?? 0,
+}));
+
+const mainStats = computed(() => [
+  {
+    label: "❤️ Health",
+    stat: props.enemy?.health ?? 0,
+    maxStat: props.enemy?.maxHealth ?? 0,
+    colorClass: "bg-red-500",
+  },
+  {
+    label: "⚡ Stamina",
+    stat: props.enemy?.stamina ?? 0,
+    maxStat: props.enemy?.maxStamina ?? 0,
+    colorClass: "bg-green-500",
+  },
+]);
 </script>
 
 <template>
-  <div
-    class="bg-white dark:bg-gray-800 border border-red-400 dark:border-red-700 rounded-2xl shadow-md hover:shadow-xl transition-shadow duration-300 p-4 m-4 min-w-[300px] w-full flex flex-col gap-3"
-  >
-    <!-- Header -->
-    <div class="flex justify-between items-center">
-      <h2
-        class="text-lg font-bold text-gray-800 dark:text-gray-100 tracking-wide flex items-center gap-2"
-      >
-        ⚔️ Opponent: {{ gladiator?.name }}
-      </h2>
-    </div>
+  <CardContainer>
+    <CardHeader v-bind="headerProps" />
 
-    <!-- Stats -->
-    <div
-      class="grid grid-cols-2 gap-2 text-sm text-gray-700 dark:text-gray-300"
-    >
-      <div class="flex items-center justify-between">
-        <span class="font-medium">❤️ Health</span>
-        <span>{{ gladiator?.health }} / {{ gladiator?.maxHealth }}</span>
-      </div>
-      <div class="flex items-center justify-between">
-        <span class="font-medium">⚡ Stamina</span>
-        <span>{{ gladiator?.stamina }} / {{ gladiator?.maxStamina }}</span>
-      </div>
+    <div class="flex-1 flex flex-col gap-3">
+      <CardStatBar v-for="stat in mainStats" v-bind="stat" />
+
       <div class="flex items-center justify-between">
         <span class="font-medium">💪 Strength</span>
-        <span>{{ gladiator?.strength }}</span>
+        <span>{{ enemy?.strength }}</span>
       </div>
     </div>
-  </div>
+  </CardContainer>
 </template>

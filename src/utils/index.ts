@@ -1,20 +1,32 @@
-import getRandomNumber from "@/utils/getRandomNumber";
+import getRandomRange from "@/utils/getRandomRange";
 import {
   createGladiator,
   createEnemy,
   selectGladiator,
-  endActivity,
   findGladiator,
-  startActivity,
   handleStat,
-  handleTraining,
+  removeGladiator,
+  createBaseGladiator,
+} from "@/utils/gladiators";
+import {
+  getExpForNextLevel,
+  getActivityExp,
+  checkForLevelUp,
+  allocatePoint,
+} from "@/utils/leveling";
+import {
+  endActivity,
   handleFighting,
   handleResting,
-  removeGladiator,
-} from "@/utils/gladiators";
+  handleTraining,
+  startActivity,
+  handleFightingStats,
+  handleFightingDefeat,
+  handleFightingVictory,
+} from "@/utils/activities";
 
 export {
-  getRandomNumber,
+  getRandomRange,
   createGladiator,
   createEnemy,
   selectGladiator,
@@ -26,4 +38,12 @@ export {
   handleFighting,
   handleResting,
   removeGladiator,
+  getExpForNextLevel,
+  getActivityExp,
+  checkForLevelUp,
+  createBaseGladiator,
+  allocatePoint,
+  handleFightingStats,
+  handleFightingDefeat,
+  handleFightingVictory,
 };

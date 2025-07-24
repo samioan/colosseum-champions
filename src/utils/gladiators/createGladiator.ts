@@ -1,22 +1,34 @@
 import type { Gladiator } from "@/types";
-import { getRandomNumber } from "@/utils";
+import {
+  createBaseGladiator,
+  getExpForNextLevel,
+  getRandomRange,
+} from "@/utils";
 import { v4 as uuidv4 } from "uuid";
+import {
+  GLADIATORS_HEALTH_RANGES,
+  GLADIATORS_STAMINA_RANGES,
+  GLADIATORS_STRENGTH_RANGES,
+  GLADIATORS_DEFENSE_RANGES,
+  GLADIATORS_DEXTERITY_RANGES,
+} from "@/constants";
 
 export default function createGladiator() {
-  const health = getRandomNumber(50, 100);
-  const stamina = getRandomNumber(50, 100);
+  const statRanges = {
+    health: GLADIATORS_HEALTH_RANGES,
+    stamina: GLADIATORS_STAMINA_RANGES,
+    strength: GLADIATORS_STRENGTH_RANGES,
+    defense: GLADIATORS_DEFENSE_RANGES,
+    dexterity: GLADIATORS_DEXTERITY_RANGES,
+  };
+
+  const baseStats = createBaseGladiator(getRandomRange(3, 10), statRanges);
 
   const gladiator: Gladiator = {
     id: uuidv4(),
-    name: (Math.random() + 1).toString(36).substring(7),
-    strength: getRandomNumber(5, 10),
-    health: health,
-    maxHealth: health,
-    stamina: stamina,
-    maxStamina: stamina,
+    ...baseStats,
     experience: 0,
-    maxExperience: 100,
-    level: 1,
+    maxExperience: getExpForNextLevel(100, 1.2, baseStats.level),
     points: 0,
     isTraining: false,
     isFighting: false,
@@ -25,12 +37,6 @@ export default function createGladiator() {
     trainingTime: 1000,
     restingTime: 1000,
     fightingTime: 1000,
-    fightingMatches: 0,
-    trainingDays: 0,
-    restingDays: 0,
-    maxFightingMatches: 5,
-    maxTrainingDays: 5,
-    maxRestingDays: 5,
   };
 
   return gladiator;
