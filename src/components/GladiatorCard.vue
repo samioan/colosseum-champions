@@ -1,7 +1,16 @@
 <script setup lang="ts">
+import { ref, computed } from "vue";
 import type { Gladiator } from "@/types";
+import {
+  CardHeader,
+  CardStatBar,
+  CardButton,
+  CardContainer,
+  CardExtraStatsSection,
+} from "@/components";
+import { allocatePoint } from "@/utils";
 
-defineProps<{
+const props = defineProps<{
   gladiator: Gladiator;
   trainingDisabled: boolean;
   onClickTraining: () => void;
@@ -13,71 +22,103 @@ defineProps<{
   onClickResting: () => void;
   restingLabel: string;
 }>();
+
+const showStats = ref(false);
+
+const headerProps = computed(() => ({
+  name: `🏛️ ${props.gladiator.name}`,
+  level: props.gladiator.level,
+}));
+
+const mainStats = computed(() => [
+  {
+    label: "❤️ Health",
+    stat: props.gladiator.health,
+    maxStat: props.gladiator.maxHealth,
+    colorClass: "bg-red-500",
+  },
+  {
+    label: "⚡ Stamina",
+    stat: props.gladiator.stamina,
+    maxStat: props.gladiator.maxStamina,
+    colorClass: "bg-green-500",
+  },
+  {
+    label: "⭐ Experience",
+    stat: props.gladiator.experience,
+    maxStat: props.gladiator.maxExperience,
+    colorClass: "bg-blue-500",
+  },
+]);
+
+const extraStats = computed(() => [
+  {
+    label: "💪 Strength",
+    stat: props.gladiator.strength,
+    disabled: props.gladiator.points <= 0,
+    onClick: () => allocatePoint(props.gladiator, "strength", 1),
+  },
+  {
+    label: "🛡️ Defense",
+    stat: props.gladiator.defense,
+    disabled: props.gladiator.points <= 0,
+    onClick: () => allocatePoint(props.gladiator, "defense", 1),
+  },
+  {
+    label: "🎯 Defense",
+    stat: props.gladiator.defense,
+    disabled: props.gladiator.points <= 0,
+    onClick: () => allocatePoint(props.gladiator, "defense", 1),
+  },
+]);
+
+const activityButtons = computed(() => [
+  {
+    onClick: () => (showStats.value = !showStats.value),
+    label: `${showStats.value ? "Hide Stats" : "Show Stats"} ${
+      props.gladiator.points ? "⏫" : ""
+    }`,
+    colorClasses: "bg-blue-500 hover:bg-blue-600",
+  },
+  {
+    disabled: props.trainingDisabled,
+    onClick: props.onClickTraining,
+    label: props.trainingLabel,
+    colorClasses: "bg-green-600 text-white hover:bg-green-700",
+  },
+  {
+    disabled: props.fightingDisabled,
+    onClick: props.onClickFighting,
+    label: props.fightingLabel,
+    colorClasses: "bg-red-600 text-white hover:bg-red-700",
+  },
+  {
+    disabled: props.restingDisabled,
+    onClick: props.onClickResting,
+    label: props.restingLabel,
+    colorClasses: "bg-yellow-500 text-gray-900 hover:bg-yellow-600",
+  },
+]);
 </script>
 
 <template>
-  <div
-    class="bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-700 rounded-2xl shadow-md hover:shadow-xl transition-shadow duration-300 p-4 m-4 min-w-[300px] w-full flex flex-col gap-3"
-  >
-    <!-- Header -->
-    <div class="flex justify-between items-center">
-      <h2
-        class="text-lg font-bold text-gray-800 dark:text-gray-100 tracking-wide"
-      >
-        🏛️ {{ gladiator.name }}
-      </h2>
-      <span
-        class="text-xs px-2 py-1 rounded-full bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-200 font-semibold"
-      >
-        Lv. {{ gladiator.level }}
-      </span>
+  <CardContainer>
+    <CardHeader v-bind="headerProps" />
+
+    <div class="flex gap-4">
+      <div class="flex-1 flex flex-col gap-3">
+        <CardStatBar v-for="stat in mainStats" v-bind="stat" />
+      </div>
+
+      <CardExtraStatsSection
+        v-if="showStats"
+        :points="gladiator.points"
+        :extra-stats="extraStats"
+      />
     </div>
 
-    <!-- Stats -->
-    <div
-      class="grid grid-cols-2 gap-2 text-sm text-gray-700 dark:text-gray-300"
-    >
-      <div class="flex items-center justify-between">
-        <span class="font-medium">❤️ Health</span>
-        <span>{{ gladiator.health }} / {{ gladiator.maxHealth }}</span>
-      </div>
-      <div class="flex items-center justify-between">
-        <span class="font-medium">⚡ Stamina</span>
-        <span>{{ gladiator.stamina }} / {{ gladiator.maxStamina }}</span>
-      </div>
-      <div class="flex items-center justify-between">
-        <span class="font-medium">💪 Strength</span>
-        <span>{{ gladiator.strength }}</span>
-      </div>
-      <div class="flex items-center justify-between">
-        <span class="font-medium">⭐ XP</span>
-        <span>{{ gladiator.experience }} / {{ gladiator.maxExperience }}</span>
-      </div>
-    </div>
-
-    <!-- Buttons -->
     <div class="flex flex-col gap-2 mt-2">
-      <button
-        :disabled="trainingDisabled"
-        @click="onClickTraining"
-        class="px-3 py-2 rounded-lg font-semibold text-sm transition-colors duration-300 disabled:opacity-50 disabled:cursor-not-allowed bg-green-600 text-white hover:bg-green-700"
-      >
-        {{ trainingLabel }}
-      </button>
-      <button
-        :disabled="fightingDisabled"
-        @click="onClickFighting"
-        class="px-3 py-2 rounded-lg font-semibold text-sm transition-colors duration-300 disabled:opacity-50 disabled:cursor-not-allowed bg-red-600 text-white hover:bg-red-700"
-      >
-        {{ fightingLabel }}
-      </button>
-      <button
-        :disabled="restingDisabled"
-        @click="onClickResting"
-        class="px-3 py-2 rounded-lg font-semibold text-sm transition-colors duration-300 disabled:opacity-50 disabled:cursor-not-allowed bg-yellow-500 text-gray-900 hover:bg-yellow-600"
-      >
-        {{ restingLabel }}
-      </button>
+      <CardButton v-for="button in activityButtons" v-bind="button" />
     </div>
-  </div>
+  </CardContainer>
 </template>

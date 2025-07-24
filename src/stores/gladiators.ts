@@ -13,21 +13,21 @@ import {
 } from "@/utils";
 
 export const useGladiatorsStore = defineStore("gladiators", () => {
-  const gladiators = ref<Gladiator[]>(
+  const recruits = ref<Gladiator[]>(
     Array.from({ length: 4 }, () => createGladiator())
   );
-  const selectedGladiators = ref<Gladiator[]>([]);
-  const maxSelectedGladiators = ref<number>(3);
-  const enemyGladiators = ref<Enemy[]>([]);
+  const gladiators = ref<Gladiator[]>([]);
+  const maxGladiators = ref<number>(3);
+  const enemies = ref<Enemy[]>([]);
 
   function select(selectedGladiator: Gladiator) {
-    selectGladiator(gladiators, selectedGladiators.value, selectedGladiator);
-    createEnemy(selectedGladiator.id, enemyGladiators.value);
-    gladiators.value.push(createGladiator());
+    selectGladiator(recruits, gladiators.value, selectedGladiator);
+    createEnemy(selectedGladiator.id, enemies.value, selectedGladiator.level);
+    recruits.value.push(createGladiator());
   }
 
   function train(id: string) {
-    const gladiator = findGladiator(selectedGladiators.value, id);
+    const gladiator = findGladiator(gladiators.value, id);
     if (!gladiator) return;
 
     startActivity(
@@ -39,19 +39,19 @@ export const useGladiatorsStore = defineStore("gladiators", () => {
   }
 
   function fight(id: string) {
-    const gladiator = findGladiator(selectedGladiators.value, id);
+    const gladiator = findGladiator(gladiators.value, id);
     if (!gladiator) return;
 
     startActivity(
       gladiator,
       "isFighting",
-      () => handleFighting(gladiator, selectedGladiators, enemyGladiators),
+      () => handleFighting(gladiator, gladiators, enemies),
       gladiator.fightingTime
     );
   }
 
   const rest = (id: string) => {
-    const gladiator = findGladiator(selectedGladiators.value, id);
+    const gladiator = findGladiator(gladiators.value, id);
     if (!gladiator) return;
 
     startActivity(
@@ -63,10 +63,10 @@ export const useGladiatorsStore = defineStore("gladiators", () => {
   };
 
   return {
+    recruits,
     gladiators,
-    selectedGladiators,
-    maxSelectedGladiators,
-    enemyGladiators,
+    maxGladiators,
+    enemies,
     select,
     train,
     fight,
