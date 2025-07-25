@@ -2,6 +2,8 @@ import { FIGHT_EXP_BASE } from "@/constants/fightExpBase";
 import { TRAIN_EXP_BASE } from "@/constants/trainExpBase";
 import { NAMES } from "@/constants/names";
 import { SURNAMES } from "@/constants/surnames";
+import { INITIAL_RECRUITS } from "@/constants/initialRecruits";
+import { MAX_GLADIATORS } from "@/constants/maxGladiators";
 import {
   GLADIATORS_STRENGTH_RANGES,
   GLADIATORS_HEALTH_RANGES,
@@ -21,6 +23,13 @@ import {
   TRAINING_LABELS,
   RESTING_LABELS,
 } from "@/constants/labels";
+import {
+  CRITICAL_MESSAGES,
+  DAMAGE_MESSAGES,
+  DODGE_MESSAGES,
+  VICTORY_MESSAGES,
+  DEFEAT_MESSAGES,
+} from "@/constants/messages";
 
 export {
   FIGHT_EXP_BASE,
@@ -40,4 +49,11 @@ export {
   FIGHTING_LABELS,
   TRAINING_LABELS,
   RESTING_LABELS,
+  CRITICAL_MESSAGES,
+  DAMAGE_MESSAGES,
+  DODGE_MESSAGES,
+  VICTORY_MESSAGES,
+  DEFEAT_MESSAGES,
+  INITIAL_RECRUITS,
+  MAX_GLADIATORS,
 };

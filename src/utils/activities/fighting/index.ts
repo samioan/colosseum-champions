@@ -1,11 +1,15 @@
 import handleFighting from "@/utils/activities/fighting/handleFighting";
-import handleFightingStats from "@/utils/activities/fighting/handleFightingStats";
-import handleFightingDefeat from "@/utils/activities/fighting/handleFightingDefeat";
-import handleFightingVictory from "@/utils/activities/fighting/handleFightingVictory";
+import handleFightingCalculations from "@/utils/activities/fighting/handleFightingCalculations";
+import handleDefeat from "@/utils/activities/fighting/handleDefeat";
+import handleVictory from "@/utils/activities/fighting/handleVictory";
+import calculateDamage from "@/utils/activities/fighting/calculateDamage";
+import didEvade from "@/utils/activities/fighting/didEvade";
 
 export {
   handleFighting,
-  handleFightingStats,
-  handleFightingDefeat,
-  handleFightingVictory,
+  handleFightingCalculations,
+  handleDefeat,
+  handleVictory,
+  calculateDamage,
+  didEvade,
 };

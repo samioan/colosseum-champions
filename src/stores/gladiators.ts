@@ -11,13 +11,14 @@ import {
   handleFighting,
   handleResting,
 } from "@/utils";
+import { INITIAL_RECRUITS, MAX_GLADIATORS } from "@/constants";
 
 export const useGladiatorsStore = defineStore("gladiators", () => {
   const recruits = ref<Gladiator[]>(
-    Array.from({ length: 4 }, () => createGladiator())
+    Array.from({ length: INITIAL_RECRUITS }, () => createGladiator())
   );
   const gladiators = ref<Gladiator[]>([]);
-  const maxGladiators = ref<number>(3);
+  const maxGladiators = ref<number>(MAX_GLADIATORS);
   const enemies = ref<Enemy[]>([]);
 
   function select(selectedGladiator: Gladiator) {

@@ -5,9 +5,11 @@ import startActivity from "@/utils/activities/startActivity";
 
 import {
   handleFighting,
-  handleFightingStats,
-  handleFightingDefeat,
-  handleFightingVictory,
+  handleFightingCalculations,
+  handleDefeat,
+  handleVictory,
+  didEvade,
+  calculateDamage,
 } from "@/utils/activities/fighting";
 
 export {
@@ -16,7 +18,9 @@ export {
   handleResting,
   handleTraining,
   startActivity,
-  handleFightingStats,
-  handleFightingDefeat,
-  handleFightingVictory,
+  handleFightingCalculations,
+  handleDefeat,
+  handleVictory,
+  didEvade,
+  calculateDamage,
 };

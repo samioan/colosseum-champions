@@ -4,7 +4,7 @@ import {
   getExpForNextLevel,
   getRandomRange,
 } from "@/utils";
-import { v4 as uuidv4 } from "uuid";
+
 import {
   GLADIATORS_HEALTH_RANGES,
   GLADIATORS_STAMINA_RANGES,
@@ -25,7 +25,6 @@ export default function createGladiator() {
   const baseStats = createBaseGladiator(getRandomRange(3, 10), statRanges);
 
   const gladiator: Gladiator = {
-    id: uuidv4(),
     ...baseStats,
     experience: 0,
     maxExperience: getExpForNextLevel(100, 1.2, baseStats.level),
@@ -37,6 +36,7 @@ export default function createGladiator() {
     trainingTime: 1000,
     restingTime: 1000,
     fightingTime: 1000,
+    hasTurn: true,
   };
 
   return gladiator;

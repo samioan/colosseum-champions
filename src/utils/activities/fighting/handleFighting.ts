@@ -1,9 +1,9 @@
 import type { Gladiator, Enemy } from "@/types";
 import {
-  findGladiator,
-  handleFightingStats,
-  handleFightingDefeat,
-  handleFightingVictory,
+  findEnemy,
+  handleFightingCalculations,
+  handleDefeat,
+  handleVictory,
 } from "@/utils";
 import type { Ref } from "vue";
 import { computed } from "vue";
@@ -13,19 +13,15 @@ export default function handleFighting(
   gladiators: Ref<Gladiator[]>,
   enemies: Ref<Enemy[]>
 ) {
-  const enemy = computed(() =>
-    findGladiator(enemies.value as Gladiator[], gladiator.id)
-  );
+  const enemy = computed(() => findEnemy(enemies.value, gladiator.id));
 
   if (!enemy.value) return;
 
-  handleFightingStats(gladiator, enemy.value);
+  handleFightingCalculations(gladiator, enemy.value);
 
   if (gladiator.health <= 0 || gladiator.stamina <= 0) {
-    handleFightingDefeat(gladiator, gladiators, enemies);
-  }
-
-  if (enemy.value.health <= 0 || enemy.value.stamina <= 0) {
-    handleFightingVictory(gladiator, enemy.value, enemies);
+    handleDefeat(gladiator, gladiators, enemies);
+  } else if (enemy.value?.health <= 0 || enemy.value?.stamina <= 0) {
+    handleVictory(gladiator, enemy.value as unknown as Enemy, enemies);
   }
 }

@@ -1,6 +1,7 @@
 import { getRandomRange } from "@/utils";
 import { NAMES, SURNAMES } from "@/constants";
 import type { StatRanges } from "@/types";
+import { v4 as uuidv4 } from "uuid";
 
 export default function createBaseGladiator(
   level: number,
@@ -21,6 +22,7 @@ export default function createBaseGladiator(
     getRandomRange(statRanges.dexterity.min, statRanges.dexterity.max) * level;
 
   return {
+    id: uuidv4(),
     name: name,
     level,
     health: maxHealth,
@@ -30,5 +32,6 @@ export default function createBaseGladiator(
     strength,
     defense,
     dexterity,
+    messages: [],
   };
 }

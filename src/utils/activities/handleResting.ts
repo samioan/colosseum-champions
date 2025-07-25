@@ -6,14 +6,14 @@ export default function handleResting(gladiator: Gladiator) {
     handleStat(
       gladiator,
       "health",
-      Math.floor(gladiator.health + gladiator.maxHealth * 0.1),
+      Math.floor(gladiator.maxHealth * 0.1),
       "increment"
     );
   if (gladiator.stamina < gladiator.maxStamina)
     handleStat(
       gladiator,
       "stamina",
-      Math.floor(gladiator.stamina + gladiator.maxStamina * 0.1),
+      Math.floor(gladiator.maxStamina * 0.1),
       "increment"
     );
 
