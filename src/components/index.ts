@@ -1,7 +1,8 @@
 import GladiatorCard from "@/components/GladiatorCard.vue";
 import RecruitCard from "@/components/RecruitCard.vue";
 import EnemyCard from "@/components/EnemyCard.vue";
-import RecruitDrawer from "@/components/RecruitDrawer.vue";
+import Drawer from "@/components/Drawer.vue";
+import CombatBoard from "@/components/CombatBoard.vue";
 import {
   CardHeader,
   CardStatBar,
@@ -15,11 +16,12 @@ export {
   GladiatorCard,
   RecruitCard,
   EnemyCard,
-  RecruitDrawer,
+  Drawer,
   CardHeader,
   CardStatBar,
   CardButton,
   CardContainer,
   CardExtraStat,
   CardExtraStatsSection,
+  CombatBoard,
 };

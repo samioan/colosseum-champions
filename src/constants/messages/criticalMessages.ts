@@ -1,0 +1,17 @@
+export const CRITICAL_MESSAGES = [
+  "lands a critical strike!",
+  "delivers a bone‑shattering blow!",
+  "unleashes a deadly critical hit!",
+  "strikes with unmatched fury!",
+  "tears through the enemy’s defenses!",
+  "crushes the opponent with lethal force!",
+  "drives a blade straight to the heart!",
+  "smashes through with unstoppable power!",
+  "deals a brutal, fight‑turning blow!",
+  "lands a strike the crowd will never forget!",
+  "erupts with a devastating critical!",
+  "strikes with godlike precision!",
+  "executes a perfect, lethal hit!",
+  "overwhelms the foe with a critical smash!",
+  "carves a path of destruction with a single blow!",
+];

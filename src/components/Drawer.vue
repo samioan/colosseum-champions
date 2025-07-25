@@ -1,30 +1,19 @@
 <script setup lang="ts">
-import type { Gladiator } from "@/types";
-import { defineProps, computed } from "vue";
-import { RecruitCard } from "@/components";
+import { ref } from "vue";
 
-const props = defineProps<{
+defineProps<{
   open: boolean;
-  gladiators: Gladiator[];
-  selectDisabled: boolean;
-  onClickSelect: (gladiator: Gladiator) => void;
-  selectLabel: string;
-  closeDrawer: () => void;
+  title: string;
 }>();
 
-const recruitProps = computed(() => (gladiator: Gladiator) => ({
-  gladiator: gladiator,
-  selectDisabled: props.selectDisabled,
-  onClickSelect: () => props.onClickSelect(gladiator),
-  selectLabel: props.selectLabel,
-}));
+const open = ref(false);
 </script>
 
 <template>
   <div
     v-show="open"
     class="fixed inset-0 bg-black/50 z-40 transition-opacity"
-    @click="closeDrawer"
+    @click="() => (open = !open)"
   ></div>
 
   <div
@@ -37,10 +26,10 @@ const recruitProps = computed(() => (gladiator: Gladiator) => ({
       class="p-4 border-b border-gray-300 dark:border-gray-700 flex justify-between items-center"
     >
       <h2 class="text-lg font-bold text-gray-800 dark:text-gray-100">
-        🗂️ Recruits
+        🗂️ {{ title }}
       </h2>
       <button
-        @click="closeDrawer"
+        @click="() => (open = false)"
         class="text-gray-600 dark:text-gray-300 hover:text-red-500 transition-colors"
       >
         ✖
@@ -48,9 +37,7 @@ const recruitProps = computed(() => (gladiator: Gladiator) => ({
     </div>
 
     <div class="p-4 overflow-y-auto scrollbar-hidden">
-      <div v-for="gladiator in gladiators">
-        <RecruitCard v-bind="recruitProps(gladiator)" />
-      </div>
+      <slot />
     </div>
   </div>
 </template>

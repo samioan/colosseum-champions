@@ -5,6 +5,8 @@ import findGladiator from "@/utils/gladiators/findGladiator";
 import handleStat from "@/utils/gladiators/handleStat";
 import removeGladiator from "@/utils/gladiators/removeGladiator";
 import createBaseGladiator from "@/utils/gladiators/createBaseGladiator";
+import findEnemy from "@/utils/gladiators/findEnemy";
+import removeEnemy from "@/utils/gladiators/removeEnemy";
 
 export {
   createGladiator,
@@ -14,4 +16,6 @@ export {
   handleStat,
   removeGladiator,
   createBaseGladiator,
+  findEnemy,
+  removeEnemy,
 };

@@ -27,8 +27,9 @@ export default function createEnemy(
   );
 
   const enemy: Enemy = {
-    id: id,
     ...baseStats,
+    gladiatorId: id,
+    hasTurn: false,
   };
 
   enemies.push(enemy);

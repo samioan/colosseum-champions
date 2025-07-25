@@ -9,4 +9,6 @@ export interface BaseGladiator {
   strength: number;
   dexterity: number;
   defense: number;
+  hasTurn: boolean;
+  messages: { from: string; text: string; time: number }[];
 }
