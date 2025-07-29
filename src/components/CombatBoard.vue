@@ -15,11 +15,9 @@ defineProps<{
     <div class="overflow-y-auto scrollbar-hidden">
       <div v-for="message in messages">
         <span
-          class="text-sm block"
+          class="text-xs block text-center"
           :class="
-            message.from === gladiatorId
-              ? 'text-blue-300 text-left'
-              : 'text-red-300 text-right'
+            message.from === gladiatorId ? 'text-blue-300' : 'text-red-300'
           "
           >{{ message.text }}</span
         >

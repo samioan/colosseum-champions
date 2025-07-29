@@ -33,10 +33,13 @@ export default function createGladiator() {
     isFighting: false,
     isResting: false,
     intervalId: undefined,
-    trainingTime: 1000,
-    restingTime: 1000,
+    trainingTime: 500,
+    restingTime: 500,
     fightingTime: 1000,
     hasTurn: true,
+    gold: 0,
+    vitality: Math.floor(baseStats.maxHealth / 10),
+    endurance: Math.floor(baseStats.maxStamina / 10),
   };
 
   return gladiator;

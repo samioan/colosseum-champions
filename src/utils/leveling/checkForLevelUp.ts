@@ -4,7 +4,7 @@ import { handleStat, getExpForNextLevel } from "@/utils";
 export default function checkForLevelUp(gladiator: Gladiator) {
   if (gladiator.experience >= gladiator.maxExperience) {
     handleStat(gladiator, "level", 1, "increment");
-    handleStat(gladiator, "points", 3, "increment");
+    handleStat(gladiator, "points", 20, "increment");
     handleStat(gladiator, "experience", 0, "set");
     handleStat(
       gladiator,

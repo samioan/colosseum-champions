@@ -11,4 +11,7 @@ export interface Gladiator extends BaseGladiator {
   trainingTime: number;
   restingTime: number;
   fightingTime: number;
+  gold: number;
+  vitality: number;
+  endurance: number;
 }

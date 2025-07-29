@@ -4,23 +4,26 @@ import { computed } from "vue";
 const props = defineProps<{
   label: string;
   stat: number;
-  maxStat: number;
-  colorClass: string;
+  maxStat?: number;
+  colorClass?: string;
 }>();
 
 const statPercent = computed(() =>
-  Math.min(100, (props.stat / props.maxStat) * 100)
+  props.maxStat ? Math.min(100, (props.stat / props.maxStat) * 100) : props.stat
 );
 </script>
 
 <template>
   <div>
-    <div class="flex justify-between text-sm text-gray-700 dark:text-gray-300">
-      <span class="font-medium">{{ label }}</span>
-      <span>{{ stat }} / {{ maxStat }}</span>
+    <div class="flex gap-4 text-sm">
+      <span class="font-medium text-gray-300">{{ label }}:</span>
+      <span class="text-gray-100"
+        >{{ stat }} {{ maxStat ? "/" : "" }} {{ maxStat }}</span
+      >
     </div>
     <div
       class="w-full h-2 bg-gray-200 dark:bg-gray-700 rounded-full overflow-hidden mt-1"
+      v-if="maxStat"
     >
       <div
         class="h-2 rounded-full transition-all duration-300"

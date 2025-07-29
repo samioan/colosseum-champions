@@ -6,16 +6,14 @@ defineProps<{
 </script>
 
 <template>
-  <div class="flex justify-between items-center">
-    <h2
-      class="text-lg font-bold text-gray-800 dark:text-gray-100 tracking-wide"
-    >
+  <div class="flex justify-between items-center gap-4">
+    <h2 class="text-sm font-bold text-gray-100">
       {{ name }}
     </h2>
     <span
-      class="text-xs px-2 py-1 rounded-full bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-200 font-semibold"
+      class="text-xs px-2 py-1 rounded-full bg-yellow-900 text-yellow-200 font-semibold whitespace-nowrap"
     >
-      Lv. {{ level }}
+      Lv {{ level }}
     </span>
   </div>
 </template>

@@ -1,0 +1,12 @@
+export const STAT_LABELS = {
+  HEALTH: "HP",
+  STAMINA: "SP",
+  MANA: "MP",
+  EXPERIENCE: "XP",
+  STRENGTH: "STR",
+  DEXTERITY: "DEX",
+  DEFENSE: "DEF",
+  GOLD: "GOLD",
+  VITALITY: "VIT",
+  ENDURANCE: "END",
+};

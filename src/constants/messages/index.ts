@@ -3,6 +3,7 @@ import { DAMAGE_MESSAGES } from "@/constants/messages/damageMessages";
 import { DODGE_MESSAGES } from "@/constants/messages/dodgeMessages";
 import { VICTORY_MESSAGES } from "@/constants/messages/victoryMessages";
 import { DEFEAT_MESSAGES } from "@/constants/messages/defeatMessages";
+import { INTRO_MESSAGES } from "@/constants/messages/introMessages";
 
 export {
   CRITICAL_MESSAGES,
@@ -10,4 +11,5 @@ export {
   DODGE_MESSAGES,
   VICTORY_MESSAGES,
   DEFEAT_MESSAGES,
+  INTRO_MESSAGES,
 };
