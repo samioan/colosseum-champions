@@ -16,7 +16,7 @@ const props = defineProps<{
   mainStats: {
     label: string;
     stat: number;
-    maxStat: number;
+    maxStat?: number;
     colorClass: string;
   }[];
   activityButtons: {
@@ -29,7 +29,7 @@ const props = defineProps<{
     label: string;
     stat: number;
   }[];
-  points: number;
+  points?: number;
 }>();
 
 const showStats = ref(false);
@@ -37,7 +37,7 @@ const showStats = ref(false);
 const showStatsButton = computed(() => ({
   onClick: () => (showStats.value = !showStats.value),
   label: `${showStats.value ? "Hide Stats" : "Show Stats"} ${
-    props.points ? "⏫" : ""
+    props.points ? "+" : ""
   }`,
   colorClasses: "bg-blue-500 hover:bg-blue-600",
 }));
@@ -48,7 +48,7 @@ const showStatsButton = computed(() => ({
     <CardHeader v-bind="headerProps" />
 
     <div class="flex gap-4">
-      <div class="flex-1 flex flex-col gap-3">
+      <div class="flex-1 flex flex-col gap-3" v-if="!showStats">
         <CardStatBar v-for="stat in mainStats" v-bind="stat" />
       </div>
 

@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import { computed, ref } from "vue";
 import {
   CardHeader,
   CardStatBar,
@@ -16,8 +15,6 @@ defineProps<{
   mainStats: {
     label: string;
     stat: number;
-    maxStat: number;
-    colorClass: string;
   }[];
   activityButtons: {
     disabled?: boolean;
@@ -30,14 +27,6 @@ defineProps<{
     stat: number;
   }[];
 }>();
-
-const showStats = ref(false);
-
-const showStatsButtonProps = computed(() => ({
-  onClick: () => (showStats.value = !showStats.value),
-  label: `${showStats.value ? "Hide Stats" : "Show Stats"}`,
-  colorClasses: "bg-blue-500 hover:bg-blue-600",
-}));
 </script>
 
 <template>
@@ -48,11 +37,10 @@ const showStatsButtonProps = computed(() => ({
         <CardStatBar v-for="stat in mainStats" v-bind="stat" />
       </div>
 
-      <CardExtraStatsSection v-if="showStats" :extra-stats="extraStats" />
+      <CardExtraStatsSection :extra-stats="extraStats" />
     </div>
 
     <div class="flex flex-col gap-2 mt-2">
-      <CardButton v-bind="showStatsButtonProps" />
       <CardButton v-for="button in activityButtons" v-bind="button" />
     </div>
   </CardContainer>

@@ -22,7 +22,10 @@ export default function createEnemy(
   };
 
   const baseStats = createBaseGladiator(
-    getRandomRange(gladiatorLevel - 2, gladiatorLevel + 2),
+    getRandomRange(
+      gladiatorLevel > 4 ? gladiatorLevel - 4 : 1,
+      gladiatorLevel > 2 ? gladiatorLevel - 2 : 2
+    ),
     statRanges
   );
 

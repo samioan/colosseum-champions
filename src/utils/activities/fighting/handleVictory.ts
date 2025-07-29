@@ -2,31 +2,20 @@ import type { Gladiator, Enemy } from "@/types";
 import {
   handleStat,
   endActivity,
-  removeEnemy,
-  createEnemy,
   getActivityExp,
-  checkForLevelUp,
   createMessage,
 } from "@/utils";
 import { FIGHT_EXP_BASE } from "@/constants";
-import type { Ref } from "vue";
 import { VICTORY_MESSAGES } from "@/constants";
 
-export default function handleVictory(
-  gladiator: Gladiator,
-  enemy: Enemy,
-  enemies: Ref<Enemy[]>
-) {
+export default function handleVictory(gladiator: Gladiator, enemy: Enemy) {
   handleStat(
     gladiator,
-    "experience",
+    "gold",
     getActivityExp(FIGHT_EXP_BASE, enemy.level),
     "increment"
   );
-  checkForLevelUp(gladiator);
-  removeEnemy(enemies, gladiator);
-  createEnemy(gladiator.id, enemies.value, gladiator.level);
-  gladiator.messages = [];
+
   createMessage(
     gladiator.messages,
     VICTORY_MESSAGES,

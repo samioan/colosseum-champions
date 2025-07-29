@@ -3,9 +3,13 @@ import { handleStat } from "@/utils";
 
 export default function allocatePoint<K extends keyof Gladiator>(
   gladiator: Gladiator,
-  statKey: K,
-  value: number
+  stats: {
+    statKey: K;
+    value: number;
+  }[]
 ) {
   handleStat(gladiator, "points", 1, "decrement");
-  handleStat(gladiator, statKey, value, "increment");
+  stats.forEach((stat) =>
+    handleStat(gladiator, stat.statKey, stat.value, "increment")
+  );
 }

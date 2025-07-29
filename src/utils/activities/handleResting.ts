@@ -2,6 +2,8 @@ import type { Gladiator } from "@/types";
 import { handleStat, endActivity } from "@/utils";
 
 export default function handleResting(gladiator: Gladiator) {
+  handleStat(gladiator, "gold", 10, "decrement");
+
   if (gladiator.health < gladiator.maxHealth)
     handleStat(
       gladiator,

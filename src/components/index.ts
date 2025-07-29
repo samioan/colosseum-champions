@@ -3,6 +3,10 @@ import RecruitCard from "@/components/RecruitCard.vue";
 import EnemyCard from "@/components/EnemyCard.vue";
 import Drawer from "@/components/Drawer.vue";
 import CombatBoard from "@/components/CombatBoard.vue";
+import CombatCard from "@/components/CombatCard.vue";
+import PageContainer from "@/components/PageContainer.vue";
+import Modal from "@/components/Modal.vue";
+import Footer from "@/components/Footer.vue";
 import {
   CardHeader,
   CardStatBar,
@@ -24,4 +28,8 @@ export {
   CardExtraStat,
   CardExtraStatsSection,
   CombatBoard,
+  CombatCard,
+  PageContainer,
+  Modal,
+  Footer,
 };

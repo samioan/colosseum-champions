@@ -1,19 +1,8 @@
-import type { Gladiator, Enemy } from "@/types";
-import {
-  endActivity,
-  removeGladiator,
-  createMessage,
-  removeEnemy,
-} from "@/utils";
+import type { Gladiator } from "@/types";
+import { endActivity, createMessage } from "@/utils";
 import { DEFEAT_MESSAGES } from "@/constants";
 
-import type { Ref } from "vue";
-
-export default function handleDefeat(
-  gladiator: Gladiator,
-  gladiators: Ref<Gladiator[]>,
-  enemies: Ref<Enemy[]>
-) {
+export default function handleDefeat(gladiator: Gladiator) {
   endActivity(gladiator, "isFighting");
 
   createMessage(
@@ -22,9 +11,4 @@ export default function handleDefeat(
     gladiator.id,
     gladiator.name
   );
-
-  setTimeout(() => {
-    removeGladiator(gladiators, gladiator);
-    removeEnemy(enemies, gladiator);
-  }, 3000);
 }

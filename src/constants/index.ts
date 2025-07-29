@@ -4,6 +4,7 @@ import { NAMES } from "@/constants/names";
 import { SURNAMES } from "@/constants/surnames";
 import { INITIAL_RECRUITS } from "@/constants/initialRecruits";
 import { MAX_GLADIATORS } from "@/constants/maxGladiators";
+import { ROUTES } from "@/constants/routes";
 import {
   GLADIATORS_STRENGTH_RANGES,
   GLADIATORS_HEALTH_RANGES,
@@ -22,6 +23,8 @@ import {
   FIGHTING_LABELS,
   TRAINING_LABELS,
   RESTING_LABELS,
+  STAT_LABELS,
+  ACTIVTIY_LABELS,
 } from "@/constants/labels";
 import {
   CRITICAL_MESSAGES,
@@ -29,6 +32,7 @@ import {
   DODGE_MESSAGES,
   VICTORY_MESSAGES,
   DEFEAT_MESSAGES,
+  INTRO_MESSAGES,
 } from "@/constants/messages";
 
 export {
@@ -56,4 +60,8 @@ export {
   DEFEAT_MESSAGES,
   INITIAL_RECRUITS,
   MAX_GLADIATORS,
+  STAT_LABELS,
+  ACTIVTIY_LABELS,
+  INTRO_MESSAGES,
+  ROUTES,
 };

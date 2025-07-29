@@ -8,7 +8,8 @@ import {
 import { TRAIN_EXP_BASE } from "@/constants";
 
 export default function handleTraining(gladiator: Gladiator) {
-  handleStat(gladiator, "stamina", gladiator.strength, "decrement");
+  handleStat(gladiator, "stamina", 5, "decrement");
+  handleStat(gladiator, "gold", 10, "decrement");
   handleStat(
     gladiator,
     "experience",
