@@ -14,8 +14,8 @@ defineProps<{
 
 <template>
   <div class="flex-1 text-sm text-gray-300">
-    <div class="flex items-center gap-2" v-if="points">
-      <span class="font-medium">+</span>
+    <div class="flex items-center gap-2 mb-1">
+      <span class="font-medium">POINTS: </span>
       <span>{{ points }}</span>
     </div>
 

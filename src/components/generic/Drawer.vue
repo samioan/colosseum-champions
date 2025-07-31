@@ -18,19 +18,17 @@ const open = ref(false);
 
   <div
     :class="[
-      'fixed top-0 left-0 h-full bg-white dark:bg-gray-900 shadow-xl z-50 transform transition-transform duration-300 ease-in-out flex flex-col ',
+      'fixed top-0 left-0 h-full bg-gray-900 shadow-xl z-50 transform transition-transform duration-300 ease-in-out flex flex-col ',
       open ? 'translate-x-0' : '-translate-x-full',
     ]"
   >
-    <div
-      class="p-4 border-b border-gray-300 dark:border-gray-700 flex justify-between items-center"
-    >
-      <h2 class="text-lg font-bold text-gray-800 dark:text-gray-100">
-        🗂️ {{ title }}
+    <div class="p-4 border-b border-gray-700 flex justify-between items-center">
+      <h2 class="text-lg font-bold text-gray-100">
+        {{ title }}
       </h2>
       <button
         @click="() => (open = false)"
-        class="text-gray-600 dark:text-gray-300 hover:text-red-500 transition-colors"
+        class="text-gray-300 hover:text-red-500 transition-colors"
       >
         ✖
       </button>

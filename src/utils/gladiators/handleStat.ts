@@ -7,7 +7,7 @@ export default function handleStat<K extends keyof Gladiator>(
   operation: StatOperation
 ) {
   switch (operation) {
-    case "increment":
+    case "increase":
       {
         (gladiator[statKey] as number) += value;
 
@@ -24,7 +24,7 @@ export default function handleStat<K extends keyof Gladiator>(
         }
       }
       break;
-    case "decrement":
+    case "decrease":
       {
         (gladiator[statKey] as number) -= value;
 

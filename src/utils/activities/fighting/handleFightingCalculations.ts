@@ -23,8 +23,8 @@ export default function handleFightingCalculations(
     );
   }
 
-  handleStat(attacker as any, "stamina", 5, "decrement");
-  handleStat(defender as any, "health", damage, "decrement");
+  handleStat(attacker as any, "stamina", 5, "decrease");
+  handleStat(defender as any, "health", damage, "decrease");
   attacker.hasTurn = false;
   defender.hasTurn = true;
 }

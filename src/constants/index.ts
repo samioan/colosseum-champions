@@ -2,30 +2,12 @@ import { FIGHT_EXP_BASE } from "@/constants/fightExpBase";
 import { TRAIN_EXP_BASE } from "@/constants/trainExpBase";
 import { NAMES } from "@/constants/names";
 import { SURNAMES } from "@/constants/surnames";
-import { INITIAL_RECRUITS } from "@/constants/initialRecruits";
-import { MAX_GLADIATORS } from "@/constants/maxGladiators";
 import { ROUTES } from "@/constants/routes";
-import {
-  GLADIATORS_STRENGTH_RANGES,
-  GLADIATORS_HEALTH_RANGES,
-  GLADIATORS_STAMINA_RANGES,
-  GLADIATORS_DEFENSE_RANGES,
-  GLADIATORS_DEXTERITY_RANGES,
-} from "@/constants/gladiators";
-import {
-  ENEMIES_STRENGTH_RANGES,
-  ENEMIES_HEALTH_RANGES,
-  ENEMIES_STAMINA_RANGES,
-  ENEMIES_DEFENSE_RANGES,
-  ENEMIES_DEXTERITY_RANGES,
-} from "@/constants/enemies";
-import {
-  FIGHTING_LABELS,
-  TRAINING_LABELS,
-  RESTING_LABELS,
-  STAT_LABELS,
-  ACTIVTIY_LABELS,
-} from "@/constants/labels";
+import { LABELS } from "@/constants/labels";
+import { GLADIATOR_BASE_STATS } from "@/constants/gladiatorBaseStats";
+import { ENEMY_STAT_RANGES } from "@/constants/enemyStatRanges";
+import { ACTIVITY_TIMES } from "@/constants/activityTimes";
+import { COLORS } from "@/constants/colors";
 import {
   CRITICAL_MESSAGES,
   DAMAGE_MESSAGES,
@@ -40,28 +22,16 @@ export {
   TRAIN_EXP_BASE,
   NAMES,
   SURNAMES,
-  GLADIATORS_STRENGTH_RANGES,
-  GLADIATORS_HEALTH_RANGES,
-  GLADIATORS_STAMINA_RANGES,
-  GLADIATORS_DEFENSE_RANGES,
-  GLADIATORS_DEXTERITY_RANGES,
-  ENEMIES_STRENGTH_RANGES,
-  ENEMIES_HEALTH_RANGES,
-  ENEMIES_STAMINA_RANGES,
-  ENEMIES_DEFENSE_RANGES,
-  ENEMIES_DEXTERITY_RANGES,
-  FIGHTING_LABELS,
-  TRAINING_LABELS,
-  RESTING_LABELS,
   CRITICAL_MESSAGES,
   DAMAGE_MESSAGES,
   DODGE_MESSAGES,
   VICTORY_MESSAGES,
   DEFEAT_MESSAGES,
-  INITIAL_RECRUITS,
-  MAX_GLADIATORS,
-  STAT_LABELS,
-  ACTIVTIY_LABELS,
   INTRO_MESSAGES,
   ROUTES,
+  LABELS,
+  GLADIATOR_BASE_STATS,
+  ENEMY_STAT_RANGES,
+  ACTIVITY_TIMES,
+  COLORS,
 };

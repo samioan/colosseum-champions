@@ -1,9 +1,9 @@
 import type { Gladiator } from "@/types";
-import { endActivity, createMessage } from "@/utils";
+import { setActivity, createMessage } from "@/utils";
 import { DEFEAT_MESSAGES } from "@/constants";
 
 export default function handleDefeat(gladiator: Gladiator) {
-  endActivity(gladiator, "isFighting");
+  setActivity(gladiator, "idle");
 
   createMessage(
     gladiator.messages,

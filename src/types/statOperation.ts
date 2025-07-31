@@ -1,1 +1,1 @@
-export type StatOperation = "increment" | "decrement" | "set";
+export type StatOperation = "increase" | "decrease" | "set";

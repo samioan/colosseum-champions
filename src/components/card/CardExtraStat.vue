@@ -9,7 +9,7 @@ defineProps<{
 
 <template>
   <div class="flex items-center justify-between mb-1">
-    <div class="flex gap-4 text-sm">
+    <div class="flex gap-2 text-sm">
       <span class="font-medium text-gray-300">{{ label }}:</span>
       <span class="text-gray-100">{{ stat }}</span>
     </div>

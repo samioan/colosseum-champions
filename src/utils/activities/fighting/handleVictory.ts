@@ -1,7 +1,7 @@
 import type { Gladiator, Enemy } from "@/types";
 import {
   handleStat,
-  endActivity,
+  setActivity,
   getActivityExp,
   createMessage,
 } from "@/utils";
@@ -13,7 +13,7 @@ export default function handleVictory(gladiator: Gladiator, enemy: Enemy) {
     gladiator,
     "gold",
     getActivityExp(FIGHT_EXP_BASE, enemy.level),
-    "increment"
+    "increase"
   );
 
   createMessage(
@@ -23,5 +23,5 @@ export default function handleVictory(gladiator: Gladiator, enemy: Enemy) {
     gladiator.name
   );
 
-  endActivity(gladiator, "isFighting");
+  setActivity(gladiator, "idle");
 }

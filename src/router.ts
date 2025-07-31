@@ -1,5 +1,5 @@
 import { createRouter, createWebHistory } from "vue-router";
-import { CombatPage, GladiatorPage, HomePage, RecruitsPage } from "@/pages";
+import { CombatPage, GladiatorPage, HomePage } from "@/pages";
 import { ROUTES } from "@/constants";
 
 const routes = [
@@ -7,11 +7,7 @@ const routes = [
     path: ROUTES.home,
     component: HomePage,
   },
-  {
-    path: ROUTES.recruits,
-    name: "Recruits",
-    component: RecruitsPage,
-  },
+
   {
     path: ROUTES.gladiator,
     name: "Gladiator",

@@ -8,8 +8,8 @@ export default function allocatePoint<K extends keyof Gladiator>(
     value: number;
   }[]
 ) {
-  handleStat(gladiator, "points", 1, "decrement");
+  handleStat(gladiator, "points", 1, "decrease");
   stats.forEach((stat) =>
-    handleStat(gladiator, stat.statKey, stat.value, "increment")
+    handleStat(gladiator, stat.statKey, stat.value, "increase")
   );
 }

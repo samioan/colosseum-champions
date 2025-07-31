@@ -1,6 +1,7 @@
 <script setup lang="ts">
-import { CardButton } from "@/components";
+import { Button } from "@/components";
 import { computed } from "vue";
+import { LABELS } from "@/constants";
 
 const props = defineProps<{
   isVisible: boolean;
@@ -9,7 +10,7 @@ const props = defineProps<{
 
 const modalButtonProps = computed(() => ({
   onClick: props.onClick,
-  label: "Continue",
+  label: LABELS.CONTINUE,
   colorClasses: "bg-amber-600 text-white hover:bg-amber-700",
 }));
 </script>
@@ -25,14 +26,13 @@ const modalButtonProps = computed(() => ({
   >
     <div
       v-if="isVisible"
-      class="fixed inset-0 bg-black flex items-center justify-center z-50"
+      class="fixed inset-0 bg-black/70 flex items-center justify-center z-50"
     >
       <div
         class="bg-gray-800 text-center p-6 rounded-xl shadow-2xl w-[90%] max-w-md"
       >
         <slot />
-
-        <CardButton v-bind="modalButtonProps" />
+        <Button v-bind="modalButtonProps" />
       </div>
     </div>
   </Transition>
