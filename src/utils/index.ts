@@ -1,16 +1,7 @@
 import getRandomRange from "@/utils/getRandomRange";
 import createMessage from "@/utils/createMessage";
-import {
-  createGladiator,
-  createEnemy,
-  selectGladiator,
-  findGladiator,
-  handleStat,
-  removeGladiator,
-  createBaseGladiator,
-  findEnemy,
-  removeEnemy,
-} from "@/utils/gladiators";
+import createName from "@/utils/createName";
+import { createEnemy, handleStat, createGladiator } from "@/utils/gladiators";
 import {
   getExpForNextLevel,
   getActivityExp,
@@ -18,11 +9,10 @@ import {
   allocatePoint,
 } from "@/utils/leveling";
 import {
-  endActivity,
+  setActivity,
   handleFighting,
   handleResting,
   handleTraining,
-  startActivity,
   handleFightingCalculations,
   handleDefeat,
   handleVictory,
@@ -32,28 +22,22 @@ import {
 
 export {
   getRandomRange,
-  createGladiator,
   createEnemy,
-  selectGladiator,
-  endActivity,
-  findGladiator,
-  startActivity,
+  setActivity,
   handleStat,
   handleTraining,
   handleFighting,
   handleResting,
-  removeGladiator,
   getExpForNextLevel,
   getActivityExp,
   checkForLevelUp,
-  createBaseGladiator,
   allocatePoint,
   handleFightingCalculations,
   handleDefeat,
   handleVictory,
   didEvade,
   calculateDamage,
-  findEnemy,
-  removeEnemy,
   createMessage,
+  createName,
+  createGladiator,
 };

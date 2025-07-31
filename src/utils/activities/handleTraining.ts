@@ -1,24 +1,24 @@
 import type { Gladiator } from "@/types";
 import {
   handleStat,
-  endActivity,
+  setActivity,
   getActivityExp,
   checkForLevelUp,
 } from "@/utils";
 import { TRAIN_EXP_BASE } from "@/constants";
 
 export default function handleTraining(gladiator: Gladiator) {
-  handleStat(gladiator, "stamina", 5, "decrement");
-  handleStat(gladiator, "gold", 10, "decrement");
+  if (gladiator.stamina <= 0 || gladiator.gold < 10) {
+    return setActivity(gladiator, "idle");
+  }
+
+  handleStat(gladiator, "stamina", 5, "decrease");
+  handleStat(gladiator, "gold", 10, "decrease");
   handleStat(
     gladiator,
     "experience",
     getActivityExp(TRAIN_EXP_BASE, gladiator.level),
-    "increment"
+    "increase"
   );
   checkForLevelUp(gladiator);
-
-  if (gladiator.stamina <= 0) {
-    endActivity(gladiator, "isTraining");
-  }
 }

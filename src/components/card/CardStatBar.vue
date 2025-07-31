@@ -22,7 +22,7 @@ const statPercent = computed(() =>
       >
     </div>
     <div
-      class="w-full h-2 bg-gray-200 dark:bg-gray-700 rounded-full overflow-hidden mt-1"
+      class="w-full h-2 bg-gray-700 rounded-full overflow-hidden mt-1"
       v-if="maxStat"
     >
       <div

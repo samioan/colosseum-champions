@@ -3,10 +3,11 @@ import { ref, computed } from "vue";
 import {
   CardHeader,
   CardStatBar,
-  CardButton,
+  Button,
   CardContainer,
   CardExtraStatsSection,
 } from "@/components";
+import { LABELS } from "@/constants";
 
 const props = defineProps<{
   headerProps: {
@@ -25,7 +26,7 @@ const props = defineProps<{
     label: string;
     colorClasses: string;
   }[];
-  extraStats: {
+  secondaryStats: {
     label: string;
     stat: number;
   }[];
@@ -36,7 +37,7 @@ const showStats = ref(false);
 
 const showStatsButton = computed(() => ({
   onClick: () => (showStats.value = !showStats.value),
-  label: `${showStats.value ? "Hide Stats" : "Show Stats"} ${
+  label: `${showStats.value ? LABELS.HIDE_STATS : LABELS.SHOW_STATS} ${
     props.points ? "+" : ""
   }`,
   colorClasses: "bg-blue-500 hover:bg-blue-600",
@@ -55,13 +56,13 @@ const showStatsButton = computed(() => ({
       <CardExtraStatsSection
         v-if="showStats"
         :points="points"
-        :extra-stats="extraStats"
+        :extra-stats="secondaryStats"
       />
     </div>
 
     <div class="flex flex-col gap-2 mt-2">
-      <CardButton v-bind="showStatsButton" />
-      <CardButton v-for="button in activityButtons" v-bind="button" />
+      <Button v-bind="showStatsButton" />
+      <Button v-for="button in activityButtons" v-bind="button" />
     </div>
   </CardContainer>
 </template>

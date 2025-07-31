@@ -1,7 +1,6 @@
-import endActivity from "@/utils/activities/endActivity";
 import handleResting from "@/utils/activities/handleResting";
 import handleTraining from "@/utils/activities/handleTraining";
-import startActivity from "@/utils/activities/startActivity";
+import setActivity from "@/utils/activities/setActivity";
 
 import {
   handleFighting,
@@ -13,11 +12,10 @@ import {
 } from "@/utils/activities/fighting";
 
 export {
-  endActivity,
+  setActivity,
   handleFighting,
   handleResting,
   handleTraining,
-  startActivity,
   handleFightingCalculations,
   handleDefeat,
   handleVictory,
