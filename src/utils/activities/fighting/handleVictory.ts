@@ -1,4 +1,4 @@
-import type { Gladiator, Enemy } from "@/types";
+import type { Gladiator } from "@/types";
 import {
   handleStat,
   setActivity,
@@ -8,13 +8,14 @@ import {
 import { FIGHT_EXP_BASE } from "@/constants";
 import { VICTORY_MESSAGES } from "@/constants";
 
-export default function handleVictory(gladiator: Gladiator, enemy: Enemy) {
+export default function handleVictory(gladiator: Gladiator, enemy: Gladiator) {
   handleStat(
     gladiator,
     "gold",
     getActivityExp(FIGHT_EXP_BASE, enemy.level),
     "increase"
   );
+  handleStat(gladiator, "rage", 0, "set");
 
   createMessage(
     gladiator.messages,

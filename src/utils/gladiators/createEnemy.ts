@@ -1,6 +1,6 @@
-import type { Enemy } from "@/types";
+import type { Gladiator } from "@/types";
 import { createName, getRandomRange } from "@/utils";
-import { ENEMY_STAT_RANGES } from "@/constants";
+import { ENEMY_STAT_RANGES, ABILITIES } from "@/constants";
 import { v4 as uuidv4 } from "uuid";
 
 export default function createEnemy(id: string, gladiatorLevel: number) {
@@ -10,14 +10,17 @@ export default function createEnemy(id: string, gladiatorLevel: number) {
     getRandomRange(ranges.HEALTH.min, ranges.HEALTH.max) * gladiatorLevel;
   const maxStamina =
     getRandomRange(ranges.STAMINA.min, ranges.STAMINA.max) * gladiatorLevel;
+  const maxRage =
+    getRandomRange(ranges.RAGE.min, ranges.RAGE.max) * gladiatorLevel;
   const strength =
     getRandomRange(ranges.STRENGTH.min, ranges.STRENGTH.max) * gladiatorLevel;
   const defense =
     getRandomRange(ranges.DEFENSE.min, ranges.DEFENSE.max) * gladiatorLevel;
   const dexterity =
     getRandomRange(ranges.DEXTERITY.min, ranges.DEXTERITY.max) * gladiatorLevel;
+  const ability = ABILITIES[Math.floor(Math.random() * ABILITIES.length)];
 
-  const enemy: Enemy = {
+  const enemy: Gladiator = {
     id: uuidv4(),
     gladiatorId: id,
     name: createName(),
@@ -26,11 +29,25 @@ export default function createEnemy(id: string, gladiatorLevel: number) {
     maxHealth,
     stamina: maxStamina,
     maxStamina,
+    rage: 0,
+    maxRage,
     strength,
     defense,
     dexterity,
     messages: [],
     hasTurn: false,
+    experience: 0,
+    maxExperience: 0,
+    points: 0,
+    activity: "fighting",
+    gold: 0,
+    vitality: Math.floor(maxHealth / 10),
+    endurance: Math.floor(maxStamina / 10),
+    abilities: [ability].map((ability) => ({
+      ...ability,
+      isActive: true,
+    })),
+    perks: [],
   };
 
   return enemy;

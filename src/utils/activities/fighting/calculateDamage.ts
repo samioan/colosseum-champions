@@ -1,10 +1,10 @@
-import type { Enemy, Gladiator } from "@/types";
-import { createMessage } from "@/utils";
+import type { Gladiator } from "@/types";
+import { createMessage, getRandomRange } from "@/utils";
 import { DAMAGE_MESSAGES, CRITICAL_MESSAGES } from "@/constants";
 
 export default function calculateDamage(
-  attacker: Enemy | Gladiator,
-  defender: Gladiator | Enemy
+  attacker: Gladiator,
+  defender: Gladiator
 ) {
   let damage = attacker.strength * (100 / (100 + defender.defense));
 
@@ -23,5 +23,5 @@ export default function calculateDamage(
     `(${Math.round(damage)} DMG)`
   );
 
-  return Math.round(damage);
+  return getRandomRange(damage / 2, damage * 2);
 }

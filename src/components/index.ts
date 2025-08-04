@@ -2,14 +2,21 @@ import GladiatorCard from "@/components/GladiatorCard.vue";
 import CombatBoard from "@/components/CombatBoard.vue";
 import CombatCard from "@/components/CombatCard.vue";
 import PageContainer from "@/components/PageContainer.vue";
-import { Button, Drawer, Modal, Footer, Header } from "@/components/generic";
 import {
-  CardHeader,
-  CardStatBar,
-  CardContainer,
-  CardExtraStat,
-  CardExtraStatsSection,
-} from "@/components/card";
+  Button,
+  Drawer,
+  Modal,
+  Footer,
+  Header,
+  Dropdown,
+} from "@/components/generic";
+import { CardHeader, CardStatBar, CardContainer } from "@/components/card";
+import {
+  Codex,
+  CodexStats,
+  CodexHeader,
+  CodexAbilities,
+} from "@/components/codex";
 
 export {
   GladiatorCard,
@@ -17,8 +24,6 @@ export {
   CardHeader,
   CardStatBar,
   CardContainer,
-  CardExtraStat,
-  CardExtraStatsSection,
   CombatBoard,
   CombatCard,
   PageContainer,
@@ -26,4 +31,9 @@ export {
   Footer,
   Button,
   Header,
+  Dropdown,
+  Codex,
+  CodexStats,
+  CodexHeader,
+  CodexAbilities,
 };

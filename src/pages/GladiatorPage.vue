@@ -2,7 +2,14 @@
 import { computed } from "vue";
 import { storeToRefs } from "pinia";
 import { useGameStore } from "@/stores/game";
-import { GladiatorCard, PageContainer, Footer, Header } from "@/components";
+import {
+  GladiatorCard,
+  PageContainer,
+  Footer,
+  Header,
+  Drawer,
+  Codex,
+} from "@/components";
 import { dungeonBackground } from "@/assets";
 
 const game = useGameStore();
@@ -14,14 +21,33 @@ const {
   gladiatorMainExtraStats,
   gladiatorSecondaryStats,
   gladiatorActivityButtons,
+  gladiatorAbilities,
+  gladiatorSelectedAbilities,
+  drawer,
 } = storeToRefs(game);
 
 const gladiatorCardProps = computed(() => ({
   headerProps: gladiatorHeaderProps.value,
   mainStats: [...gladiatorMainStats.value, ...gladiatorMainExtraStats.value],
-  secondaryStats: gladiatorSecondaryStats.value,
   activityButtons: gladiatorActivityButtons.value,
-  points: gladiator.value.points,
+  abilities: gladiatorSelectedAbilities.value,
+}));
+
+const codexProps = computed(() => ({
+  statsSection: {
+    title: "STATS",
+    data: {
+      points: gladiator.value.points,
+      stats: gladiatorSecondaryStats.value,
+    },
+  },
+  abilitiesSection: {
+    title: "ABILITES",
+    data: {
+      points: gladiator.value.points,
+      abilities: gladiatorAbilities.value,
+    },
+  },
 }));
 </script>
 
@@ -34,5 +60,10 @@ const gladiatorCardProps = computed(() => ({
       <GladiatorCard v-bind="gladiatorCardProps" />
       <Footer></Footer>
     </div>
+    <Drawer v-model="drawer.isOpen" :title="drawer.title">
+      <template #content>
+        <Codex v-if="drawer.state === 'character'" v-bind="codexProps" />
+      </template>
+    </Drawer>
   </PageContainer>
 </template>

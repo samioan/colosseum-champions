@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { Button } from "@/components";
-import { computed } from "vue";
+import { computed, watch, onUnmounted } from "vue";
 import { LABELS } from "@/constants";
 
 const props = defineProps<{
@@ -13,6 +13,17 @@ const modalButtonProps = computed(() => ({
   label: LABELS.CONTINUE,
   colorClasses: "bg-amber-600 text-white hover:bg-amber-700",
 }));
+
+watch(
+  props,
+  (val) => {
+    document.body.style.overflow = val.isVisible ? "hidden" : "";
+  },
+  { deep: true }
+);
+onUnmounted(() => {
+  document.body.style.overflow = "";
+});
 </script>
 
 <template>
@@ -29,7 +40,7 @@ const modalButtonProps = computed(() => ({
       class="fixed inset-0 bg-black/70 flex items-center justify-center z-50"
     >
       <div
-        class="bg-gray-800 text-center p-6 rounded-xl shadow-2xl w-[90%] max-w-md"
+        class="bg-stone-800 text-center p-6 w-[90%] max-w-md border-2 border-yellow-400 rounded-xl"
       >
         <slot />
         <Button v-bind="modalButtonProps" />

@@ -1,10 +1,13 @@
-import type { CombatMessage, ActivityState } from "@/types";
+import type { CombatMessage, ActivityState, Ability } from "@/types";
 
 export type Gladiator = {
   id: string;
+  gladiatorId?: string;
   name: string;
   level: number;
   health: number;
+  rage: number;
+  maxRage: number;
   maxHealth: number;
   stamina: number;
   maxStamina: number;
@@ -21,4 +24,6 @@ export type Gladiator = {
   gold: number;
   vitality: number;
   endurance: number;
+  abilities: Ability[];
+  perks: [];
 };

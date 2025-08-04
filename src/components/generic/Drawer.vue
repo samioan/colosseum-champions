@@ -1,41 +1,47 @@
 <script setup lang="ts">
-import { ref } from "vue";
+import { watch, onUnmounted } from "vue";
 
 defineProps<{
-  open: boolean;
   title: string;
 }>();
 
-const open = ref(false);
+const open = defineModel<boolean>();
+
+watch(open, (val) => {
+  document.body.style.overflow = val ? "hidden" : "";
+});
+onUnmounted(() => {
+  document.body.style.overflow = "";
+});
 </script>
 
 <template>
   <div
     v-show="open"
-    class="fixed inset-0 bg-black/50 z-40 transition-opacity"
+    class="fixed inset-0 bg-black/70 z-40 transition-opacity"
     @click="() => (open = !open)"
   ></div>
 
   <div
     :class="[
-      'fixed top-0 left-0 h-full bg-gray-900 shadow-xl z-50 transform transition-transform duration-300 ease-in-out flex flex-col ',
-      open ? 'translate-x-0' : '-translate-x-full',
+      'fixed left-0 bottom-0 w-full rounded-t-xl bg-stone-800 shadow-xl z-50 transform transition-transform duration-300 ease-in-out flex flex-col h-[90vh] border-2 border-yellow-400',
+      open ? 'translate-y-0' : 'translate-y-full',
     ]"
   >
-    <div class="p-4 border-b border-gray-700 flex justify-between items-center">
-      <h2 class="text-lg font-bold text-gray-100">
-        {{ title }}
-      </h2>
+    <div
+      class="p-4 border-b-2 border-yellow-400 flex justify-between items-center"
+    >
+      <h2 class="text-lg font-bold text-gray-100">{{ title }}</h2>
       <button
         @click="() => (open = false)"
-        class="text-gray-300 hover:text-red-500 transition-colors"
+        class="text-gray-300 cursor-pointer"
       >
-        ✖
+        X
       </button>
     </div>
 
-    <div class="p-4 overflow-y-auto scrollbar-hidden">
-      <slot />
+    <div class="overflow-y-auto scrollbar-hidden">
+      <slot name="content" />
     </div>
   </div>
 </template>

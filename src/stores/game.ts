@@ -1,7 +1,7 @@
 import { defineStore } from "pinia";
-import { ref, computed } from "vue";
+import { ref, computed, watch } from "vue";
 import { useRouter } from "vue-router";
-import type { Gladiator, Enemy } from "@/types";
+import type { Gladiator, DrawerState } from "@/types";
 import {
   setActivity,
   handleTraining,
@@ -24,10 +24,31 @@ export const useGameStore = defineStore("game", () => {
   const router = useRouter();
 
   const gladiator = ref<Gladiator>(createGladiator());
-  const enemy = ref<Enemy>(
+
+  const perks = [
+    {
+      name: "Skilled",
+      description: "Get +5 Points per LVL",
+      requirements: [
+        gladiator.value.maxHealth > 200,
+        gladiator.value.stamina > 200,
+      ],
+    },
+    {
+      name: "Agile",
+      description: "DEX * 2 when below 25% HP",
+      requirements: [gladiator.value.dexterity >= 50],
+    },
+  ];
+  const enemy = ref<Gladiator>(
     createEnemy(gladiator.value.id, gladiator.value.level)
   );
   const activityTimes = ref(ACTIVITY_TIMES);
+  const drawer = ref<{ isOpen: boolean; state: DrawerState; title: string }>({
+    isOpen: false,
+    state: "empty",
+    title: "",
+  });
 
   const gladiatorHeaderProps = computed(() => ({
     name: gladiator.value.name,
@@ -46,6 +67,12 @@ export const useGameStore = defineStore("game", () => {
       stat: gladiator.value.stamina,
       maxStat: gladiator.value.maxStamina,
       colorClass: COLORS.STAMINA,
+    },
+    {
+      label: LABELS.RAGE,
+      stat: gladiator.value.rage,
+      maxStat: gladiator.value.maxRage,
+      colorClass: COLORS.RAGE,
     },
   ]);
 
@@ -67,7 +94,6 @@ export const useGameStore = defineStore("game", () => {
     {
       label: LABELS.VITALITY,
       stat: gladiator.value.vitality,
-      showLevelUp: gladiator.value.points > 0,
       onClick: () =>
         allocatePoint(gladiator.value, [
           { statKey: "vitality", value: 1 },
@@ -78,7 +104,6 @@ export const useGameStore = defineStore("game", () => {
     {
       label: LABELS.ENDURANCE,
       stat: gladiator.value.endurance,
-      showLevelUp: gladiator.value.points > 0,
       onClick: () =>
         allocatePoint(gladiator.value, [
           { statKey: "endurance", value: 1 },
@@ -89,27 +114,85 @@ export const useGameStore = defineStore("game", () => {
     {
       label: LABELS.STRENGTH,
       stat: gladiator.value.strength,
-      showLevelUp: gladiator.value.points > 0,
       onClick: () =>
         allocatePoint(gladiator.value, [{ statKey: "strength", value: 1 }]),
     },
     {
       label: LABELS.DEFENSE,
       stat: gladiator.value.defense,
-      showLevelUp: gladiator.value.points > 0,
       onClick: () =>
         allocatePoint(gladiator.value, [{ statKey: "defense", value: 1 }]),
     },
     {
       label: LABELS.DEXTERITY,
       stat: gladiator.value.dexterity,
-      showLevelUp: gladiator.value.points > 0,
       onClick: () =>
         allocatePoint(gladiator.value, [{ statKey: "dexterity", value: 1 }]),
     },
   ]);
 
+  const gladiatorAbilities = computed(() => {
+    return gladiator.value.abilities.map((ability) => ({
+      ...ability,
+      onSelect: () => {
+        if (!ability.isUnlocked) {
+          if (gladiator.value.points >= 5) {
+            ability.isUnlocked = true;
+            gladiator.value.points -= 5;
+          } else return;
+        }
+        const selectedAbilities = gladiator.value.abilities.filter(
+          (a) => a.isSelected === true
+        );
+        if (selectedAbilities.length > 2 && !ability.isSelected) {
+          return;
+        } else {
+          ability.isSelected = !ability.isSelected;
+          if (!ability.isSelected) ability.isActive = false;
+        }
+      },
+      onActivate: () => {
+        if (ability.isActive) ability.isActive = false;
+        else {
+          gladiator.value.abilities.forEach((a) => (a.isActive = false));
+          ability.isActive = true;
+        }
+      },
+    }));
+  });
+
+  const gladiatorSelectedAbilities = computed(() =>
+    gladiator.value.abilities
+      .filter((ability) => ability.isSelected)
+      .map((ability) => ({
+        label: ability.label,
+        isActive: ability.isActive,
+        onActivate: () => {
+          if (ability.isActive) ability.isActive = false;
+          else {
+            gladiator.value.abilities.forEach((a) => (a.isActive = false));
+            ability.isActive = true;
+          }
+        },
+      }))
+  );
+
   const gladiatorActivityButtons = computed(() => [
+    {
+      onClick: () => toggleDrawer("character", "Codex"),
+      label: LABELS.CODEX,
+      colorClasses: COLORS.STATS_BUTTON,
+    },
+    {
+      onClick: () => toggleDrawer("armory", "Armory"),
+      label: LABELS.ARMORY,
+      colorClasses: COLORS.STATS_BUTTON,
+    },
+    {
+      onClick: () => toggleDrawer("items", "Items"),
+      label: LABELS.ITEMS,
+      colorClasses: COLORS.STATS_BUTTON,
+    },
     {
       disabled:
         gladiator.value.activity === "fighting" ||
@@ -172,6 +255,12 @@ export const useGameStore = defineStore("game", () => {
       maxStat: enemy.value.maxStamina,
       colorClass: COLORS.STAMINA,
     },
+    {
+      label: LABELS.RAGE,
+      stat: enemy.value.rage,
+      maxStat: enemy.value.maxRage,
+      colorClass: COLORS.RAGE,
+    },
   ]);
 
   const combatMessages = computed(() => {
@@ -206,6 +295,12 @@ export const useGameStore = defineStore("game", () => {
     () => combatMessages.value.messages[0].text
   );
 
+  function toggleDrawer(state: DrawerState, title: string) {
+    drawer.value.isOpen = !drawer.value.isOpen;
+    drawer.value.state = state;
+    drawer.value.title = title;
+  }
+
   function train() {
     setActivity(
       gladiator.value,
@@ -217,6 +312,7 @@ export const useGameStore = defineStore("game", () => {
 
   function fight(id: string) {
     enemy.value = createEnemy(gladiator.value.id, gladiator.value.level);
+    gladiator.value.messages = [];
     createMessage(
       gladiator.value.messages,
       INTRO_MESSAGES,
@@ -226,7 +322,7 @@ export const useGameStore = defineStore("game", () => {
     setActivity(
       gladiator.value,
       "fighting",
-      () => handleFighting(gladiator.value, enemy),
+      () => handleFighting(gladiator.value, enemy.value),
       activityTimes.value.fighting
     );
   }
@@ -258,6 +354,11 @@ export const useGameStore = defineStore("game", () => {
     combatMessages,
     combatModalProps,
     combatModalMessage,
+    drawer,
+    gladiatorAbilities,
+    gladiatorSelectedAbilities,
+    perks,
+    toggleDrawer,
     train,
     fight,
     rest,

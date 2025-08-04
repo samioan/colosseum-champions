@@ -1,11 +1,15 @@
 export const ENEMY_STAT_RANGES = {
   HEALTH: {
     min: 60,
-    max: 100,
+    max: 80,
   },
   STAMINA: {
-    min: 20,
-    max: 40,
+    min: 60,
+    max: 80,
+  },
+  RAGE: {
+    min: 60,
+    max: 80,
   },
   STRENGTH: {
     min: 3,

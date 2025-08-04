@@ -20,20 +20,7 @@ const titleButton = computed(() => ({
 </script>
 
 <template>
-  <PageContainer
-    custom-class="bg-cover 
-    bg-center 
-    bg-no-repeat
-    before:content-[''] 
-    before:fixed 
-    before:inset-0
-    before:w-auto 
-    before:h-auto 
-    before:overflow-hidden 
-    before:opacity-[0.7] 
-    before:bg-black 
-    bg-[url(src/assets/titleBackground.gif)]"
-  >
+  <PageContainer>
     <div class="flex flex-col justify-center items-center z-[1] w-100 mx-auto">
       <img :src="logo" />
       <Button v-bind="titleButton" />

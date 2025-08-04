@@ -1,15 +1,7 @@
 <script setup lang="ts">
-import { ref, computed } from "vue";
-import {
-  CardHeader,
-  CardStatBar,
-  Button,
-  CardContainer,
-  CardExtraStatsSection,
-} from "@/components";
-import { LABELS } from "@/constants";
+import { CardHeader, CardStatBar, Button, CardContainer } from "@/components";
 
-const props = defineProps<{
+defineProps<{
   headerProps: {
     name: string;
     level: number;
@@ -26,22 +18,12 @@ const props = defineProps<{
     label: string;
     colorClasses: string;
   }[];
-  secondaryStats: {
+  abilities: {
+    isActive: boolean;
     label: string;
-    stat: number;
+    onActivate: () => void;
   }[];
-  points?: number;
 }>();
-
-const showStats = ref(false);
-
-const showStatsButton = computed(() => ({
-  onClick: () => (showStats.value = !showStats.value),
-  label: `${showStats.value ? LABELS.HIDE_STATS : LABELS.SHOW_STATS} ${
-    props.points ? "+" : ""
-  }`,
-  colorClasses: "bg-blue-500 hover:bg-blue-600",
-}));
 </script>
 
 <template>
@@ -49,20 +31,30 @@ const showStatsButton = computed(() => ({
     <CardHeader v-bind="headerProps" />
 
     <div class="flex gap-4">
-      <div class="flex-1 flex flex-col gap-3" v-if="!showStats">
+      <div class="flex-1 flex flex-col gap-3">
         <CardStatBar v-for="stat in mainStats" v-bind="stat" />
       </div>
-
-      <CardExtraStatsSection
-        v-if="showStats"
-        :points="points"
-        :extra-stats="secondaryStats"
-      />
     </div>
 
-    <div class="flex flex-col gap-2 mt-2">
-      <Button v-bind="showStatsButton" />
-      <Button v-for="button in activityButtons" v-bind="button" />
+    <div class="flex gap-2 mt-2 justify-center" v-if="abilities.length">
+      <div
+        class="flex gap-2 p-2 items-center justify-center rounded-lg text-sm bg-stone-600"
+        :class="{
+          'border-2 border-white': ability.isActive,
+        }"
+        v-for="ability in abilities"
+        @click="ability.onActivate"
+      >
+        {{ ability.label }}
+      </div>
+    </div>
+
+    <div class="flex gap-2 mt-2 justify-between">
+      <Button
+        v-for="button in activityButtons"
+        v-bind="button"
+        class="w-fit text-xl"
+      />
     </div>
   </CardContainer>
 </template>

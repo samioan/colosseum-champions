@@ -1,6 +1,8 @@
 import getRandomRange from "@/utils/getRandomRange";
 import createMessage from "@/utils/createMessage";
 import createName from "@/utils/createName";
+import rollChance from "@/utils/rollChance";
+import performAbility from "@/utils/performAbility";
 import { createEnemy, handleStat, createGladiator } from "@/utils/gladiators";
 import {
   getExpForNextLevel,
@@ -40,4 +42,6 @@ export {
   createMessage,
   createName,
   createGladiator,
+  rollChance,
+  performAbility,
 };

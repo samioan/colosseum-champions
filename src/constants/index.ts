@@ -8,6 +8,7 @@ import { GLADIATOR_BASE_STATS } from "@/constants/gladiatorBaseStats";
 import { ENEMY_STAT_RANGES } from "@/constants/enemyStatRanges";
 import { ACTIVITY_TIMES } from "@/constants/activityTimes";
 import { COLORS } from "@/constants/colors";
+import { ABILITIES } from "@/constants/abilities";
 import {
   CRITICAL_MESSAGES,
   DAMAGE_MESSAGES,
@@ -34,4 +35,5 @@ export {
   ENEMY_STAT_RANGES,
   ACTIVITY_TIMES,
   COLORS,
+  ABILITIES,
 };
