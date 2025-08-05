@@ -1,10 +1,8 @@
 <script setup lang="ts">
 import { LABELS } from "@/constants";
+import type { CardHeaderProps } from "@/types";
 
-defineProps<{
-  name: string;
-  level: number;
-}>();
+defineProps<CardHeaderProps>();
 </script>
 
 <template>

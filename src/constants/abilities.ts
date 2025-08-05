@@ -1,49 +1,126 @@
 import type { Ability } from "@/types";
+import { StatKey, AbilityId, AbilityType } from "@/enums";
 
 export const ABILITIES: Ability[] = [
   {
-    id: "smash",
+    id: AbilityId.SMASH,
     label: "Smash",
-    description: "A powerful smash",
+    description: "Deals x2 SP DMG",
     rage: 10,
     isUnlocked: false,
     isSelected: false,
     isActive: false,
+    payload: [
+      {
+        type: AbilityType.OFFENSIVE,
+        stat: StatKey.STAMINA,
+        value: {
+          stat: StatKey.STRENGTH,
+          operator: "*",
+          modifier: 2,
+        },
+      },
+    ],
   },
   {
-    id: "slash",
+    id: AbilityId.SLASH,
     label: "Slash",
-    description: "A vicious slash",
+    description: "Deals x5 HP DMG",
     rage: 15,
     isUnlocked: false,
     isSelected: false,
     isActive: false,
+    payload: [
+      {
+        type: AbilityType.OFFENSIVE,
+        stat: StatKey.HEALTH,
+        value: {
+          stat: StatKey.STRENGTH,
+          operator: "*",
+          modifier: 5,
+        },
+      },
+    ],
   },
   {
-    id: "strike",
+    id: AbilityId.STRIKE,
     label: "Strike",
-    description: "An unforgettable strike",
+    description: "Deals x1 HP + SP DMG",
     rage: 20,
     isUnlocked: false,
     isSelected: false,
     isActive: false,
+    payload: [
+      {
+        type: AbilityType.OFFENSIVE,
+        stat: StatKey.HEALTH,
+        value: {
+          stat: StatKey.STRENGTH,
+        },
+      },
+      {
+        type: AbilityType.OFFENSIVE,
+        stat: StatKey.STAMINA,
+        value: {
+          stat: StatKey.STRENGTH,
+        },
+      },
+    ],
   },
   {
-    id: "bash",
+    id: AbilityId.BASH,
     label: "Bash",
-    description: "A destructive bash",
+    description: "Deals x1 STR DMG",
     rage: 25,
     isUnlocked: false,
     isSelected: false,
     isActive: false,
+    payload: [
+      {
+        type: AbilityType.OFFENSIVE,
+        stat: StatKey.STRENGTH,
+        value: {
+          stat: StatKey.STRENGTH,
+        },
+      },
+    ],
   },
   {
-    id: "slice",
+    id: AbilityId.SLICE,
     label: "Slice",
-    description: "Death by a million slices",
+    description: "Deals x1 DEF DMG",
     rage: 30,
     isUnlocked: false,
     isSelected: false,
     isActive: false,
+    payload: [
+      {
+        type: AbilityType.OFFENSIVE,
+        stat: StatKey.DEFENSE,
+        value: {
+          stat: StatKey.STRENGTH,
+        },
+      },
+    ],
+  },
+  {
+    id: AbilityId.HEAL,
+    label: "Heal",
+    description: "Heals x1 HP",
+    rage: 10,
+    isUnlocked: false,
+    isSelected: false,
+    isActive: false,
+    payload: [
+      {
+        type: AbilityType.DEFENSIVE,
+        stat: StatKey.HEALTH,
+        value: {
+          stat: StatKey.STRENGTH,
+          operator: "*",
+          modifier: 2,
+        },
+      },
+    ],
   },
 ];

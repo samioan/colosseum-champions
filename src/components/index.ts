@@ -16,6 +16,8 @@ import {
   CodexStats,
   CodexHeader,
   CodexAbilities,
+  CodexPerks,
+  CodexPoints,
 } from "@/components/codex";
 
 export {
@@ -36,4 +38,6 @@ export {
   CodexStats,
   CodexHeader,
   CodexAbilities,
+  CodexPerks,
+  CodexPoints,
 };

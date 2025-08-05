@@ -6,6 +6,7 @@ import {
   createMessage,
   performAbility,
 } from "@/utils";
+import { StatAction, StatKey } from "@/enums";
 
 import { DODGE_MESSAGES } from "@/constants";
 
@@ -13,37 +14,38 @@ export default function handleFightingCalculations(
   gladiator: Gladiator,
   enemy: Gladiator
 ) {
-  const attacker = gladiator.hasTurn ? gladiator : enemy;
-  const defender = gladiator.hasTurn ? enemy : gladiator;
+  const curAttacker = gladiator.hasTurn ? gladiator : enemy;
+  const curDefender = gladiator.hasTurn ? enemy : gladiator;
 
-  const ability = attacker?.abilities?.find((ability) => ability.isActive);
+  const ability = curAttacker?.abilities?.find((ability) => ability.isActive);
 
-  if (ability && attacker.rage >= ability.rage) {
-    handleStat(attacker, "rage", ability.rage, "decrease");
-    performAbility(ability.id, attacker, defender);
+  if (ability && curAttacker.rage >= ability.rage) {
+    performAbility(ability, curAttacker, curDefender);
     createMessage(
-      attacker.messages,
+      curAttacker.messages,
       [`uses ${ability.label}!`],
-      attacker.id,
-      attacker.name
+      curAttacker.id,
+      curAttacker.name
     );
   } else {
-    const damage = didEvade(defender) ? 0 : calculateDamage(attacker, defender);
+    const damage = didEvade(curDefender)
+      ? 0
+      : calculateDamage(curAttacker, curDefender);
 
     if (!damage) {
       createMessage(
-        attacker.messages,
+        curAttacker.messages,
         DODGE_MESSAGES,
-        attacker.id,
-        attacker.name
+        curAttacker.id,
+        curAttacker.name
       );
     }
 
-    handleStat(attacker, "stamina", 5, "decrease");
-    handleStat(attacker, "rage", 5, "increase");
-    handleStat(defender, "health", damage, "decrease");
+    handleStat(curAttacker, StatKey.STAMINA, 5, StatAction.DECREASE);
+    handleStat(curAttacker, StatKey.RAGE, 5, StatAction.INCREASE);
+    handleStat(curDefender, StatKey.HEALTH, damage, StatAction.DECREASE);
   }
 
-  attacker.hasTurn = false;
-  defender.hasTurn = true;
+  curAttacker.hasTurn = false;
+  curDefender.hasTurn = true;
 }

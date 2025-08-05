@@ -5,12 +5,12 @@ import { useGameStore } from "@/stores/game";
 import {
   GladiatorCard,
   PageContainer,
-  Footer,
   Header,
   Drawer,
   Codex,
 } from "@/components";
 import { dungeonBackground } from "@/assets";
+import { DrawerState } from "@/enums";
 
 const game = useGameStore();
 
@@ -22,7 +22,9 @@ const {
   gladiatorSecondaryStats,
   gladiatorActivityButtons,
   gladiatorAbilities,
+  gladiatorPerks,
   gladiatorSelectedAbilities,
+  gladiatorSelectedPerks,
   drawer,
 } = storeToRefs(game);
 
@@ -31,6 +33,7 @@ const gladiatorCardProps = computed(() => ({
   mainStats: [...gladiatorMainStats.value, ...gladiatorMainExtraStats.value],
   activityButtons: gladiatorActivityButtons.value,
   abilities: gladiatorSelectedAbilities.value,
+  perks: gladiatorSelectedPerks.value,
 }));
 
 const codexProps = computed(() => ({
@@ -48,6 +51,13 @@ const codexProps = computed(() => ({
       abilities: gladiatorAbilities.value,
     },
   },
+  perksSection: {
+    title: "PERKS",
+    data: {
+      points: gladiator.value.points,
+      perks: gladiatorPerks.value,
+    },
+  },
 }));
 </script>
 
@@ -58,11 +68,13 @@ const codexProps = computed(() => ({
         ><img class="object-cover h-full" :src="dungeonBackground"
       /></Header>
       <GladiatorCard v-bind="gladiatorCardProps" />
-      <Footer></Footer>
     </div>
     <Drawer v-model="drawer.isOpen" :title="drawer.title">
       <template #content>
-        <Codex v-if="drawer.state === 'character'" v-bind="codexProps" />
+        <Codex
+          v-if="drawer.state === DrawerState.CHARACTER"
+          v-bind="codexProps"
+        />
       </template>
     </Drawer>
   </PageContainer>

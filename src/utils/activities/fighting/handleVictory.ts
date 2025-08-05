@@ -7,15 +7,16 @@ import {
 } from "@/utils";
 import { FIGHT_EXP_BASE } from "@/constants";
 import { VICTORY_MESSAGES } from "@/constants";
+import { ActivityState, StatAction, StatKey } from "@/enums";
 
 export default function handleVictory(gladiator: Gladiator, enemy: Gladiator) {
   handleStat(
     gladiator,
-    "gold",
+    StatKey.GOLD,
     getActivityExp(FIGHT_EXP_BASE, enemy.level),
-    "increase"
+    StatAction.INCREASE
   );
-  handleStat(gladiator, "rage", 0, "set");
+  handleStat(gladiator, StatKey.RAGE, 0, StatAction.SET);
 
   createMessage(
     gladiator.messages,
@@ -24,5 +25,5 @@ export default function handleVictory(gladiator: Gladiator, enemy: Gladiator) {
     gladiator.name
   );
 
-  setActivity(gladiator, "idle");
+  setActivity(gladiator, ActivityState.IDLE);
 }

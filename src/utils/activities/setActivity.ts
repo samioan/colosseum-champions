@@ -1,13 +1,14 @@
 import type { Gladiator } from "@/types";
+import { ActivityState } from "@/enums";
 
 export default function setActivity(
   gladiator: Gladiator,
-  activityKey: "idle" | "training" | "fighting" | "resting",
+  activityKey: ActivityState,
   activity?: () => void,
   activityTime?: number
 ) {
   gladiator.activity = activityKey;
-  if (activityKey !== "idle" && activity) {
+  if (activityKey !== ActivityState.IDLE && activity) {
     gladiator.intervalId = setInterval(() => {
       activity();
     }, activityTime);

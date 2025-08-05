@@ -1,3 +1,4 @@
+import { ActivityState } from "@/enums";
 import type { Gladiator } from "@/types";
 
 export const GLADIATOR_BASE_STATS: Gladiator = {
@@ -13,13 +14,11 @@ export const GLADIATOR_BASE_STATS: Gladiator = {
   strength: 10,
   dexterity: 10,
   defense: 10,
-  vitality: 10,
-  endurance: 10,
   experience: 0,
   maxExperience: 100,
   points: 15,
   gold: 0,
-  activity: "idle",
+  activity: ActivityState.IDLE,
   intervalId: undefined,
   hasTurn: true,
   messages: [],

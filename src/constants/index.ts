@@ -9,6 +9,7 @@ import { ENEMY_STAT_RANGES } from "@/constants/enemyStatRanges";
 import { ACTIVITY_TIMES } from "@/constants/activityTimes";
 import { COLORS } from "@/constants/colors";
 import { ABILITIES } from "@/constants/abilities";
+import { PERKS } from "@/constants/perks";
 import {
   CRITICAL_MESSAGES,
   DAMAGE_MESSAGES,
@@ -36,4 +37,5 @@ export {
   ACTIVITY_TIMES,
   COLORS,
   ABILITIES,
+  PERKS,
 };

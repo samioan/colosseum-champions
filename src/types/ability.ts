@@ -1,3 +1,15 @@
+import { StatKey, AbilityType } from "@/enums";
+
+type AbilityPayload = {
+  type: AbilityType;
+  stat: StatKey;
+  value: {
+    stat: StatKey;
+    operator?: string;
+    modifier?: number;
+  };
+};
+
 export type Ability = {
   id: string;
   label: string;
@@ -6,4 +18,5 @@ export type Ability = {
   isUnlocked: boolean;
   isSelected: boolean;
   isActive: boolean;
+  payload: AbilityPayload[];
 };

@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { LABELS, COLORS } from "@/constants";
-import { Button } from "@/components";
+import { Button, CodexPoints } from "@/components";
 
 defineProps<{
   points: number;
@@ -19,12 +19,7 @@ defineProps<{
 
 <template>
   <div class="flex-1 text-sm text-gray-300 p-4 border-b-2 border-yellow-400">
-    <div
-      class="flex items-center justify-between gap-2 pb-4 mb-4 border-b-2 border-gray-400"
-    >
-      <span class="font-medium">{{ LABELS.POINTS }}</span>
-      <span>{{ points }}</span>
-    </div>
+    <CodexPoints>{{ points }}</CodexPoints>
 
     <div
       v-for="ability in abilities"

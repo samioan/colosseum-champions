@@ -7,8 +7,6 @@ export const LABELS = {
   DEXTERITY: "DEX",
   DEFENSE: "DEF",
   GOLD: "GOLD",
-  VITALITY: "VIT",
-  ENDURANCE: "END",
   FIGHT: "F",
   TRAIN: "T",
   REST: "R",

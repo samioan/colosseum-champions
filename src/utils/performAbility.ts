@@ -1,34 +1,50 @@
-import type { Gladiator } from "@/types";
+import type { Ability, Gladiator } from "@/types";
 import { handleStat } from "@/utils";
+import { StatKey, StatAction, AbilityType } from "@/enums";
 
 export default function performAbility(
-  abilityId: string,
-  attacker: Gladiator,
-  defender: Gladiator
+  ability: Ability,
+  curAttacker: Gladiator,
+  curDefender: Gladiator
 ) {
-  switch (abilityId) {
-    case "smash": {
-      handleStat(defender, "stamina", attacker.strength * 2, "decrease");
-      return;
+  handleStat(curAttacker, StatKey.RAGE, ability.rage, StatAction.DECREASE);
+
+  const attacks = ability.payload.filter(
+    (item) => item.type === AbilityType.OFFENSIVE
+  );
+  const buffs = ability.payload.filter(
+    (item) => item.type === AbilityType.DEFENSIVE
+  );
+
+  function calculateValue(valueObj: {
+    stat: StatKey;
+    operator?: string;
+    modifier?: number;
+  }) {
+    if (!valueObj.operator) {
+      return curAttacker[valueObj.stat];
     }
-    case "slash": {
-      handleStat(defender, "health", attacker.strength * 5, "decrease");
-      return;
+    switch (valueObj.operator) {
+      case "*":
+        return curAttacker[valueObj.stat] * (valueObj?.modifier ?? 1);
+      case "/":
+        return curAttacker[valueObj.stat] / (valueObj?.modifier ?? 1);
+      default:
+        return curAttacker[valueObj.stat];
     }
-    case "strike": {
-      handleStat(defender, "health", attacker.strength, "decrease");
-      handleStat(defender, "stamina", attacker.strength, "decrease");
-      return;
-    }
-    case "bash": {
-      handleStat(defender, "strength", attacker.strength, "decrease");
-      return;
-    }
-    case "slice": {
-      handleStat(defender, "defense", attacker.strength, "decrease");
-      return;
-    }
-    default:
-      return;
   }
+
+  buffs.length &&
+    buffs.forEach((buff) => {
+      const bonus = calculateValue(buff);
+
+      handleStat(curAttacker, buff.stat, bonus, StatAction.INCREASE);
+    });
+
+  attacks.length &&
+    attacks.forEach((attack) => {
+      const damage = calculateValue(attack);
+
+      handleStat(curDefender, attack.stat, damage, StatAction.DECREASE);
+    });
 }

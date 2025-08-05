@@ -6,19 +6,20 @@ import {
   checkForLevelUp,
 } from "@/utils";
 import { TRAIN_EXP_BASE } from "@/constants";
+import { ActivityState, StatAction, StatKey } from "@/enums";
 
 export default function handleTraining(gladiator: Gladiator) {
   if (gladiator.stamina <= 0 || gladiator.gold < 10) {
-    return setActivity(gladiator, "idle");
+    return setActivity(gladiator, ActivityState.IDLE);
   }
 
-  handleStat(gladiator, "stamina", 5, "decrease");
-  handleStat(gladiator, "gold", 10, "decrease");
+  handleStat(gladiator, StatKey.STAMINA, 5, StatAction.DECREASE);
+  handleStat(gladiator, StatKey.GOLD, 10, StatAction.DECREASE);
   handleStat(
     gladiator,
-    "experience",
+    StatKey.EXPERIENCE,
     getActivityExp(TRAIN_EXP_BASE, gladiator.level),
-    "increase"
+    StatAction.INCREASE
   );
   checkForLevelUp(gladiator);
 }

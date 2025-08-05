@@ -8,7 +8,6 @@ import {
   PageContainer,
   Modal,
   Header,
-  Footer,
 } from "@/components";
 import { gameBackground } from "@/assets";
 
@@ -41,9 +40,9 @@ const enemyCardProps = computed(() => ({
   <PageContainer>
     <div class="flex flex-col justify-center mx-auto md:w-1/2 w-full z-[1]">
       <Header><img class="object-cover h-full" :src="gameBackground" /></Header>
-      <CombatCard v-bind="gladiatorCardProps" />
-      <CombatBoard v-bind="combatMessages" />
       <CombatCard v-bind="enemyCardProps" />
+      <CombatBoard v-bind="combatMessages" />
+      <CombatCard v-bind="gladiatorCardProps" />
       <Modal v-bind="combatModalProps">
         <h2 class="text-gray-300 mb-6">
           {{ combatModalMessage }}

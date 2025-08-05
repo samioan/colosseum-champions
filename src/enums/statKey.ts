@@ -1,0 +1,16 @@
+export enum StatKey {
+  LEVEL = "level",
+  HEALTH = "health",
+  MAX_HEALTH = "maxHealth",
+  STAMINA = "stamina",
+  MAX_STAMINA = "maxStamina",
+  RAGE = "rage",
+  MAX_RAGE = "maxRage",
+  STRENGTH = "strength",
+  DEXTERITY = "dexterity",
+  DEFENSE = "defense",
+  EXPERIENCE = "experience",
+  MAX_EXPERIENCE = "maxExperience",
+  POINTS = "points",
+  GOLD = "gold",
+}

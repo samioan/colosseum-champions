@@ -4,6 +4,7 @@ import {
   CodexStats,
   CodexHeader,
   CodexAbilities,
+  CodexPerks,
 } from "@/components";
 
 defineProps<{
@@ -34,6 +35,19 @@ defineProps<{
       }[];
     };
   };
+  perksSection: {
+    title: string;
+    data: {
+      points: number;
+      perks: {
+        label: string;
+        description: string;
+        isUnlocked: boolean;
+        isSelected: boolean;
+        onSelect: () => void;
+      }[];
+    };
+  };
 }>();
 </script>
 
@@ -47,7 +61,13 @@ defineProps<{
       ><CodexHeader :title="abilitiesSection.title" />
     </template>
     <template #content>
-      <CodexAbilities v-bind="abilitiesSection.data"
-    /></template>
+      <CodexAbilities v-bind="abilitiesSection.data" />
+    </template>
+  </Dropdown>
+  <Dropdown>
+    <template #header><CodexHeader :title="perksSection.title" /> </template>
+    <template #content>
+      <CodexPerks v-bind="perksSection.data" />
+    </template>
   </Dropdown>
 </template>

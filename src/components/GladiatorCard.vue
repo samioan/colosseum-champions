@@ -23,6 +23,7 @@ defineProps<{
     label: string;
     onActivate: () => void;
   }[];
+  perks: string[];
 }>();
 </script>
 
@@ -46,6 +47,15 @@ defineProps<{
         @click="ability.onActivate"
       >
         {{ ability.label }}
+      </div>
+    </div>
+
+    <div class="flex gap-2 mt-2 justify-center" v-if="perks.length">
+      <div
+        class="flex gap-2 p-2 items-center justify-center rounded-lg text-sm bg-stone-600"
+        v-for="perk in perks"
+      >
+        {{ perk }}
       </div>
     </div>
 
