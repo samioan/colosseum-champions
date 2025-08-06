@@ -24,6 +24,11 @@ defineProps<{
     onActivate: () => void;
   }[];
   perks: string[];
+  items: {
+    label: string;
+    onUse: () => void;
+    amount: number;
+  }[];
 }>();
 </script>
 
@@ -56,6 +61,17 @@ defineProps<{
         v-for="perk in perks"
       >
         {{ perk }}
+      </div>
+    </div>
+
+    <div class="flex gap-2 mt-2 justify-center" v-if="items.length">
+      <div
+        class="flex gap-2 p-2 items-center justify-center rounded-lg text-sm bg-stone-600 text-center cursor-pointer"
+        v-for="item in items"
+        @click="item.onUse"
+        :class="item.amount ? '' : 'hidden'"
+      >
+        {{ item.label }} {{ item.amount }}
       </div>
     </div>
 

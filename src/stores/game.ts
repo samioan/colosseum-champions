@@ -2,7 +2,7 @@ import { defineStore } from "pinia";
 import { ref, computed } from "vue";
 import type { ComputedRef } from "vue";
 import { useRouter } from "vue-router";
-import type { Gladiator } from "@/types";
+import type { Gladiator, GladiatorStats } from "@/types";
 import {
   setActivity,
   handleTraining,
@@ -13,6 +13,11 @@ import {
   createGladiator,
   allocatePoint,
   calculatePerks,
+  selectAbility,
+  activateAbility,
+  selectPerk,
+  handleStat,
+  useItem,
 } from "@/utils";
 import {
   INTRO_MESSAGES,
@@ -21,7 +26,7 @@ import {
   COLORS,
   ROUTES,
 } from "@/constants";
-import { ActivityState, DrawerState, StatKey } from "@/enums";
+import { ActivityState, DrawerState, StatAction, StatKey } from "@/enums";
 
 export const useGameStore = defineStore("game", () => {
   const router = useRouter();
@@ -29,7 +34,7 @@ export const useGameStore = defineStore("game", () => {
   const gladiator = ref<Gladiator>(createGladiator());
 
   const enemy = ref<Gladiator>(
-    createEnemy(gladiator.value.id, gladiator.value.level)
+    createEnemy(gladiator.value.id, gladiator.value.stats.level)
   );
   const activityTimes = ref(ACTIVITY_TIMES);
   const drawer = ref<{ isOpen: boolean; state: DrawerState; title: string }>({
@@ -38,51 +43,23 @@ export const useGameStore = defineStore("game", () => {
     title: "",
   });
 
-  const computedPerks = computed(() => {
+  const computedPerks: ComputedRef<GladiatorStats> = computed(() => {
     return calculatePerks(gladiator.value, gladiatorStats.value);
   });
 
-  const gladiatorStats: ComputedRef<{
-    health: number;
-    maxHealth: number;
-    stamina: number;
-    maxStamina: number;
-    rage: number;
-    maxRage: number;
-    strength: number;
-    dexterity: number;
-    defense: number;
-    experience: number;
-    maxExperience: number;
-    gold: number;
-    level: number;
-    points: number;
-  }> = computed(() => ({
-    health:
-      gladiator.value.health + (computedPerks.value?.[StatKey.HEALTH] ?? 0),
-    maxHealth:
-      gladiator.value.maxHealth +
-      (computedPerks.value?.[StatKey.MAX_HEALTH] ?? 0),
-    stamina: gladiator.value.stamina + (computedPerks.value?.["stamina"] ?? 0),
-    maxStamina:
-      gladiator.value.maxStamina + (computedPerks.value?.["maxStamina"] ?? 0),
-    rage: gladiator.value.rage + (computedPerks.value?.["rage"] ?? 0),
-    maxRage: gladiator.value.maxRage + (computedPerks.value?.["maxRage"] ?? 0),
-    strength:
-      gladiator.value.strength + (computedPerks.value?.["strength"] ?? 0),
-    dexterity:
-      gladiator.value.dexterity + (computedPerks.value?.["dexterity"] ?? 0),
-    defense: gladiator.value.defense + (computedPerks.value?.["defense"] ?? 0),
-    experience: gladiator.value.experience,
-    maxExperience: gladiator.value.maxExperience,
-    gold: gladiator.value.gold,
-    level: gladiator.value.level,
-    points: gladiator.value.points,
-  }));
+  const gladiatorStats: ComputedRef<GladiatorStats> = computed(
+    () =>
+      Object.fromEntries(
+        Object.entries(gladiator.value.stats).map((stat) => [
+          stat[0],
+          stat[1] + (computedPerks.value[stat[0] as StatKey] ?? 0),
+        ])
+      ) as GladiatorStats
+  );
 
   const gladiatorHeaderProps = computed(() => ({
     name: gladiator.value.name,
-    level: gladiator.value.level,
+    level: gladiatorStats.value.level,
   }));
 
   const gladiatorMainStats = computed(() => [
@@ -168,52 +145,15 @@ export const useGameStore = defineStore("game", () => {
   const gladiatorAbilities = computed(() => {
     return gladiator.value.abilities.map((ability) => ({
       ...ability,
-      onSelect: () => {
-        if (!ability.isUnlocked) {
-          if (gladiator.value.points >= 5) {
-            ability.isUnlocked = true;
-            gladiator.value.points -= 5;
-          } else return;
-        }
-        const selectedAbilities = gladiator.value.abilities.filter(
-          (a) => a.isSelected === true
-        );
-        if (selectedAbilities.length > 2 && !ability.isSelected) {
-          return;
-        } else {
-          ability.isSelected = !ability.isSelected;
-          if (!ability.isSelected) ability.isActive = false;
-        }
-      },
-      onActivate: () => {
-        if (ability.isActive) ability.isActive = false;
-        else {
-          gladiator.value.abilities.forEach((a) => (a.isActive = false));
-          ability.isActive = true;
-        }
-      },
+      onSelect: () => selectAbility(ability, gladiator.value),
+      onActivate: () => activateAbility(ability, gladiator.value),
     }));
   });
 
   const gladiatorPerks = computed(() => {
     return gladiator.value.perks.map((perk) => ({
       ...perk,
-      onSelect: () => {
-        if (!perk.isUnlocked) {
-          if (gladiator.value.points >= 5) {
-            perk.isUnlocked = true;
-            gladiator.value.points -= 5;
-          } else return;
-        }
-        const selectedPerks = gladiator.value.perks.filter(
-          (a) => a.isSelected === true
-        );
-        if (selectedPerks.length > 2 && !perk.isSelected) {
-          return;
-        } else {
-          perk.isSelected = !perk.isSelected;
-        }
-      },
+      onSelect: () => selectPerk(perk, gladiator.value),
     }));
   });
 
@@ -223,13 +163,7 @@ export const useGameStore = defineStore("game", () => {
       .map((ability) => ({
         label: ability.label,
         isActive: ability.isActive,
-        onActivate: () => {
-          if (ability.isActive) ability.isActive = false;
-          else {
-            gladiator.value.abilities.forEach((a) => (a.isActive = false));
-            ability.isActive = true;
-          }
-        },
+        onActivate: () => activateAbility(ability, gladiator.value),
       }))
   );
 
@@ -259,8 +193,8 @@ export const useGameStore = defineStore("game", () => {
       disabled:
         gladiator.value.activity === ActivityState.FIGHTING ||
         gladiator.value.activity === ActivityState.RESTING ||
-        gladiator.value.stamina < 5 ||
-        gladiator.value.gold < 10,
+        gladiator.value.stats.stamina < 5 ||
+        gladiator.value.stats.gold < 10,
       onClick:
         gladiator.value.activity === ActivityState.TRAINING
           ? () => setActivity(gladiator.value, ActivityState.IDLE)
@@ -275,7 +209,7 @@ export const useGameStore = defineStore("game", () => {
       disabled:
         gladiator.value.activity === ActivityState.TRAINING ||
         gladiator.value.activity === ActivityState.RESTING ||
-        gladiator.value.stamina < 5,
+        gladiator.value.stats.stamina < 5,
       onClick:
         gladiator.value.activity === ActivityState.FIGHTING
           ? () => setActivity(gladiator.value, ActivityState.IDLE)
@@ -293,9 +227,9 @@ export const useGameStore = defineStore("game", () => {
       disabled:
         gladiator.value.activity === ActivityState.FIGHTING ||
         gladiator.value.activity === ActivityState.TRAINING ||
-        gladiator.value.gold < 10 ||
-        (gladiator.value.health === gladiator.value.maxHealth &&
-          gladiator.value.stamina === gladiator.value.maxStamina),
+        gladiator.value.stats.gold < 10 ||
+        (gladiator.value.stats.health === gladiator.value.stats.maxHealth &&
+          gladiator.value.stats.stamina === gladiator.value.stats.maxStamina),
       onClick:
         gladiator.value.activity === ActivityState.RESTING
           ? () => setActivity(gladiator.value, ActivityState.IDLE)
@@ -308,16 +242,38 @@ export const useGameStore = defineStore("game", () => {
     },
   ]);
 
+  const gladiatorItems = computed(() => {
+    return gladiator.value.items.map((item) => ({
+      ...item,
+      onBuy: () => {
+        handleStat(
+          gladiator.value,
+          StatKey.GOLD,
+          item.gold,
+          StatAction.DECREASE
+        );
+        item.amount += 1;
+      },
+    }));
+  });
+
+  const gladiatorSelectedItems = computed(() => {
+    return gladiator.value.items.map((item) => ({
+      ...item,
+      onUse: () => useItem(item, gladiator.value),
+    }));
+  });
+
   const enemyHeaderProps = computed(() => ({
     name: enemy.value.name,
-    level: enemy.value.level,
+    level: enemy.value.stats.level,
   }));
 
   const enemyMainStats = computed(() => [
     {
       label: LABELS.HEALTH,
-      stat: enemy.value.health,
-      maxStat: enemy.value.maxHealth,
+      stat: enemy.value.stats.health,
+      maxStat: enemy.value.stats.maxHealth,
       colorClass: COLORS.HEALTH,
     },
   ]);
@@ -336,14 +292,15 @@ export const useGameStore = defineStore("game", () => {
 
   const combatModalProps = computed(() => ({
     isVisible:
-      gladiator.value.health <= 0 ||
-      gladiator.value.stamina <= 0 ||
-      enemy.value?.health <= 0 ||
-      enemy.value?.stamina <= 0,
+      gladiator.value.stats.health <= 0 ||
+      gladiator.value.stats.stamina <= 0 ||
+      enemy.value?.stats.health <= 0 ||
+      enemy.value?.stats.stamina <= 0,
     onClick: () =>
       router.push(
         ROUTES[
-          gladiator.value.health <= 0 || gladiator.value.stamina <= 0
+          gladiator.value.stats.health <= 0 ||
+          gladiator.value.stats.stamina <= 0
             ? "home"
             : "gladiator"
         ]
@@ -370,7 +327,7 @@ export const useGameStore = defineStore("game", () => {
   }
 
   function fight(id: string) {
-    enemy.value = createEnemy(gladiator.value.id, gladiator.value.level);
+    enemy.value = createEnemy(gladiator.value.id, gladiator.value.stats.level);
     gladiator.value.messages = [];
     createMessage(
       gladiator.value.messages,
@@ -420,6 +377,8 @@ export const useGameStore = defineStore("game", () => {
     gladiatorSelectedPerks,
     gladiatorStats,
     computedPerks,
+    gladiatorItems,
+    gladiatorSelectedItems,
     toggleDrawer,
     train,
     fight,

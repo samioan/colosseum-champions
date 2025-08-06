@@ -19,7 +19,7 @@ export default function handleFightingCalculations(
 
   const ability = curAttacker?.abilities?.find((ability) => ability.isActive);
 
-  if (ability && curAttacker.rage >= ability.rage) {
+  if (ability && curAttacker.stats.rage >= ability.rage) {
     performAbility(ability, curAttacker, curDefender);
     createMessage(
       curAttacker.messages,

@@ -1,4 +1,4 @@
-import { StatKey, AbilityType } from "@/enums";
+import { StatKey, AbilityType, AbilityId } from "@/enums";
 
 type AbilityPayload = {
   type: AbilityType;
@@ -11,7 +11,7 @@ type AbilityPayload = {
 };
 
 export type Ability = {
-  id: string;
+  id: AbilityId;
   label: string;
   description: string;
   rage: number;

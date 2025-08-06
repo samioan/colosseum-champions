@@ -10,6 +10,7 @@ import { ACTIVITY_TIMES } from "@/constants/activityTimes";
 import { COLORS } from "@/constants/colors";
 import { ABILITIES } from "@/constants/abilities";
 import { PERKS } from "@/constants/perks";
+import { ITEMS } from "@/constants/items";
 import {
   CRITICAL_MESSAGES,
   DAMAGE_MESSAGES,
@@ -38,4 +39,5 @@ export {
   COLORS,
   ABILITIES,
   PERKS,
+  ITEMS,
 };

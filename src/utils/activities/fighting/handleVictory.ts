@@ -13,7 +13,7 @@ export default function handleVictory(gladiator: Gladiator, enemy: Gladiator) {
   handleStat(
     gladiator,
     StatKey.GOLD,
-    getActivityExp(FIGHT_EXP_BASE, enemy.level),
+    getActivityExp(FIGHT_EXP_BASE, enemy.stats.level),
     StatAction.INCREASE
   );
   handleStat(gladiator, StatKey.RAGE, 0, StatAction.SET);

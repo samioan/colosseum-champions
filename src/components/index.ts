@@ -19,6 +19,7 @@ import {
   CodexPerks,
   CodexPoints,
 } from "@/components/codex";
+import { ItemShop } from "@/components/itemShop";
 
 export {
   GladiatorCard,
@@ -40,4 +41,5 @@ export {
   CodexAbilities,
   CodexPerks,
   CodexPoints,
+  ItemShop,
 };

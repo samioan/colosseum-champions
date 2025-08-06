@@ -22,15 +22,15 @@ export default function performAbility(
     modifier?: number;
   }) {
     if (!valueObj.operator) {
-      return curAttacker[valueObj.stat];
+      return curAttacker.stats[valueObj.stat];
     }
     switch (valueObj.operator) {
       case "*":
-        return curAttacker[valueObj.stat] * (valueObj?.modifier ?? 1);
+        return curAttacker.stats[valueObj.stat] * (valueObj?.modifier ?? 1);
       case "/":
-        return curAttacker[valueObj.stat] / (valueObj?.modifier ?? 1);
+        return curAttacker.stats[valueObj.stat] / (valueObj?.modifier ?? 1);
       default:
-        return curAttacker[valueObj.stat];
+        return curAttacker.stats[valueObj.stat];
     }
   }
 

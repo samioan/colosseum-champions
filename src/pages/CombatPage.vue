@@ -22,12 +22,14 @@ const {
   combatModalProps,
   combatModalMessage,
   gladiatorSelectedAbilities,
+  gladiatorSelectedItems,
 } = storeToRefs(game);
 
 const gladiatorCardProps = computed(() => ({
   headerProps: gladiatorHeaderProps.value,
   mainStats: gladiatorMainStats.value,
   abilities: gladiatorSelectedAbilities.value,
+  items: gladiatorSelectedItems.value,
 }));
 
 const enemyCardProps = computed(() => ({

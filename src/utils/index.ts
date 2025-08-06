@@ -3,6 +3,11 @@ import createMessage from "@/utils/createMessage";
 import createName from "@/utils/createName";
 import performAbility from "@/utils/performAbility";
 import calculatePerks from "@/utils/calculatePerks";
+import selectAbility from "@/utils/selectAbility";
+import activateAbility from "@/utils/activateAbility";
+import selectPerk from "@/utils/selectPerk";
+import toggleDrawer from "@/utils/toggleDrawer";
+import useItem from "@/utils/useItem";
 import { createEnemy, handleStat, createGladiator } from "@/utils/gladiators";
 import {
   getExpForNextLevel,
@@ -44,4 +49,9 @@ export {
   createGladiator,
   performAbility,
   calculatePerks,
+  selectAbility,
+  activateAbility,
+  selectPerk,
+  toggleDrawer,
+  useItem,
 };

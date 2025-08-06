@@ -1,9 +1,6 @@
-import { ActivityState } from "@/enums";
-import type { Gladiator } from "@/types";
+import type { GladiatorStats } from "@/types";
 
-export const GLADIATOR_BASE_STATS: Gladiator = {
-  id: "",
-  name: "",
+export const GLADIATOR_BASE_STATS: GladiatorStats = {
   level: 1,
   health: 100,
   maxHealth: 100,
@@ -17,11 +14,5 @@ export const GLADIATOR_BASE_STATS: Gladiator = {
   experience: 0,
   maxExperience: 100,
   points: 15,
-  gold: 0,
-  activity: ActivityState.IDLE,
-  intervalId: undefined,
-  hasTurn: true,
-  messages: [],
-  abilities: [],
-  perks: [],
+  gold: 100,
 };

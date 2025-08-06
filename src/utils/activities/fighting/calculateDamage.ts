@@ -6,9 +6,10 @@ export default function calculateDamage(
   attacker: Gladiator,
   defender: Gladiator
 ) {
-  let damage = attacker.strength * (100 / (100 + defender.defense));
+  let damage = attacker.stats.strength * (100 / (100 + defender.stats.defense));
 
-  const critChance = attacker.dexterity / (attacker.dexterity + 200);
+  const critChance =
+    attacker.stats.dexterity / (attacker.stats.dexterity + 200);
   const isCrit = Math.random() < critChance;
 
   if (isCrit) {

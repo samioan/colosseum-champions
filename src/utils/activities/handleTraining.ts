@@ -9,7 +9,7 @@ import { TRAIN_EXP_BASE } from "@/constants";
 import { ActivityState, StatAction, StatKey } from "@/enums";
 
 export default function handleTraining(gladiator: Gladiator) {
-  if (gladiator.stamina <= 0 || gladiator.gold < 10) {
+  if (gladiator.stats.stamina <= 0 || gladiator.stats.gold < 10) {
     return setActivity(gladiator, ActivityState.IDLE);
   }
 
@@ -18,7 +18,7 @@ export default function handleTraining(gladiator: Gladiator) {
   handleStat(
     gladiator,
     StatKey.EXPERIENCE,
-    getActivityExp(TRAIN_EXP_BASE, gladiator.level),
+    getActivityExp(TRAIN_EXP_BASE, gladiator.stats.level),
     StatAction.INCREASE
   );
   checkForLevelUp(gladiator);

@@ -10,32 +10,32 @@ export default function handleStat(
   switch (operation) {
     case StatAction.INCREASE:
       {
-        gladiator[statKey] += value;
+        gladiator.stats[statKey] += value;
 
         const maxKey = ("max" +
           statKey.charAt(0).toUpperCase() +
           statKey.slice(1)) as StatKey;
 
-        if (maxKey in gladiator) {
-          const maxValue = gladiator[maxKey];
+        if (maxKey in gladiator.stats) {
+          const maxValue = gladiator.stats[maxKey];
 
-          if (gladiator[statKey] > maxValue) {
-            gladiator[statKey] = maxValue;
+          if (gladiator.stats[statKey] > maxValue) {
+            gladiator.stats[statKey] = maxValue;
           }
         }
       }
       break;
     case StatAction.DECREASE:
       {
-        gladiator[statKey] -= value;
+        gladiator.stats[statKey] -= value;
 
-        if (gladiator[statKey] < 0) {
-          gladiator[statKey] = 0;
+        if (gladiator.stats[statKey] < 0) {
+          gladiator.stats[statKey] = 0;
         }
       }
       break;
     case StatAction.SET:
-      gladiator[statKey] = value;
+      gladiator.stats[statKey] = value;
       break;
   }
 }

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { LABELS, COLORS } from "@/constants";
+import { COLORS } from "@/constants";
 import { Button, CodexPoints } from "@/components";
 
 defineProps<{

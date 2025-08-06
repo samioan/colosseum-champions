@@ -4,3 +4,6 @@ export type { CombatMessage } from "@/types/combatMessage";
 export type { Ability } from "@/types/ability";
 export type { Perk } from "@/types/perk";
 export type { CardHeaderProps } from "@/types/cardHeaderProps";
+export type { GladiatorStats } from "@/types/gladiatorStats";
+export type { Drawer } from "@/types/drawer";
+export type { Item } from "@/types/item";
