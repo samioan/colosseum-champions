@@ -1,7 +1,6 @@
 import { StatKey } from "@/enums";
 
 export type Perk = {
-  id: string;
   label: string;
   description: string;
   isUnlocked: boolean;

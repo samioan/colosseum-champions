@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import { LABELS } from "@/constants";
 import { CodexPoints } from "@/components";
 
 defineProps<{

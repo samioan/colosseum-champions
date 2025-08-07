@@ -1,9 +1,8 @@
-import { StatKey } from "@/enums";
+import { StatKey, ItemId } from "@/enums";
 import type { Item } from "@/types";
 
-export const ITEMS: Item[] = [
-  {
-    id: "health-potion",
+export const ITEMS: Record<ItemId, Item> = {
+  [ItemId.HEALTH_POTION]: {
     label: "Health Potion",
     description: "Heals 25% of Max HP",
     gold: 10,
@@ -20,8 +19,7 @@ export const ITEMS: Item[] = [
       },
     ],
   },
-  {
-    id: "stamina-potion",
+  [ItemId.STAMINA_POTION]: {
     label: "Stamina Potion",
     description: "Heals 25% of Max SP",
     gold: 10,
@@ -38,8 +36,7 @@ export const ITEMS: Item[] = [
       },
     ],
   },
-  {
-    id: "super-potion",
+  [ItemId.SUPER_POTION]: {
     label: "Super Potion",
     description: "Heals 10% of Max SP and Max HP",
     gold: 10,
@@ -65,4 +62,4 @@ export const ITEMS: Item[] = [
       },
     ],
   },
-];
+};

@@ -1,9 +1,8 @@
 import type { Ability } from "@/types";
 import { StatKey, AbilityId, AbilityType } from "@/enums";
 
-export const ABILITIES: Ability[] = [
-  {
-    id: AbilityId.SMASH,
+export const ABILITIES: Record<AbilityId, Ability> = {
+  [AbilityId.SMASH]: {
     label: "Smash",
     description: "Deals x2 SP DMG",
     rage: 10,
@@ -22,8 +21,7 @@ export const ABILITIES: Ability[] = [
       },
     ],
   },
-  {
-    id: AbilityId.SLASH,
+  [AbilityId.SLASH]: {
     label: "Slash",
     description: "Deals x5 HP DMG",
     rage: 15,
@@ -42,8 +40,7 @@ export const ABILITIES: Ability[] = [
       },
     ],
   },
-  {
-    id: AbilityId.STRIKE,
+  [AbilityId.STRIKE]: {
     label: "Strike",
     description: "Deals x1 HP + SP DMG",
     rage: 20,
@@ -67,8 +64,7 @@ export const ABILITIES: Ability[] = [
       },
     ],
   },
-  {
-    id: AbilityId.BASH,
+  [AbilityId.BASH]: {
     label: "Bash",
     description: "Deals x1 STR DMG",
     rage: 25,
@@ -85,8 +81,7 @@ export const ABILITIES: Ability[] = [
       },
     ],
   },
-  {
-    id: AbilityId.SLICE,
+  [AbilityId.SLICE]: {
     label: "Slice",
     description: "Deals x1 DEF DMG",
     rage: 30,
@@ -103,8 +98,7 @@ export const ABILITIES: Ability[] = [
       },
     ],
   },
-  {
-    id: AbilityId.HEAL,
+  [AbilityId.HEAL]: {
     label: "Heal",
     description: "Heals x1 HP",
     rage: 10,
@@ -123,4 +117,4 @@ export const ABILITIES: Ability[] = [
       },
     ],
   },
-];
+};

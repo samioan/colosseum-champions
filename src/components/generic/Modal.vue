@@ -10,7 +10,7 @@ const props = defineProps<{
 
 const modalButtonProps = computed(() => ({
   onClick: props.onClick,
-  label: LABELS.CONTINUE,
+  label: LABELS.continue,
   colorClasses: "bg-amber-600 text-white hover:bg-amber-700",
 }));
 

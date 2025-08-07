@@ -6,7 +6,7 @@ import { LABELS } from "@/constants";
   <div
     class="flex items-center justify-between gap-2 pb-4 mb-4 border-b-2 border-gray-400"
   >
-    <span class="font-medium">{{ LABELS.POINTS }}</span>
+    <span class="font-medium">{{ LABELS.points }}</span>
     <slot />
   </div>
 </template>

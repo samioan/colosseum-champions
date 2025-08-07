@@ -1,5 +1,5 @@
 export enum StatAction {
-  INCREASE = "INCREASE",
-  DECREASE = "DECREASE",
-  SET = "SET",
+  INCREASE = "increase",
+  DECREASE = "decrease",
+  SET = "set",
 }

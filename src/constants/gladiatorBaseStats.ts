@@ -1,18 +1,21 @@
-import type { GladiatorStats } from "@/types";
+import { StatKey } from "@/enums";
 
-export const GLADIATOR_BASE_STATS: GladiatorStats = {
-  level: 1,
-  health: 100,
-  maxHealth: 100,
-  stamina: 100,
-  maxStamina: 100,
-  rage: 0,
-  maxRage: 100,
-  strength: 10,
-  dexterity: 10,
-  defense: 10,
-  experience: 0,
-  maxExperience: 100,
-  points: 15,
-  gold: 100,
+export const GLADIATOR_BASE_STATS: Record<StatKey, number> = {
+  [StatKey.LEVEL]: 1,
+  [StatKey.HEALTH]: 100,
+  [StatKey.MAX_HEALTH]: 100,
+  [StatKey.STAMINA]: 100,
+  [StatKey.MAX_STAMINA]: 100,
+  [StatKey.RAGE]: 0,
+  [StatKey.MAX_RAGE]: 100,
+  [StatKey.STRENGTH]: 10,
+  [StatKey.MAX_STRENGTH]: 10,
+  [StatKey.DEXTERITY]: 10,
+  [StatKey.MAX_DEXTERITY]: 10,
+  [StatKey.DEFENSE]: 10,
+  [StatKey.MAX_DEFENSE]: 10,
+  [StatKey.EXPERIENCE]: 0,
+  [StatKey.MAX_EXPERIENCE]: 100,
+  [StatKey.POINTS]: 15,
+  [StatKey.GOLD]: 100,
 };

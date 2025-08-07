@@ -16,7 +16,7 @@ export default function handleStat(
           statKey.charAt(0).toUpperCase() +
           statKey.slice(1)) as StatKey;
 
-        if (maxKey in gladiator.stats) {
+        if (maxKey in gladiator.stats && maxKey !== StatKey.MAX_EXPERIENCE) {
           const maxValue = gladiator.stats[maxKey];
 
           if (gladiator.stats[statKey] > maxValue) {

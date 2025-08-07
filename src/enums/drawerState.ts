@@ -1,6 +1,8 @@
 export enum DrawerState {
-  EMPTY = "EMPTY",
-  CHARACTER = "CHARACTER",
-  ITEMS = "ITEMS",
-  ARMORY = "ARMORY",
+  EMPTY = "empty",
+  STATS = "stats",
+  ABILITIES = "abilities",
+  PERKS = "perks",
+  ITEMS = "items",
+  ARMORY = "armory",
 }

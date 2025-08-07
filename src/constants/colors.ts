@@ -1,11 +1,11 @@
-export const COLORS = {
-  HEALTH: "bg-red-500",
-  STAMINA: "bg-green-500",
-  RAGE: "bg-amber-600",
-  EXPERIENCE: "bg-blue-500",
-  GOLD: "bg-yellow-400",
-  TRAIN_BUTTON: "bg-green-600",
-  FIGHT_BUTTON: "bg-red-600",
-  REST_BUTTON: "bg-yellow-500",
-  STATS_BUTTON: "bg-blue-500",
+import { Color } from "@/enums";
+
+export const COLORS: Record<Color, string> = {
+  [Color.HEALTH]: "bg-red-500",
+  [Color.STAMINA]: "bg-green-500",
+  [Color.RAGE]: "bg-amber-600",
+  [Color.EXPERIENCE]: "bg-blue-500",
+  [Color.GOLD]: "bg-yellow-400",
+  [Color.FIGHT_BUTTON]: "bg-red-600",
+  [Color.STATS_BUTTON]: "bg-blue-500",
 };

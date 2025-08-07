@@ -6,7 +6,7 @@ export default function activateAbility(
 ) {
   if (ability.isActive) ability.isActive = false;
   else {
-    gladiator.abilities.forEach((a) => (a.isActive = false));
+    Object.values(gladiator.abilities).forEach((a) => (a.isActive = false));
     ability.isActive = true;
   }
 }

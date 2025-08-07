@@ -9,7 +9,7 @@ defineProps<{
   mainStats: {
     label: string;
     stat: number;
-    maxStat: number;
+    maxStat?: number;
     colorClass: string;
   }[];
   abilities?: {

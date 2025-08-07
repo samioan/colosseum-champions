@@ -13,7 +13,7 @@ defineProps<CardHeaderProps>();
     <span
       class="text-xs px-2 py-1 rounded-full bg-yellow-900 text-yellow-200 font-semibold whitespace-nowrap"
     >
-      {{ LABELS.LEVEL }} {{ level }}
+      {{ LABELS.level }} {{ level }}
     </span>
   </div>
 </template>

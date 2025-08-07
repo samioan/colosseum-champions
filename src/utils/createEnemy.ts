@@ -1,10 +1,9 @@
 import type { Gladiator } from "@/types";
 import { createName, getRandomRange } from "@/utils";
 import { ENEMY_STAT_RANGES, ABILITIES, PERKS } from "@/constants";
-import { v4 as uuidv4 } from "uuid";
-import { ActivityState } from "@/enums";
+import { StatKey } from "@/enums";
 
-export default function createEnemy(id: string, gladiatorLevel: number) {
+export default function createEnemy(gladiatorLevel: number = 1) {
   const ranges = ENEMY_STAT_RANGES;
 
   const maxHealth =
@@ -19,32 +18,37 @@ export default function createEnemy(id: string, gladiatorLevel: number) {
     getRandomRange(ranges.DEFENSE.min, ranges.DEFENSE.max) * gladiatorLevel;
   const dexterity =
     getRandomRange(ranges.DEXTERITY.min, ranges.DEXTERITY.max) * gladiatorLevel;
-  const ability = ABILITIES[Math.floor(Math.random() * ABILITIES.length)];
-  const perk = PERKS[Math.floor(Math.random() * PERKS.length)];
+  const ability =
+    Object.values(ABILITIES)[
+      Math.floor(Math.random() * Object.values(ABILITIES).length)
+    ];
+  const perk =
+    Object.values(PERKS)[
+      Math.floor(Math.random() * Object.values(PERKS).length)
+    ];
 
   const enemy: Gladiator = {
-    id: uuidv4(),
-    gladiatorId: id,
     name: createName(),
     stats: {
-      level: gladiatorLevel,
-      health: maxHealth,
-      maxHealth,
-      stamina: maxStamina,
-      maxStamina,
-      rage: 0,
-      maxRage,
-      strength,
-      defense,
-      dexterity,
-      experience: 0,
-      maxExperience: 0,
-      points: 0,
-      gold: 0,
+      [StatKey.LEVEL]: gladiatorLevel,
+      [StatKey.HEALTH]: maxHealth,
+      [StatKey.MAX_HEALTH]: maxHealth,
+      [StatKey.STAMINA]: maxStamina,
+      [StatKey.MAX_STAMINA]: maxStamina,
+      [StatKey.RAGE]: 0,
+      [StatKey.MAX_RAGE]: maxRage,
+      [StatKey.STRENGTH]: strength,
+      [StatKey.MAX_STRENGTH]: strength,
+      [StatKey.DEFENSE]: defense,
+      [StatKey.MAX_DEFENSE]: defense,
+      [StatKey.DEXTERITY]: dexterity,
+      [StatKey.MAX_DEXTERITY]: dexterity,
+      [StatKey.EXPERIENCE]: 0,
+      [StatKey.MAX_EXPERIENCE]: 0,
+      [StatKey.POINTS]: 0,
+      [StatKey.GOLD]: 0,
     },
-    messages: [],
     hasTurn: false,
-    activity: ActivityState.FIGHTING,
     abilities: [ability].map((ability) => ({
       ...ability,
       isActive: true,

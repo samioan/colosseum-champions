@@ -7,7 +7,9 @@ export default function selectPerk(perk: Perk, gladiator: Gladiator) {
       gladiator.stats.points -= 5;
     } else return;
   }
-  const selectedPerks = gladiator.perks.filter((a) => a.isSelected === true);
+  const selectedPerks = Object.values(gladiator.perks).filter(
+    (a) => a.isSelected === true
+  );
   if (selectedPerks.length > 2 && !perk.isSelected) {
     return;
   } else {

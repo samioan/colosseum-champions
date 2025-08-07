@@ -1,22 +1,12 @@
-import type {
-  CombatMessage,
-  Ability,
-  Perk,
-  GladiatorStats,
-  Item,
-} from "@/types";
-import { ActivityState } from "@/enums";
+import type { Ability, Perk, GladiatorStats, Item } from "@/types";
+import { AbilityId, PerkId, ItemId } from "@/enums";
 
 export type Gladiator = {
-  id: string;
-  gladiatorId?: string;
   name: string;
   stats: GladiatorStats;
   hasTurn: boolean;
-  messages: CombatMessage[];
-  activity: ActivityState;
   intervalId?: number;
-  abilities: Ability[];
-  perks: Perk[];
-  items: Item[];
+  abilities: Record<AbilityId, Ability>;
+  perks: Record<PerkId, Perk>;
+  items: Record<ItemId, Item>;
 };

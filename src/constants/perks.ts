@@ -1,9 +1,8 @@
 import type { Perk } from "@/types";
-import { StatKey } from "@/enums";
+import { StatKey, PerkId } from "@/enums";
 
-export const PERKS: Perk[] = [
-  {
-    id: "agile",
+export const PERKS: Record<PerkId, Perk> = {
+  [PerkId.AGILE]: {
     label: "Agile",
     description: "DEX * 2 when below 25% HP",
     isUnlocked: false,
@@ -17,8 +16,7 @@ export const PERKS: Perk[] = [
       },
     ],
   },
-  {
-    id: "defensive",
+  [PerkId.DEFENSIVE]: {
     label: "Defensive",
     description: "DEF * 2 when below 25% SP",
     isUnlocked: false,
@@ -32,8 +30,7 @@ export const PERKS: Perk[] = [
       },
     ],
   },
-  {
-    id: "strong",
+  [PerkId.STRONG]: {
     label: "Strong",
     description: "STR * 2 when below 25% HP and 25% SP",
     isUnlocked: false,
@@ -50,8 +47,7 @@ export const PERKS: Perk[] = [
       },
     ],
   },
-  {
-    id: "tireless",
+  [PerkId.TIRELESS]: {
     label: "Tireless",
     description: "Max SP * 2",
     isUnlocked: false,
@@ -64,4 +60,4 @@ export const PERKS: Perk[] = [
       },
     ],
   },
-];
+};

@@ -5,7 +5,9 @@ export default function calculatePerks(
   gladiator: Gladiator,
   gladiatorStats: GladiatorStats
 ): GladiatorStats {
-  const selectedPerks = gladiator.perks.filter((perk) => perk.isSelected);
+  const selectedPerks = Object.values(gladiator.perks).filter(
+    (perk) => perk.isSelected
+  );
   const bonuses = selectedPerks.map(({ bonuses }) => bonuses).flat();
   const calcBonuses = bonuses.map((bonus) => {
     function calculateValue() {

@@ -1,16 +1,21 @@
 import type { Gladiator } from "@/types";
-import { handleStat, getExpForNextLevel } from "@/utils";
+import { handleStat } from "@/utils";
 import { StatAction, StatKey } from "@/enums";
 
 export default function checkForLevelUp(gladiator: Gladiator) {
-  if (gladiator.stats.experience >= gladiator.stats.maxExperience) {
+  while (gladiator.stats.experience >= gladiator.stats.maxExperience) {
     handleStat(gladiator, StatKey.LEVEL, 1, StatAction.INCREASE);
     handleStat(gladiator, StatKey.POINTS, 20, StatAction.INCREASE);
-    handleStat(gladiator, StatKey.EXPERIENCE, 0, StatAction.SET);
+    handleStat(
+      gladiator,
+      StatKey.EXPERIENCE,
+      gladiator.stats.maxExperience,
+      StatAction.DECREASE
+    );
     handleStat(
       gladiator,
       StatKey.MAX_EXPERIENCE,
-      getExpForNextLevel(100, 1.2, gladiator.stats.level),
+      Math.floor(100 * Math.pow(gladiator.stats.level, 1.2)),
       StatAction.SET
     );
   }

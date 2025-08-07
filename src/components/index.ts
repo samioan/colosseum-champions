@@ -1,18 +1,7 @@
-import GladiatorCard from "@/components/GladiatorCard.vue";
-import CombatBoard from "@/components/CombatBoard.vue";
 import CombatCard from "@/components/CombatCard.vue";
-import PageContainer from "@/components/PageContainer.vue";
-import {
-  Button,
-  Drawer,
-  Modal,
-  Footer,
-  Header,
-  Dropdown,
-} from "@/components/generic";
+import { Button, Drawer, Modal, Header, Dropdown } from "@/components/generic";
 import { CardHeader, CardStatBar, CardContainer } from "@/components/card";
 import {
-  Codex,
   CodexStats,
   CodexHeader,
   CodexAbilities,
@@ -22,20 +11,15 @@ import {
 import { ItemShop } from "@/components/itemShop";
 
 export {
-  GladiatorCard,
   Drawer,
   CardHeader,
   CardStatBar,
   CardContainer,
-  CombatBoard,
   CombatCard,
-  PageContainer,
   Modal,
-  Footer,
   Button,
   Header,
   Dropdown,
-  Codex,
   CodexStats,
   CodexHeader,
   CodexAbilities,

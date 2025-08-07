@@ -24,7 +24,7 @@ onUnmounted(() => {
 
   <div
     :class="[
-      'fixed left-0 bottom-0 w-full rounded-t-xl bg-stone-800 shadow-xl z-50 transform transition-transform duration-300 ease-in-out flex flex-col h-[90vh] border-2 border-yellow-400',
+      'fixed left-0 bottom-0 w-full rounded-t-xl bg-stone-800 shadow-xl z-50 transform transition-transform duration-300 ease-in-out flex flex-col max-h-[90vh] border-2 border-yellow-400',
       open ? 'translate-y-0' : 'translate-y-full',
     ]"
   >
