@@ -1,15 +1,17 @@
 import { StatAction } from "@/enums";
-import type { Gladiator, Item } from "@/types";
+import type { GladiatorStats, Item } from "@/types";
 import { handleStat } from "@/utils";
 
-export default function useItem(item: Item, gladiator: Gladiator) {
+export default function useItem(
+  item: Item,
+  stats: GladiatorStats,
+  updatedStats: GladiatorStats
+) {
   item.bonuses.forEach((bonus, index) => {
     function calculateValue() {
       switch (bonus.value.operator) {
         case "*":
-          return Math.floor(
-            gladiator.stats[bonus.value.stat] * bonus.value.modifier
-          );
+          return Math.floor(stats[bonus.value.stat] * bonus.value.modifier);
         default:
           return 0;
       }
@@ -27,9 +29,7 @@ export default function useItem(item: Item, gladiator: Gladiator) {
     function calculateCanUse() {
       switch (calculateAction()) {
         case StatAction.INCREASE:
-          return (
-            gladiator.stats[bonus.stat] < gladiator.stats[bonus.value.stat]
-          );
+          return stats[bonus.stat] < updatedStats[bonus.value.stat];
         default:
           return;
       }
@@ -37,7 +37,13 @@ export default function useItem(item: Item, gladiator: Gladiator) {
 
     if (!calculateCanUse()) return;
     else {
-      handleStat(gladiator, bonus.stat, calculateValue(), calculateAction());
+      handleStat(
+        stats,
+        bonus.stat,
+        calculateValue(),
+        calculateAction(),
+        updatedStats
+      );
       if (index === item.bonuses.length - 1) {
         item.amount -= 1;
       }

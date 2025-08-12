@@ -1,8 +1,9 @@
 import { defineStore } from "pinia";
-import { ref, computed } from "vue";
-import type { Gladiator } from "@/types";
-import { createEnemy } from "@/utils";
+import { ref, computed, type ComputedRef } from "vue";
+import type { Gladiator, GladiatorStats } from "@/types";
+import { createEnemy, calculatePerks } from "@/utils";
 import { LABELS, COLORS } from "@/constants";
+import { StatKey } from "@/enums";
 
 export const useEnemyStore = defineStore("enemy", () => {
   const enemy = ref<Gladiator>(createEnemy());
@@ -12,17 +13,38 @@ export const useEnemyStore = defineStore("enemy", () => {
     level: enemy.value.stats.level,
   }));
 
+  const enemyStats: ComputedRef<GladiatorStats> = computed(() => {
+    const computedPerks = calculatePerks(enemy.value, enemy.value.stats);
+
+    const updatedStats = Object.fromEntries(
+      Object.entries(enemy.value.stats).map((stat) => [
+        stat[0],
+        stat[1] + (computedPerks[stat[0] as StatKey] ?? 0),
+      ])
+    ) as GladiatorStats;
+
+    const updatedPerks = calculatePerks(enemy.value, updatedStats);
+
+    return Object.fromEntries(
+      Object.entries(enemy.value.stats).map((stat) => [
+        stat[0],
+        stat[1] + (updatedPerks[stat[0] as StatKey] ?? 0),
+      ])
+    ) as GladiatorStats;
+  });
+
   const enemyMainStats = computed(() => [
     {
       label: LABELS.health,
-      stat: enemy.value.stats.health,
-      maxStat: enemy.value.stats.maxHealth,
+      stat: enemyStats.value.health,
+      maxStat: enemyStats.value.maxHealth,
       colorClass: COLORS.health,
     },
   ]);
 
   return {
     enemy,
+    enemyStats,
     enemyHeaderProps,
     enemyMainStats,
   };

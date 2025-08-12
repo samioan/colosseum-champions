@@ -1,13 +1,21 @@
-import type { Ability, Gladiator } from "@/types";
+import type { Ability, GladiatorStats } from "@/types";
 import { handleStat } from "@/utils";
 import { StatKey, StatAction, AbilityType } from "@/enums";
 
 export default function performAbility(
   ability: Ability,
-  curAttacker: Gladiator,
-  curDefender: Gladiator
+  curAttackerStats: GladiatorStats,
+  curDefenderStats: GladiatorStats,
+  curAttackerUpdatedStats: GladiatorStats,
+  curDefenderUpdatedStats: GladiatorStats
 ) {
-  handleStat(curAttacker, StatKey.RAGE, ability.rage, StatAction.DECREASE);
+  handleStat(
+    curAttackerStats,
+    StatKey.RAGE,
+    ability.rage,
+    StatAction.DECREASE,
+    curAttackerUpdatedStats
+  );
 
   const attacks = ability.payload.filter(
     (item) => item.type === AbilityType.OFFENSIVE
@@ -22,15 +30,22 @@ export default function performAbility(
     modifier?: number;
   }) {
     if (!valueObj.operator) {
-      return curAttacker.stats[valueObj.stat];
+      return curAttackerStats[valueObj.stat];
     }
     switch (valueObj.operator) {
       case "*":
-        return curAttacker.stats[valueObj.stat] * (valueObj?.modifier ?? 1);
+        return (
+          curAttackerStats[valueObj.stat] *
+          (valueObj?.modifier ?? 1) *
+          (100 / (100 + curDefenderStats.defense))
+        );
       case "/":
-        return curAttacker.stats[valueObj.stat] / (valueObj?.modifier ?? 1);
+        return (
+          (curAttackerStats[valueObj.stat] / (valueObj?.modifier ?? 1)) *
+          (100 / (100 + curDefenderStats.defense))
+        );
       default:
-        return curAttacker.stats[valueObj.stat];
+        return curAttackerStats[valueObj.stat];
     }
   }
 
@@ -38,13 +53,25 @@ export default function performAbility(
     buffs.forEach((buff) => {
       const bonus = calculateValue(buff);
 
-      handleStat(curAttacker, buff.stat, bonus, StatAction.INCREASE);
+      handleStat(
+        curAttackerStats,
+        buff.stat,
+        bonus,
+        StatAction.INCREASE,
+        curAttackerUpdatedStats
+      );
     });
 
   attacks.length &&
     attacks.forEach((attack) => {
       const damage = calculateValue(attack);
 
-      handleStat(curDefender, attack.stat, damage, StatAction.DECREASE);
+      handleStat(
+        curDefenderStats,
+        attack.stat,
+        damage,
+        StatAction.DECREASE,
+        curDefenderUpdatedStats
+      );
     });
 }

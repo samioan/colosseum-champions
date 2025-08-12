@@ -1,6 +1,16 @@
 @import "tailwindcss";
 
-:root {
+@theme {
+  --color-health: #fb2c36;
+  --color-stamina: #00c951;
+  --color-rage: #e17100;
+  --color-experience: #2b7fff;
+  --color-gold: #fdc700;
+  --color-fight: #e7000b;
+  --color-title: #f6f3f4;
+}
+
+--color- :root {
   font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;
   font-weight: 400;
@@ -18,6 +28,6 @@ body {
   display: none;
 }
 .scrollbar-hidden {
-  -ms-overflow-style: none; /* IE and Edge */
-  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none;
+  scrollbar-width: none;
 }

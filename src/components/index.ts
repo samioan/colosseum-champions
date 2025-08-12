@@ -8,7 +8,7 @@ import {
   CodexPerks,
   CodexPoints,
 } from "@/components/codex";
-import { ItemShop } from "@/components/itemShop";
+import { Items } from "@/components/items";
 
 export {
   Drawer,
@@ -25,5 +25,5 @@ export {
   CodexAbilities,
   CodexPerks,
   CodexPoints,
-  ItemShop,
+  Items,
 };

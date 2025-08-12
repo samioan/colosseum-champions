@@ -1,18 +1,35 @@
-import type { Gladiator } from "@/types";
+import type { Gladiator, GladiatorStats } from "@/types";
 import { handleStat, performAbility, checkForLevelUp } from "@/utils";
 import { StatAction, StatKey } from "@/enums";
 
-export default function handleFighting(gladiator: Gladiator, enemy: Gladiator) {
+export default function handleFighting(
+  gladiator: Gladiator,
+  enemy: Gladiator,
+  updatedGladiatorStats: GladiatorStats,
+  updatedEnemyStats: GladiatorStats
+) {
   const curAttacker = gladiator.hasTurn ? gladiator : enemy;
   const curDefender = gladiator.hasTurn ? enemy : gladiator;
+  const curAttackerStats = gladiator.hasTurn
+    ? updatedGladiatorStats
+    : updatedEnemyStats;
+  const curDefenderStats = gladiator.hasTurn
+    ? updatedEnemyStats
+    : updatedGladiatorStats;
 
   const ability = Object.values(curAttacker?.abilities)?.find(
     (ability) => ability.isActive
   );
 
   if (ability && curAttacker.stats.rage >= ability.rage) {
-    performAbility(ability, curAttacker, curDefender);
-  } else {
+    performAbility(
+      ability,
+      curAttacker.stats,
+      curDefender.stats,
+      curAttackerStats,
+      curDefenderStats
+    );
+  } else if (curAttacker.stats.stamina >= 5) {
     const didEvade =
       Math.random() <
       gladiator.stats.dexterity / (gladiator.stats.dexterity + 100);
@@ -35,9 +52,27 @@ export default function handleFighting(gladiator: Gladiator, enemy: Gladiator) {
           return Math.floor(damage);
         })();
 
-    handleStat(curAttacker, StatKey.STAMINA, 5, StatAction.DECREASE);
-    handleStat(curAttacker, StatKey.RAGE, 5, StatAction.INCREASE);
-    handleStat(curDefender, StatKey.HEALTH, damage, StatAction.DECREASE);
+    handleStat(
+      curAttacker.stats,
+      StatKey.STAMINA,
+      5,
+      StatAction.DECREASE,
+      curAttackerStats
+    );
+    handleStat(
+      curAttacker.stats,
+      StatKey.RAGE,
+      5,
+      StatAction.INCREASE,
+      curAttackerStats
+    );
+    handleStat(
+      curDefender.stats,
+      StatKey.HEALTH,
+      damage,
+      StatAction.DECREASE,
+      curDefenderStats
+    );
   }
 
   if (gladiator.stats.health <= 0) {
@@ -45,9 +80,27 @@ export default function handleFighting(gladiator: Gladiator, enemy: Gladiator) {
     gladiator.intervalId = undefined;
     return;
   } else if (enemy.stats.health <= 0 || enemy.stats.stamina <= 0) {
-    handleStat(gladiator, StatKey.GOLD, 500, StatAction.INCREASE);
-    handleStat(gladiator, StatKey.EXPERIENCE, 500, StatAction.INCREASE);
-    handleStat(gladiator, StatKey.RAGE, 0, StatAction.SET);
+    handleStat(
+      gladiator.stats,
+      StatKey.GOLD,
+      500,
+      StatAction.INCREASE,
+      updatedGladiatorStats
+    );
+    handleStat(
+      gladiator.stats,
+      StatKey.EXPERIENCE,
+      500,
+      StatAction.INCREASE,
+      updatedGladiatorStats
+    );
+    handleStat(
+      gladiator.stats,
+      StatKey.RAGE,
+      0,
+      StatAction.SET,
+      updatedGladiatorStats
+    );
     [
       StatKey.HEALTH,
       StatKey.STAMINA,
@@ -56,12 +109,17 @@ export default function handleFighting(gladiator: Gladiator, enemy: Gladiator) {
       StatKey.DEXTERITY,
     ].forEach((stat) => {
       const maxStat = `max${stat[0].toUpperCase()}${stat.slice(1)}` as StatKey;
-      handleStat(gladiator, stat, gladiator.stats[maxStat], StatAction.SET);
+      handleStat(
+        gladiator.stats,
+        stat,
+        updatedGladiatorStats[maxStat],
+        StatAction.SET,
+        updatedGladiatorStats
+      );
     });
-    checkForLevelUp(gladiator);
-
     clearInterval(gladiator.intervalId);
     gladiator.intervalId = undefined;
+    checkForLevelUp(gladiator.stats, updatedGladiatorStats);
     return;
   }
 

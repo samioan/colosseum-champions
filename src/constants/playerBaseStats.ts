@@ -1,6 +1,6 @@
 import { StatKey } from "@/enums";
 
-export const GLADIATOR_BASE_STATS: Record<StatKey, number> = {
+export const PLAYER_BASE_STATS: Record<StatKey, number> = {
   [StatKey.LEVEL]: 1,
   [StatKey.HEALTH]: 100,
   [StatKey.MAX_HEALTH]: 100,

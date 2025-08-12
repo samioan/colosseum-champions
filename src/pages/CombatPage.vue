@@ -12,13 +12,14 @@ const router = useRouter();
 
 const {
   player,
+  playerStats,
   playerHeaderProps,
   playerMainStats,
   playerSelectedAbilities,
   playerSelectedItems,
 } = storeToRefs(usePlayerStore());
 
-const { enemy, enemyHeaderProps, enemyMainStats } = storeToRefs(
+const { enemy, enemyStats, enemyHeaderProps, enemyMainStats } = storeToRefs(
   useEnemyStore()
 );
 
@@ -37,7 +38,12 @@ const enemyCardProps = computed(() => ({
 onBeforeMount(() => {
   enemy.value = createEnemy(player.value.stats.level);
   player.value.intervalId = setInterval(() => {
-    handleFighting(player.value, enemy.value);
+    handleFighting(
+      player.value,
+      enemy.value,
+      playerStats.value,
+      enemyStats.value
+    );
   }, 1000);
 });
 

@@ -1,6 +1,5 @@
 import { defineStore } from "pinia";
-import { ref, computed } from "vue";
-import type { ComputedRef } from "vue";
+import { ref, computed, type ComputedRef } from "vue";
 import type { Gladiator, GladiatorStats } from "@/types";
 import {
   createGladiator,
@@ -91,9 +90,27 @@ export const usePlayerStore = defineStore("player", () => {
       label: LABELS[stat as unknown as Label],
       stat: playerStats.value[stat],
       onClick: () => {
-        handleStat(player.value, StatKey.POINTS, 1, StatAction.DECREASE);
-        handleStat(player.value, maxStat, value, StatAction.INCREASE);
-        handleStat(player.value, stat, value, StatAction.INCREASE);
+        handleStat(
+          player.value.stats,
+          StatKey.POINTS,
+          1,
+          StatAction.DECREASE,
+          playerStats.value
+        );
+        handleStat(
+          player.value.stats,
+          maxStat,
+          value,
+          StatAction.INCREASE,
+          playerStats.value
+        );
+        handleStat(
+          player.value.stats,
+          stat,
+          value,
+          StatAction.INCREASE,
+          playerStats.value
+        );
       },
     }))
   );
@@ -133,7 +150,13 @@ export const usePlayerStore = defineStore("player", () => {
     return Object.values(player.value.items).map((item) => ({
       ...item,
       onBuy: () => {
-        handleStat(player.value, StatKey.GOLD, item.gold, StatAction.DECREASE);
+        handleStat(
+          player.value.stats,
+          StatKey.GOLD,
+          item.gold,
+          StatAction.DECREASE,
+          playerStats.value
+        );
         item.amount += 1;
       },
     }));
@@ -142,7 +165,7 @@ export const usePlayerStore = defineStore("player", () => {
   const playerSelectedItems = computed(() => {
     return Object.values(player.value.items).map((item) => ({
       ...item,
-      onUse: () => useItem(item, player.value),
+      onUse: () => useItem(item, player.value.stats, playerStats.value),
     }));
   });
 
@@ -158,6 +181,5 @@ export const usePlayerStore = defineStore("player", () => {
     playerItems,
     playerSelectedItems,
     playerStats,
-    // computedPerks,
   };
 });

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed } from "vue";
+import { computed, watch } from "vue";
 import { storeToRefs } from "pinia";
 import { useGameStore } from "@/stores/game";
 import { usePlayerStore } from "@/stores/player";
@@ -12,7 +12,7 @@ import {
   CardStatBar,
   CodexPerks,
   CodexStats,
-  ItemShop,
+  Items,
   CodexAbilities,
 } from "@/components";
 import { dungeonBackground } from "@/assets";
@@ -25,6 +25,7 @@ const { gladiatorActivityButtons, drawer } = storeToRefs(gameStore);
 
 const {
   player,
+  playerStats,
   playerHeaderProps,
   playerMainStats,
   playerSecondaryStats,
@@ -57,10 +58,22 @@ const codexProps = computed(() => ({
   },
 }));
 
-const itemShopProps = computed(() => ({
+const itemsProps = computed(() => ({
   gold: player.value.stats.gold,
   items: playerItems.value,
 }));
+
+watch(
+  player,
+  () => {
+    player.value.stats.health = playerStats.value.maxHealth;
+    player.value.stats.stamina = playerStats.value.maxStamina;
+    player.value.stats.strength = playerStats.value.maxStrength;
+    player.value.stats.defense = playerStats.value.maxDefense;
+    player.value.stats.dexterity = playerStats.value.maxDexterity;
+  },
+  { deep: true }
+);
 </script>
 
 <template>
@@ -101,10 +114,7 @@ const itemShopProps = computed(() => ({
           v-if="drawer.state === DrawerState.PERKS"
           v-bind="codexProps.perksSection.data"
         />
-        <ItemShop
-          v-if="drawer.state === DrawerState.ITEMS"
-          v-bind="itemShopProps"
-        />
+        <Items v-if="drawer.state === DrawerState.ITEMS" v-bind="itemsProps" />
       </template>
     </Drawer>
   </div>

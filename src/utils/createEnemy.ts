@@ -1,7 +1,7 @@
-import type { Gladiator } from "@/types";
+import type { Gladiator, Ability, Perk } from "@/types";
 import { createName, getRandomRange } from "@/utils";
-import { ENEMY_STAT_RANGES, ABILITIES, PERKS } from "@/constants";
-import { StatKey } from "@/enums";
+import { ENEMY_STAT_RANGES, ABILITIES, PERKS, ITEMS } from "@/constants";
+import { StatKey, AbilityId, PerkId } from "@/enums";
 
 export default function createEnemy(gladiatorLevel: number = 1) {
   const ranges = ENEMY_STAT_RANGES;
@@ -18,14 +18,38 @@ export default function createEnemy(gladiatorLevel: number = 1) {
     getRandomRange(ranges.DEFENSE.min, ranges.DEFENSE.max) * gladiatorLevel;
   const dexterity =
     getRandomRange(ranges.DEXTERITY.min, ranges.DEXTERITY.max) * gladiatorLevel;
-  const ability =
-    Object.values(ABILITIES)[
-      Math.floor(Math.random() * Object.values(ABILITIES).length)
-    ];
-  const perk =
-    Object.values(PERKS)[
-      Math.floor(Math.random() * Object.values(PERKS).length)
-    ];
+
+  function generateRandomAbilities() {
+    const keys = Object.keys(ABILITIES) as AbilityId[];
+
+    const randomKey = keys[Math.floor(Math.random() * keys.length)];
+
+    return Object.fromEntries(
+      keys.map((key) => [
+        key,
+        {
+          ...ABILITIES[key],
+          isActive: key === randomKey,
+        },
+      ])
+    ) as Record<AbilityId, Ability>;
+  }
+
+  function generateRandomPerks() {
+    const keys = Object.keys(PERKS) as PerkId[];
+
+    const randomKey = keys[Math.floor(Math.random() * keys.length)];
+
+    return Object.fromEntries(
+      keys.map((key) => [
+        key,
+        {
+          ...PERKS[key],
+          isSelected: key === randomKey,
+        },
+      ])
+    ) as Record<PerkId, Perk>;
+  }
 
   const enemy: Gladiator = {
     name: createName(),
@@ -49,15 +73,9 @@ export default function createEnemy(gladiatorLevel: number = 1) {
       [StatKey.GOLD]: 0,
     },
     hasTurn: false,
-    abilities: [ability].map((ability) => ({
-      ...ability,
-      isActive: true,
-    })),
-    perks: [perk].map((perk) => ({
-      ...perk,
-      isSelected: true,
-    })),
-    items: [],
+    abilities: generateRandomAbilities(),
+    perks: generateRandomPerks(),
+    items: ITEMS,
   };
 
   return enemy;

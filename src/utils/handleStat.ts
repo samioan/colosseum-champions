@@ -1,41 +1,42 @@
-import type { Gladiator } from "@/types";
+import type { GladiatorStats } from "@/types";
 import { StatAction, StatKey } from "@/enums";
 
 export default function handleStat(
-  gladiator: Gladiator,
+  stats: GladiatorStats,
   statKey: StatKey,
   value: number,
-  operation: StatAction
+  operation: StatAction,
+  updatedStats: GladiatorStats
 ) {
   switch (operation) {
     case StatAction.INCREASE:
       {
-        gladiator.stats[statKey] += value;
+        stats[statKey] += value;
 
         const maxKey = ("max" +
           statKey.charAt(0).toUpperCase() +
           statKey.slice(1)) as StatKey;
 
-        if (maxKey in gladiator.stats && maxKey !== StatKey.MAX_EXPERIENCE) {
-          const maxValue = gladiator.stats[maxKey];
+        if (maxKey in stats && maxKey !== StatKey.MAX_EXPERIENCE) {
+          const maxValue = updatedStats[maxKey];
 
-          if (gladiator.stats[statKey] > maxValue) {
-            gladiator.stats[statKey] = maxValue;
+          if (stats[statKey] > maxValue) {
+            stats[statKey] = maxValue;
           }
         }
       }
       break;
     case StatAction.DECREASE:
       {
-        gladiator.stats[statKey] -= value;
+        stats[statKey] -= value;
 
-        if (gladiator.stats[statKey] < 0) {
-          gladiator.stats[statKey] = 0;
+        if (stats[statKey] < 0) {
+          stats[statKey] = 0;
         }
       }
       break;
     case StatAction.SET:
-      gladiator.stats[statKey] = value;
+      stats[statKey] = value;
       break;
   }
 }

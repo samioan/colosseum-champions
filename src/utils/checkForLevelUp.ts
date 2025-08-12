@@ -1,22 +1,27 @@
-import type { Gladiator } from "@/types";
+import type { GladiatorStats } from "@/types";
 import { handleStat } from "@/utils";
 import { StatAction, StatKey } from "@/enums";
 
-export default function checkForLevelUp(gladiator: Gladiator) {
-  while (gladiator.stats.experience >= gladiator.stats.maxExperience) {
-    handleStat(gladiator, StatKey.LEVEL, 1, StatAction.INCREASE);
-    handleStat(gladiator, StatKey.POINTS, 20, StatAction.INCREASE);
+export default function checkForLevelUp(
+  stats: GladiatorStats,
+  updatedStats: GladiatorStats
+) {
+  while (stats.experience >= stats.maxExperience) {
+    handleStat(stats, StatKey.LEVEL, 1, StatAction.INCREASE, updatedStats);
+    handleStat(stats, StatKey.POINTS, 20, StatAction.INCREASE, updatedStats);
     handleStat(
-      gladiator,
+      stats,
       StatKey.EXPERIENCE,
-      gladiator.stats.maxExperience,
-      StatAction.DECREASE
+      stats.maxExperience,
+      StatAction.DECREASE,
+      updatedStats
     );
     handleStat(
-      gladiator,
+      stats,
       StatKey.MAX_EXPERIENCE,
-      Math.floor(100 * Math.pow(gladiator.stats.level, 1.2)),
-      StatAction.SET
+      Math.floor(100 * Math.pow(stats.level, 1.2)),
+      StatAction.SET,
+      updatedStats
     );
   }
 }
