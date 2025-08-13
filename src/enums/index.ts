@@ -7,3 +7,5 @@ export { Label } from "@/enums/label";
 export { Color } from "@/enums/color";
 export { PerkId } from "@/enums/perkId";
 export { ItemId } from "@/enums/itemId";
+export { EquipmentId } from "@/enums/equipmentId";
+export { EquipmentSlot } from "@/enums/equipmentSlot";

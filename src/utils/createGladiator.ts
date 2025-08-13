@@ -1,5 +1,11 @@
 import type { Gladiator } from "@/types";
-import { ABILITIES, PLAYER_BASE_STATS, PERKS, ITEMS } from "@/constants";
+import {
+  ABILITIES,
+  PLAYER_BASE_STATS,
+  PERKS,
+  ITEMS,
+  EQUIPMENT,
+} from "@/constants";
 import { createName } from "@/utils";
 
 export default function createGladiator(): Gladiator {
@@ -10,5 +16,6 @@ export default function createGladiator(): Gladiator {
     abilities: JSON.parse(JSON.stringify(ABILITIES)),
     perks: JSON.parse(JSON.stringify(PERKS)),
     items: JSON.parse(JSON.stringify(ITEMS)),
+    equipment: JSON.parse(JSON.stringify(EQUIPMENT)),
   };
 }

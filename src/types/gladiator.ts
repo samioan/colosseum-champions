@@ -1,5 +1,5 @@
-import type { Ability, Perk, GladiatorStats, Item } from "@/types";
-import { AbilityId, PerkId, ItemId } from "@/enums";
+import type { Ability, Perk, GladiatorStats, Item, Equipment } from "@/types";
+import { AbilityId, PerkId, ItemId, EquipmentId } from "@/enums";
 
 export type Gladiator = {
   name: string;
@@ -9,4 +9,5 @@ export type Gladiator = {
   abilities: Record<AbilityId, Ability>;
   perks: Record<PerkId, Perk>;
   items: Record<ItemId, Item>;
+  equipment: Record<EquipmentId, Equipment>;
 };

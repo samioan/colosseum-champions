@@ -37,6 +37,11 @@ const enemyCardProps = computed(() => ({
 
 onBeforeMount(() => {
   enemy.value = createEnemy(player.value.stats.level);
+  enemy.value.stats.health = enemyStats.value.maxHealth;
+  enemy.value.stats.stamina = enemyStats.value.maxStamina;
+  enemy.value.stats.strength = enemyStats.value.maxStrength;
+  enemy.value.stats.defense = enemyStats.value.maxDefense;
+  enemy.value.stats.dexterity = enemyStats.value.maxDexterity;
   player.value.intervalId = setInterval(() => {
     handleFighting(
       player.value,

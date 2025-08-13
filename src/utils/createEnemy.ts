@@ -1,7 +1,19 @@
 import type { Gladiator, Ability, Perk } from "@/types";
 import { createName, getRandomRange } from "@/utils";
-import { ENEMY_STAT_RANGES, ABILITIES, PERKS, ITEMS } from "@/constants";
-import { StatKey, AbilityId, PerkId } from "@/enums";
+import {
+  ENEMY_STAT_RANGES,
+  ABILITIES,
+  PERKS,
+  ITEMS,
+  EQUIPMENT,
+} from "@/constants";
+import {
+  StatKey,
+  AbilityId,
+  PerkId,
+  EquipmentId,
+  EquipmentSlot,
+} from "@/enums";
 
 export default function createEnemy(gladiatorLevel: number = 1) {
   const ranges = ENEMY_STAT_RANGES;
@@ -51,6 +63,30 @@ export default function createEnemy(gladiatorLevel: number = 1) {
     ) as Record<PerkId, Perk>;
   }
 
+  function equipRandomFromEachSlot() {
+    const equips = EQUIPMENT;
+
+    for (const id in equips) {
+      equips[id as EquipmentId].isEquipped = false;
+    }
+
+    const slotGroups: Record<EquipmentSlot, EquipmentId[]> = {} as any;
+    for (const [id, item] of Object.entries(equips)) {
+      if (!slotGroups[item.slot]) {
+        slotGroups[item.slot] = [];
+      }
+      slotGroups[item.slot].push(id as EquipmentId);
+    }
+
+    for (const slot in slotGroups) {
+      const items = slotGroups[slot as EquipmentSlot];
+      const randomId = items[Math.floor(Math.random() * items.length)];
+      equips[randomId].isEquipped = true;
+    }
+
+    return equips;
+  }
+
   const enemy: Gladiator = {
     name: createName(),
     stats: {
@@ -76,6 +112,7 @@ export default function createEnemy(gladiatorLevel: number = 1) {
     abilities: generateRandomAbilities(),
     perks: generateRandomPerks(),
     items: ITEMS,
+    equipment: equipRandomFromEachSlot(),
   };
 
   return enemy;

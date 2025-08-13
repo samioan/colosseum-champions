@@ -12,6 +12,7 @@ import checkForLevelUp from "@/utils/checkForLevelUp";
 import createEnemy from "@/utils/createEnemy";
 import handleStat from "@/utils/handleStat";
 import createGladiator from "@/utils/createGladiator";
+import calculateEquipment from "@/utils/calculateEquipment";
 
 export {
   getRandomRange,
@@ -28,4 +29,5 @@ export {
   selectPerk,
   toggleDrawer,
   useItem,
+  calculateEquipment,
 };

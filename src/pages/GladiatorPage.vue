@@ -14,6 +14,7 @@ import {
   CodexStats,
   Items,
   CodexAbilities,
+  Armory,
 } from "@/components";
 import { dungeonBackground } from "@/assets";
 import { DrawerState } from "@/enums";
@@ -32,6 +33,7 @@ const {
   playerAbilities,
   playerPerks,
   playerItems,
+  playerEquipment,
 } = storeToRefs(playerStore);
 
 const codexProps = computed(() => ({
@@ -56,6 +58,11 @@ const codexProps = computed(() => ({
       perks: playerPerks.value,
     },
   },
+}));
+
+const armoryProps = computed(() => ({
+  gold: player.value.stats.gold,
+  equipment: playerEquipment.value,
 }));
 
 const itemsProps = computed(() => ({
@@ -113,6 +120,10 @@ watch(
         <CodexPerks
           v-if="drawer.state === DrawerState.PERKS"
           v-bind="codexProps.perksSection.data"
+        />
+        <Armory
+          v-if="drawer.state === DrawerState.ARMORY"
+          v-bind="armoryProps"
         />
         <Items v-if="drawer.state === DrawerState.ITEMS" v-bind="itemsProps" />
       </template>

@@ -9,6 +9,7 @@ import {
   selectPerk,
   handleStat,
   useItem,
+  calculateEquipment,
 } from "@/utils";
 import { LABELS, COLORS } from "@/constants";
 import { StatAction, StatKey, Label, Color } from "@/enums";
@@ -18,11 +19,14 @@ export const usePlayerStore = defineStore("player", () => {
 
   const playerStats: ComputedRef<GladiatorStats> = computed(() => {
     const computedPerks = calculatePerks(player.value, player.value.stats);
+    const computedEquipment = calculateEquipment(player.value);
 
     const updatedStats = Object.fromEntries(
       Object.entries(player.value.stats).map((stat) => [
         stat[0],
-        stat[1] + (computedPerks[stat[0] as StatKey] ?? 0),
+        stat[1] +
+          (computedPerks[stat[0] as StatKey] ?? 0) +
+          (computedEquipment[stat[0] as StatKey] ?? 0),
       ])
     ) as GladiatorStats;
 
@@ -31,7 +35,9 @@ export const usePlayerStore = defineStore("player", () => {
     return Object.fromEntries(
       Object.entries(player.value.stats).map((stat) => [
         stat[0],
-        stat[1] + (updatedPerks[stat[0] as StatKey] ?? 0),
+        stat[1] +
+          (updatedPerks[stat[0] as StatKey] ?? 0) +
+          (computedEquipment[stat[0] as StatKey] ?? 0),
       ])
     ) as GladiatorStats;
   });
@@ -169,6 +175,33 @@ export const usePlayerStore = defineStore("player", () => {
     }));
   });
 
+  const playerEquipment = computed(() => {
+    return Object.values(player.value.equipment).map((item) => ({
+      ...item,
+      onBuy: () => {
+        handleStat(
+          player.value.stats,
+          StatKey.GOLD,
+          item.gold,
+          StatAction.DECREASE,
+          playerStats.value
+        );
+        item.isUnlocked = true;
+      },
+      onEquip: () => {
+        if (item.isEquipped) item.isEquipped = false;
+        else {
+          Object.values(player.value.equipment)
+            .filter((curItem) => curItem.slot === item.slot)
+            .forEach((curItem) => {
+              curItem.isEquipped = false;
+            });
+          item.isEquipped = !item.isEquipped;
+        }
+      },
+    }));
+  });
+
   return {
     player,
     playerHeaderProps,
@@ -181,5 +214,6 @@ export const usePlayerStore = defineStore("player", () => {
     playerItems,
     playerSelectedItems,
     playerStats,
+    playerEquipment,
   };
 });
