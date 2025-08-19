@@ -7,10 +7,6 @@ export const ENEMY_STAT_RANGES = {
     min: 60,
     max: 80,
   },
-  RAGE: {
-    min: 60,
-    max: 80,
-  },
   STRENGTH: {
     min: 3,
     max: 6,

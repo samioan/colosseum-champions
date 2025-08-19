@@ -25,7 +25,7 @@ const { enemy, enemyStats, enemyHeaderProps, enemyMainStats } = storeToRefs(
 
 const gladiatorCardProps = computed(() => ({
   headerProps: playerHeaderProps.value,
-  mainStats: playerMainStats.value.slice(0, 3),
+  mainStats: playerMainStats.value.slice(0, 2),
   abilities: playerSelectedAbilities.value,
   items: playerSelectedItems.value,
 }));

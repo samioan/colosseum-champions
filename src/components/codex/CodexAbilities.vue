@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import { COLORS } from "@/constants";
 import { Button, CodexPoints, Dropdown } from "@/components";
 
 defineProps<{
@@ -7,9 +6,10 @@ defineProps<{
   abilities: {
     label: string;
     description: string;
-    rage: number;
+    stamina: number;
+    points: number;
     isUnlocked: boolean;
-    isSelected: boolean;
+    isEquipped: boolean;
     isActive: boolean;
     onSelect: () => void;
     onActivate: () => void;
@@ -18,16 +18,16 @@ defineProps<{
 </script>
 
 <template>
-  <div class="flex-1 text-sm text-gray-300 p-4 border-b-2 border-yellow-400">
+  <div class="flex-1 text-sm text-gray-300 p-4 pt-0 mt-[70px]">
     <CodexPoints>{{ points }}</CodexPoints>
 
     <div
       v-for="ability in abilities"
       class="flex flex-col items-center justify-center gap-2 p-4 rounded-lg"
       :class="{
-        'bg-stone-600': ability.isSelected,
-        'bg-stone-900': !ability.isSelected,
-        'opacity-50': points < 5 && !ability.isUnlocked,
+        'bg-cBgLight': ability.isEquipped,
+        'bg-cBgDarker': !ability.isEquipped,
+        'opacity-50': points < ability.points && !ability.isUnlocked,
         'mb-4': abilities.indexOf(ability) < abilities.length - 1,
         'border-2 border-white': ability.isActive,
       }"
@@ -44,25 +44,28 @@ defineProps<{
               {{ ability.description }}
             </div>
             <div class="text-sm text-gray-400 text-center">
-              {{ ability.rage }} Rage
+              {{ ability.stamina }} Stamina
+            </div>
+            <div class="text-sm text-gray-400 text-center">
+              Points: {{ ability.points }}
             </div>
             <div class="flex justify-center gap-4">
               <Button
                 :label="
                   !ability.isUnlocked
                     ? 'Unlock'
-                    : !ability.isSelected
+                    : !ability.isEquipped
                     ? 'Select'
                     : 'Deselect'
                 "
                 :on-click="ability.onSelect"
-                :color-classes="COLORS.statsButton"
+                color-classes="bg-cBlue"
               />
               <Button
-                v-if="ability.isSelected"
+                v-if="ability.isEquipped"
                 :label="!ability.isActive ? 'Activate' : 'Deactivate'"
                 :on-click="ability.onActivate"
-                :color-classes="COLORS.statsButton"
+                color-classes="bg-cBlue"
               />
             </div></div
         ></template>

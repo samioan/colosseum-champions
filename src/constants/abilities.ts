@@ -1,13 +1,16 @@
 import type { Ability } from "@/types";
-import { StatKey, AbilityId, AbilityType } from "@/enums";
+import { StatKey, AbilityId, AbilityType, Operator } from "@/enums";
 
 export const ABILITIES: Record<AbilityId, Ability> = {
   [AbilityId.SMASH]: {
     label: "Smash",
     description: "Deals x2 SP DMG",
-    rage: 10,
+    stamina: 10,
+    cooldown: 0,
+    maxCooldown: 2,
+    points: 2,
     isUnlocked: false,
-    isSelected: false,
+    isEquipped: false,
     isActive: false,
     payload: [
       {
@@ -15,7 +18,7 @@ export const ABILITIES: Record<AbilityId, Ability> = {
         stat: StatKey.STAMINA,
         value: {
           stat: StatKey.STRENGTH,
-          operator: "*",
+          operator: Operator.MULTIPLICATION,
           modifier: 2,
         },
       },
@@ -24,9 +27,12 @@ export const ABILITIES: Record<AbilityId, Ability> = {
   [AbilityId.SLASH]: {
     label: "Slash",
     description: "Deals x5 HP DMG",
-    rage: 15,
+    stamina: 15,
+    cooldown: 0,
+    maxCooldown: 3,
+    points: 4,
     isUnlocked: false,
-    isSelected: false,
+    isEquipped: false,
     isActive: false,
     payload: [
       {
@@ -34,7 +40,7 @@ export const ABILITIES: Record<AbilityId, Ability> = {
         stat: StatKey.HEALTH,
         value: {
           stat: StatKey.STRENGTH,
-          operator: "*",
+          operator: Operator.MULTIPLICATION,
           modifier: 5,
         },
       },
@@ -43,9 +49,12 @@ export const ABILITIES: Record<AbilityId, Ability> = {
   [AbilityId.STRIKE]: {
     label: "Strike",
     description: "Deals x1 HP + SP DMG",
-    rage: 20,
+    stamina: 20,
+    cooldown: 0,
+    maxCooldown: 2,
+    points: 6,
     isUnlocked: false,
-    isSelected: false,
+    isEquipped: false,
     isActive: false,
     payload: [
       {
@@ -67,9 +76,12 @@ export const ABILITIES: Record<AbilityId, Ability> = {
   [AbilityId.BASH]: {
     label: "Bash",
     description: "Deals x1 STR DMG",
-    rage: 25,
+    stamina: 25,
+    cooldown: 0,
+    maxCooldown: 3,
+    points: 8,
     isUnlocked: false,
-    isSelected: false,
+    isEquipped: false,
     isActive: false,
     payload: [
       {
@@ -84,9 +96,12 @@ export const ABILITIES: Record<AbilityId, Ability> = {
   [AbilityId.SLICE]: {
     label: "Slice",
     description: "Deals x1 DEF DMG",
-    rage: 30,
+    stamina: 30,
+    cooldown: 0,
+    maxCooldown: 2,
+    points: 10,
     isUnlocked: false,
-    isSelected: false,
+    isEquipped: false,
     isActive: false,
     payload: [
       {
@@ -101,9 +116,12 @@ export const ABILITIES: Record<AbilityId, Ability> = {
   [AbilityId.HEAL]: {
     label: "Heal",
     description: "Heals x1 HP",
-    rage: 10,
+    stamina: 10,
+    cooldown: 0,
+    maxCooldown: 3,
+    points: 12,
     isUnlocked: false,
-    isSelected: false,
+    isEquipped: false,
     isActive: false,
     payload: [
       {
@@ -111,7 +129,7 @@ export const ABILITIES: Record<AbilityId, Ability> = {
         stat: StatKey.HEALTH,
         value: {
           stat: StatKey.STRENGTH,
-          operator: "*",
+          operator: Operator.MULTIPLICATION,
           modifier: 2,
         },
       },

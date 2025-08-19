@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { Button, Dropdown } from "@/components";
-import { LABELS, COLORS } from "@/constants";
+import { LABELS } from "@/constants";
 
 defineProps<{
   gold: number;
@@ -17,9 +17,9 @@ defineProps<{
 </script>
 
 <template>
-  <div class="flex-1 text-sm text-gray-300 p-4 border-b-2 border-yellow-400">
+  <div class="flex-1 text-sm text-gray-300 p-4 pt-0 mt-[70px]">
     <div
-      class="flex items-center justify-between gap-2 pb-4 mb-4 border-b-2 border-gray-400"
+      class="absolute top-[59px] w-full p-4 bg-cBgDark left-0 flex items-center justify-between gap-2 pb-4 mb-4"
     >
       <span class="font-medium">{{ LABELS.gold }}</span>
       {{ gold }}
@@ -28,8 +28,8 @@ defineProps<{
       v-for="item in equipment"
       class="flex flex-col items-center justify-center gap-2 p-4 rounded-lg"
       :class="{
-        'bg-stone-600': item.isEquipped,
-        'bg-stone-900': !item.isEquipped,
+        'bg-cBgLight': item.isEquipped,
+        'bg-cBgDarker': !item.isEquipped,
         'opacity-50': gold < item.gold && !item.isUnlocked,
         'mb-4': equipment.indexOf(item) < equipment.length - 1,
       }"
@@ -54,13 +54,13 @@ defineProps<{
                 label="Buy"
                 :disabled="gold < item.gold"
                 :on-click="item.onBuy"
-                :color-classes="COLORS.statsButton"
+                color-classes="bg-cBlue"
               />
               <Button
                 v-if="item.isUnlocked"
                 :label="item.isEquipped ? 'Unequip' : 'Equip'"
                 :on-click="item.onEquip"
-                :color-classes="COLORS.statsButton"
+                color-classes="bg-cBlue"
               />
             </div>
           </div>

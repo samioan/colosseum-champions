@@ -16,7 +16,7 @@ const titleButton = computed(() => ({
     router.push(ROUTES.gladiator);
   },
   label: LABELS.newGame,
-  colorClasses: "bg-amber-600",
+  colorClasses: "bg-cOrange",
 }));
 </script>
 

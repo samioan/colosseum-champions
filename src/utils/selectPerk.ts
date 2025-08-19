@@ -2,17 +2,17 @@ import type { Gladiator, Perk } from "@/types";
 
 export default function selectPerk(perk: Perk, gladiator: Gladiator) {
   if (!perk.isUnlocked) {
-    if (gladiator.stats.points >= 5) {
+    if (gladiator.stats.points >= perk.points) {
       perk.isUnlocked = true;
-      gladiator.stats.points -= 5;
+      gladiator.stats.points -= perk.points;
     } else return;
   }
   const selectedPerks = Object.values(gladiator.perks).filter(
-    (a) => a.isSelected === true
+    (a) => a.isEquipped === true
   );
-  if (selectedPerks.length > 2 && !perk.isSelected) {
+  if (selectedPerks.length > 2 && !perk.isEquipped) {
     return;
   } else {
-    perk.isSelected = !perk.isSelected;
+    perk.isEquipped = !perk.isEquipped;
   }
 }

@@ -6,8 +6,6 @@ export const PLAYER_BASE_STATS: Record<StatKey, number> = {
   [StatKey.MAX_HEALTH]: 100,
   [StatKey.STAMINA]: 100,
   [StatKey.MAX_STAMINA]: 100,
-  [StatKey.RAGE]: 0,
-  [StatKey.MAX_RAGE]: 100,
   [StatKey.STRENGTH]: 10,
   [StatKey.MAX_STRENGTH]: 10,
   [StatKey.DEXTERITY]: 10,

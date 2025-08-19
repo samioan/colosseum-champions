@@ -1,14 +1,10 @@
-import { StatKey } from "@/enums";
+import type { Bonus } from "@/types";
 
 export type Perk = {
   label: string;
   description: string;
+  points: number;
   isUnlocked: boolean;
-  isSelected: boolean;
-  bonuses: {
-    stat: StatKey;
-    operator: string;
-    value: number;
-    requirements?: { stat: StatKey; operator: string; value: number }[];
-  }[];
+  isEquipped: boolean;
+  bonuses: Bonus[];
 };

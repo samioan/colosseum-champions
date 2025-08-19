@@ -1,4 +1,4 @@
-import { StatAction } from "@/enums";
+import { Operator, StatAction } from "@/enums";
 import type { GladiatorStats, Item } from "@/types";
 import { handleStat } from "@/utils";
 
@@ -10,7 +10,7 @@ export default function useItem(
   item.bonuses.forEach((bonus, index) => {
     function calculateValue() {
       switch (bonus.value.operator) {
-        case "*":
+        case Operator.MULTIPLICATION:
           return Math.floor(stats[bonus.value.stat] * bonus.value.modifier);
         default:
           return 0;
@@ -19,7 +19,7 @@ export default function useItem(
 
     function calculateAction() {
       switch (bonus.operator) {
-        case "+":
+        case Operator.ADDITION:
           return StatAction.INCREASE;
         default:
           return StatAction.SET;

@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import { COLORS } from "@/constants";
 import { Button, CodexPoints, Dropdown } from "@/components";
 
 defineProps<{
@@ -8,23 +7,24 @@ defineProps<{
     label: string;
     description: string;
     isUnlocked: boolean;
-    isSelected: boolean;
+    isEquipped: boolean;
+    points: number;
     onSelect: () => void;
   }[];
 }>();
 </script>
 
 <template>
-  <div class="flex-1 text-sm text-gray-300 p-4 border-b-2 border-yellow-400">
+  <div class="flex-1 text-sm text-gray-300 p-4 pt-0 mt-[70px]">
     <CodexPoints>{{ points }}</CodexPoints>
 
     <div
       v-for="perk in perks"
       class="flex flex-col items-center justify-center gap-2 p-4 rounded-lg"
       :class="{
-        'bg-stone-600': perk.isSelected,
-        'bg-stone-900': !perk.isSelected,
-        'opacity-50': points < 5 && !perk.isUnlocked,
+        'bg-cBgLight': perk.isEquipped,
+        'bg-cBgDarker': !perk.isEquipped,
+        'opacity-50': points < perk.points && !perk.isUnlocked,
         'mb-4': perks.indexOf(perk) < perks.length - 1,
       }"
     >
@@ -44,12 +44,12 @@ defineProps<{
                 :label="
                   !perk.isUnlocked
                     ? 'Unlock'
-                    : !perk.isSelected
+                    : !perk.isEquipped
                     ? 'Select'
                     : 'Deselect'
                 "
                 :on-click="perk.onSelect"
-                :color-classes="COLORS.statsButton"
+                color-classes="bg-cBlue"
               />
             </div></div
         ></template>
@@ -57,4 +57,3 @@ defineProps<{
     </div>
   </div>
 </template>
-1

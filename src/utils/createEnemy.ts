@@ -22,8 +22,6 @@ export default function createEnemy(gladiatorLevel: number = 1) {
     getRandomRange(ranges.HEALTH.min, ranges.HEALTH.max) * gladiatorLevel;
   const maxStamina =
     getRandomRange(ranges.STAMINA.min, ranges.STAMINA.max) * gladiatorLevel;
-  const maxRage =
-    getRandomRange(ranges.RAGE.min, ranges.RAGE.max) * gladiatorLevel;
   const strength =
     getRandomRange(ranges.STRENGTH.min, ranges.STRENGTH.max) * gladiatorLevel;
   const defense =
@@ -42,6 +40,7 @@ export default function createEnemy(gladiatorLevel: number = 1) {
         {
           ...ABILITIES[key],
           isActive: key === randomKey,
+          isEquipped: key === randomKey,
         },
       ])
     ) as Record<AbilityId, Ability>;
@@ -57,7 +56,7 @@ export default function createEnemy(gladiatorLevel: number = 1) {
         key,
         {
           ...PERKS[key],
-          isSelected: key === randomKey,
+          isEquipped: key === randomKey,
         },
       ])
     ) as Record<PerkId, Perk>;
@@ -95,8 +94,6 @@ export default function createEnemy(gladiatorLevel: number = 1) {
       [StatKey.MAX_HEALTH]: maxHealth,
       [StatKey.STAMINA]: maxStamina,
       [StatKey.MAX_STAMINA]: maxStamina,
-      [StatKey.RAGE]: 0,
-      [StatKey.MAX_RAGE]: maxRage,
       [StatKey.STRENGTH]: strength,
       [StatKey.MAX_STRENGTH]: strength,
       [StatKey.DEFENSE]: defense,

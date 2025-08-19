@@ -1,4 +1,4 @@
-import { StatKey, EquipmentId, EquipmentSlot } from "@/enums";
+import { StatKey, EquipmentId, EquipmentSlot, Operator } from "@/enums";
 import type { Equipment } from "@/types";
 
 export const EQUIPMENT: Record<EquipmentId, Equipment> = {
@@ -12,7 +12,7 @@ export const EQUIPMENT: Record<EquipmentId, Equipment> = {
     bonuses: [
       {
         stat: StatKey.MAX_STRENGTH,
-        operator: "+",
+        operator: Operator.ADDITION,
         value: 10,
       },
     ],
@@ -27,7 +27,7 @@ export const EQUIPMENT: Record<EquipmentId, Equipment> = {
     bonuses: [
       {
         stat: StatKey.MAX_STRENGTH,
-        operator: "+",
+        operator: Operator.ADDITION,
         value: 20,
       },
     ],
@@ -42,7 +42,7 @@ export const EQUIPMENT: Record<EquipmentId, Equipment> = {
     bonuses: [
       {
         stat: StatKey.MAX_DEFENSE,
-        operator: "+",
+        operator: Operator.ADDITION,
         value: 10,
       },
     ],
@@ -57,7 +57,7 @@ export const EQUIPMENT: Record<EquipmentId, Equipment> = {
     bonuses: [
       {
         stat: StatKey.MAX_DEFENSE,
-        operator: "+",
+        operator: Operator.ADDITION,
         value: 20,
       },
     ],
@@ -72,7 +72,7 @@ export const EQUIPMENT: Record<EquipmentId, Equipment> = {
     bonuses: [
       {
         stat: StatKey.MAX_DEFENSE,
-        operator: "+",
+        operator: Operator.ADDITION,
         value: 10,
       },
     ],
@@ -87,7 +87,7 @@ export const EQUIPMENT: Record<EquipmentId, Equipment> = {
     bonuses: [
       {
         stat: StatKey.MAX_DEFENSE,
-        operator: "+",
+        operator: Operator.ADDITION,
         value: 10,
       },
     ],
@@ -102,7 +102,7 @@ export const EQUIPMENT: Record<EquipmentId, Equipment> = {
     bonuses: [
       {
         stat: StatKey.MAX_DEFENSE,
-        operator: "+",
+        operator: Operator.ADDITION,
         value: 10,
       },
     ],
@@ -117,7 +117,7 @@ export const EQUIPMENT: Record<EquipmentId, Equipment> = {
     bonuses: [
       {
         stat: StatKey.MAX_DEFENSE,
-        operator: "+",
+        operator: Operator.ADDITION,
         value: 10,
       },
     ],
@@ -132,7 +132,7 @@ export const EQUIPMENT: Record<EquipmentId, Equipment> = {
     bonuses: [
       {
         stat: StatKey.MAX_DEFENSE,
-        operator: "+",
+        operator: Operator.ADDITION,
         value: 20,
       },
     ],
@@ -147,7 +147,7 @@ export const EQUIPMENT: Record<EquipmentId, Equipment> = {
     bonuses: [
       {
         stat: StatKey.MAX_DEFENSE,
-        operator: "+",
+        operator: Operator.ADDITION,
         value: 20,
       },
     ],
@@ -162,7 +162,7 @@ export const EQUIPMENT: Record<EquipmentId, Equipment> = {
     bonuses: [
       {
         stat: StatKey.MAX_DEFENSE,
-        operator: "+",
+        operator: Operator.ADDITION,
         value: 20,
       },
     ],
@@ -177,7 +177,7 @@ export const EQUIPMENT: Record<EquipmentId, Equipment> = {
     bonuses: [
       {
         stat: StatKey.MAX_DEFENSE,
-        operator: "+",
+        operator: Operator.ADDITION,
         value: 20,
       },
     ],

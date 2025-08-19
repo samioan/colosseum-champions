@@ -1,8 +1,8 @@
 import { defineStore } from "pinia";
 import { ref, computed, type ComputedRef } from "vue";
 import type { Gladiator, GladiatorStats } from "@/types";
-import { createEnemy, calculatePerks, calculateEquipment } from "@/utils";
-import { LABELS, COLORS } from "@/constants";
+import { createEnemy, calculateBonuses } from "@/utils";
+import { LABELS } from "@/constants";
 import { StatKey } from "@/enums";
 
 export const useEnemyStore = defineStore("enemy", () => {
@@ -14,8 +14,16 @@ export const useEnemyStore = defineStore("enemy", () => {
   }));
 
   const enemyStats: ComputedRef<GladiatorStats> = computed(() => {
-    const computedPerks = calculatePerks(enemy.value, enemy.value.stats);
-    const computedEquipment = calculateEquipment(enemy.value);
+    const computedPerks = calculateBonuses(
+      enemy.value,
+      enemy.value.stats,
+      enemy.value.perks
+    );
+    const computedEquipment = calculateBonuses(
+      enemy.value,
+      enemy.value.stats,
+      enemy.value.equipment
+    );
 
     const updatedStats = Object.fromEntries(
       Object.entries(enemy.value.stats).map((stat) => [
@@ -27,14 +35,23 @@ export const useEnemyStore = defineStore("enemy", () => {
       ])
     ) as GladiatorStats;
 
-    const updatedPerks = calculatePerks(enemy.value, updatedStats);
+    const updatedPerks = calculateBonuses(
+      enemy.value,
+      updatedStats,
+      enemy.value.perks
+    );
+    const updatedEquipment = calculateBonuses(
+      enemy.value,
+      updatedStats,
+      enemy.value.equipment
+    );
 
     return Object.fromEntries(
       Object.entries(enemy.value.stats).map((stat) => [
         stat[0],
         stat[1] +
           (updatedPerks[stat[0] as StatKey] ?? 0) +
-          (computedEquipment[stat[0] as StatKey] ?? 0),
+          (updatedEquipment[stat[0] as StatKey] ?? 0),
         ,
       ])
     ) as GladiatorStats;
@@ -45,7 +62,7 @@ export const useEnemyStore = defineStore("enemy", () => {
       label: LABELS.health,
       stat: enemyStats.value.health,
       maxStat: enemyStats.value.maxHealth,
-      colorClass: COLORS.health,
+      colorClass: "bg-cRed",
     },
   ]);
 

@@ -3,23 +3,30 @@ import { ref, computed, type ComputedRef } from "vue";
 import type { Gladiator, GladiatorStats } from "@/types";
 import {
   createGladiator,
-  calculatePerks,
   selectAbility,
   activateAbility,
   selectPerk,
   handleStat,
   useItem,
-  calculateEquipment,
+  calculateBonuses,
 } from "@/utils";
-import { LABELS, COLORS } from "@/constants";
-import { StatAction, StatKey, Label, Color } from "@/enums";
+import { LABELS } from "@/constants";
+import { StatAction, StatKey, Label } from "@/enums";
 
 export const usePlayerStore = defineStore("player", () => {
   const player = ref<Gladiator>(createGladiator());
 
   const playerStats: ComputedRef<GladiatorStats> = computed(() => {
-    const computedPerks = calculatePerks(player.value, player.value.stats);
-    const computedEquipment = calculateEquipment(player.value);
+    const computedPerks = calculateBonuses(
+      player.value,
+      player.value.stats,
+      player.value.perks
+    );
+    const computedEquipment = calculateBonuses(
+      player.value,
+      player.value.stats,
+      player.value.equipment
+    );
 
     const updatedStats = Object.fromEntries(
       Object.entries(player.value.stats).map((stat) => [
@@ -30,14 +37,23 @@ export const usePlayerStore = defineStore("player", () => {
       ])
     ) as GladiatorStats;
 
-    const updatedPerks = calculatePerks(player.value, updatedStats);
+    const updatedPerks = calculateBonuses(
+      player.value,
+      updatedStats,
+      player.value.perks
+    );
+    const updatedEquipment = calculateBonuses(
+      player.value,
+      updatedStats,
+      player.value.equipment
+    );
 
     return Object.fromEntries(
       Object.entries(player.value.stats).map((stat) => [
         stat[0],
         stat[1] +
           (updatedPerks[stat[0] as StatKey] ?? 0) +
-          (computedEquipment[stat[0] as StatKey] ?? 0),
+          (updatedEquipment[stat[0] as StatKey] ?? 0),
       ])
     ) as GladiatorStats;
   });
@@ -49,19 +65,18 @@ export const usePlayerStore = defineStore("player", () => {
 
   const playerMainStats = computed(() =>
     [
-      StatKey.HEALTH,
-      StatKey.STAMINA,
-      StatKey.RAGE,
-      StatKey.EXPERIENCE,
-      StatKey.GOLD,
-    ].map((stat) => ({
+      { stat: StatKey.HEALTH, colorClass: "bg-cRed" },
+      { stat: StatKey.STAMINA, colorClass: "bg-cGreen" },
+      { stat: StatKey.EXPERIENCE, colorClass: "bg-cBlue" },
+      { stat: StatKey.GOLD, colorClass: "bg-cYellow" },
+    ].map(({ stat, colorClass }) => ({
       label: LABELS[stat as unknown as Label],
       stat: playerStats.value[stat],
       maxStat:
         playerStats.value[
           `max${stat.charAt(0).toUpperCase()}${stat.slice(1)}` as StatKey
         ],
-      colorClass: COLORS[stat as unknown as Color],
+      colorClass: colorClass,
     }))
   );
 
@@ -131,10 +146,12 @@ export const usePlayerStore = defineStore("player", () => {
 
   const playerSelectedAbilities = computed(() =>
     Object.values(player.value.abilities)
-      .filter((ability) => ability.isSelected)
+      .filter((ability) => ability.isEquipped)
       .map((ability) => ({
         label: ability.label,
         isActive: ability.isActive,
+        cooldown: ability.cooldown,
+        maxCooldown: ability.maxCooldown,
         onActivate: () => activateAbility(ability, player.value),
       }))
   );
@@ -148,7 +165,7 @@ export const usePlayerStore = defineStore("player", () => {
 
   const playerSelectedPerks = computed(() =>
     Object.values(player.value.perks)
-      .filter((perk) => perk.isSelected)
+      .filter((perk) => perk.isEquipped)
       .map((perk) => perk.label)
   );
 

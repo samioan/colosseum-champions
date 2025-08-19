@@ -1,4 +1,5 @@
-import { StatKey, EquipmentSlot } from "@/enums";
+import { EquipmentSlot } from "@/enums";
+import type { Bonus } from "@/types";
 
 export type Equipment = {
   label: string;
@@ -7,9 +8,5 @@ export type Equipment = {
   isUnlocked: boolean;
   isEquipped: boolean;
   slot: EquipmentSlot;
-  bonuses: {
-    stat: StatKey;
-    operator: string;
-    value: number;
-  }[];
+  bonuses: Bonus[];
 };

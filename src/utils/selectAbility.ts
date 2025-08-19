@@ -2,18 +2,18 @@ import type { Ability, Gladiator } from "@/types";
 
 export default function selectAbility(ability: Ability, gladiator: Gladiator) {
   if (!ability.isUnlocked) {
-    if (gladiator.stats.points >= 5) {
+    if (gladiator.stats.points >= ability.points) {
       ability.isUnlocked = true;
-      gladiator.stats.points -= 5;
+      gladiator.stats.points -= ability.points;
     } else return;
   }
   const selectedAbilities = Object.values(gladiator.abilities).filter(
-    (a) => a.isSelected === true
+    (a) => a.isEquipped === true
   );
-  if (selectedAbilities.length > 2 && !ability.isSelected) {
+  if (selectedAbilities.length > 2 && !ability.isEquipped) {
     return;
   } else {
-    ability.isSelected = !ability.isSelected;
-    if (!ability.isSelected) ability.isActive = false;
+    ability.isEquipped = !ability.isEquipped;
+    if (!ability.isEquipped) ability.isActive = false;
   }
 }

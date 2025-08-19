@@ -39,9 +39,7 @@ onUnmounted(() => {
       v-if="isVisible"
       class="fixed inset-0 bg-black/70 flex items-center justify-center z-50"
     >
-      <div
-        class="bg-stone-800 text-center p-6 w-[90%] max-w-md border-2 border-yellow-400 rounded-xl"
-      >
+      <div class="bg-cBgDark text-center p-6 w-[90%] max-w-md rounded-xl">
         <slot />
         <Button v-bind="modalButtonProps" />
       </div>

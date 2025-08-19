@@ -1,13 +1,17 @@
 @import "tailwindcss";
 
 @theme {
-  --color-health: #fb2c36;
-  --color-stamina: #00c951;
-  --color-rage: #e17100;
-  --color-experience: #2b7fff;
-  --color-gold: #fdc700;
-  --color-fight: #e7000b;
-  --color-title: #f6f3f4;
+  --color-cRed: #fb2c36;
+  --color-cGreen: #00c951;
+  --color-cOrange: #e17100;
+  --color-cBlue: #2b7fff;
+  --color-cYellow: #fdc700;
+  --color-cDarkRed: #e7000b;
+  --color-cTitle: #f6f3f4;
+  --color-cText: #d1d5dc;
+  --color-cBgLight: #57534d;
+  --color-cBgDark: #292526;
+  --color-cBgDarker: #1c1919;
 }
 
 --color- :root {

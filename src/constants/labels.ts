@@ -3,7 +3,6 @@ import { Label } from "@/enums";
 export const LABELS: Record<Label, string> = {
   [Label.HEALTH]: "HP",
   [Label.STAMINA]: "SP",
-  [Label.RAGE]: "RP",
   [Label.EXPERIENCE]: "XP",
   [Label.STRENGTH]: "STR",
   [Label.DEXTERITY]: "DEX",

@@ -20,8 +20,15 @@ export default function handleFighting(
   const ability = Object.values(curAttacker?.abilities)?.find(
     (ability) => ability.isActive
   );
+  const attackerAbilities = Object.values(curAttacker?.abilities)?.filter(
+    (ability) => ability.isEquipped
+  );
 
-  if (ability && curAttacker.stats.rage >= ability.rage) {
+  if (
+    ability &&
+    curAttacker.stats.stamina >= ability.stamina &&
+    ability.cooldown >= ability.maxCooldown
+  ) {
     performAbility(
       ability,
       curAttacker.stats,
@@ -29,7 +36,15 @@ export default function handleFighting(
       curAttackerStats,
       curDefenderStats
     );
-  } else if (curAttacker.stats.stamina >= 5) {
+  } else {
+    if (attackerAbilities) {
+      attackerAbilities.forEach((ability) => {
+        if (ability.cooldown >= ability.maxCooldown) {
+          ability.cooldown = ability.maxCooldown;
+        } else ability.cooldown += 1;
+      });
+    }
+
     const didEvade =
       Math.random() <
       gladiator.stats.dexterity / (gladiator.stats.dexterity + 100);
@@ -53,20 +68,6 @@ export default function handleFighting(
         })();
 
     handleStat(
-      curAttacker.stats,
-      StatKey.STAMINA,
-      5,
-      StatAction.DECREASE,
-      curAttackerStats
-    );
-    handleStat(
-      curAttacker.stats,
-      StatKey.RAGE,
-      5,
-      StatAction.INCREASE,
-      curAttackerStats
-    );
-    handleStat(
       curDefender.stats,
       StatKey.HEALTH,
       damage,
@@ -79,7 +80,7 @@ export default function handleFighting(
     clearInterval(gladiator.intervalId);
     gladiator.intervalId = undefined;
     return;
-  } else if (enemy.stats.health <= 0 || enemy.stats.stamina <= 0) {
+  } else if (enemy.stats.health <= 0) {
     handleStat(
       gladiator.stats,
       StatKey.GOLD,
@@ -92,13 +93,6 @@ export default function handleFighting(
       StatKey.EXPERIENCE,
       500,
       StatAction.INCREASE,
-      updatedGladiatorStats
-    );
-    handleStat(
-      gladiator.stats,
-      StatKey.RAGE,
-      0,
-      StatAction.SET,
       updatedGladiatorStats
     );
     [
@@ -117,6 +111,11 @@ export default function handleFighting(
         updatedGladiatorStats
       );
     });
+    if (attackerAbilities) {
+      attackerAbilities.forEach((ability) => {
+        ability.cooldown = 0;
+      });
+    }
     clearInterval(gladiator.intervalId);
     gladiator.intervalId = undefined;
     checkForLevelUp(gladiator.stats, updatedGladiatorStats);

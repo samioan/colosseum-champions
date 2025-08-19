@@ -16,6 +16,8 @@ defineProps<{
     isActive: boolean;
     label: string;
     onActivate: () => void;
+    cooldown: number;
+    maxCooldown: number;
   }[];
   items?: {
     label: string;
@@ -37,20 +39,21 @@ defineProps<{
 
     <div class="flex gap-2 mt-2 justify-center" v-if="abilities?.length">
       <div
-        class="flex gap-2 p-2 items-center justify-center rounded-lg text-sm bg-stone-600 cursor-pointer"
+        class="flex flex-col gap-2 p-2 items-center justify-center rounded-lg text-sm bg-cBgLight cursor-pointer"
         :class="{
           'border-2 border-white': ability.isActive,
         }"
         v-for="ability in abilities"
         @click="ability.onActivate"
       >
-        {{ ability.label }}
+        <span>{{ ability.label }}</span>
+        <span> {{ ability.cooldown }} / {{ ability.maxCooldown }} </span>
       </div>
     </div>
 
     <div class="flex gap-2 mt-2 justify-center" v-if="items?.length">
       <div
-        class="flex gap-2 p-2 items-center justify-center rounded-lg text-sm bg-stone-600 text-center cursor-pointer"
+        class="flex gap-2 p-2 items-center justify-center rounded-lg text-sm bg-cBgLight text-center cursor-pointer"
         v-for="item in items"
         @click="item.onUse"
         :class="item.amount ? '' : 'hidden'"

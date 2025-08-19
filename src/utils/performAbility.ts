@@ -1,6 +1,6 @@
 import type { Ability, GladiatorStats } from "@/types";
 import { handleStat } from "@/utils";
-import { StatKey, StatAction, AbilityType } from "@/enums";
+import { StatKey, StatAction, AbilityType, Operator } from "@/enums";
 
 export default function performAbility(
   ability: Ability,
@@ -11,8 +11,8 @@ export default function performAbility(
 ) {
   handleStat(
     curAttackerStats,
-    StatKey.RAGE,
-    ability.rage,
+    StatKey.STAMINA,
+    ability.stamina,
     StatAction.DECREASE,
     curAttackerUpdatedStats
   );
@@ -26,20 +26,20 @@ export default function performAbility(
 
   function calculateValue(valueObj: {
     stat: StatKey;
-    operator?: string;
+    operator?: Operator;
     modifier?: number;
   }) {
     if (!valueObj.operator) {
       return curAttackerStats[valueObj.stat];
     }
     switch (valueObj.operator) {
-      case "*":
+      case Operator.MULTIPLICATION:
         return (
           curAttackerStats[valueObj.stat] *
           (valueObj?.modifier ?? 1) *
           (100 / (100 + curDefenderStats.defense))
         );
-      case "/":
+      case Operator.DIVISION:
         return (
           (curAttackerStats[valueObj.stat] / (valueObj?.modifier ?? 1)) *
           (100 / (100 + curDefenderStats.defense))
@@ -74,4 +74,6 @@ export default function performAbility(
         curDefenderUpdatedStats
       );
     });
+
+  ability.cooldown = 0;
 }

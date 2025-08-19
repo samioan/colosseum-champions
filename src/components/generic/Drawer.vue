@@ -27,13 +27,9 @@ onUnmounted(() => {
   <transition name="slide-up">
     <div
       v-if="open"
-      :class="[
-        'fixed left-0 bottom-0 w-full rounded-t-xl bg-stone-800 z-50 transform transition-transform duration-300 ease-in-out flex flex-col max-h-[90vh] border-2 border-yellow-400',
-      ]"
+      class="fixed left-0 bottom-0 w-full rounded-t-xl bg-cBgDark z-50 transform transition-transform duration-300 ease-in-out flex flex-col max-h-[90vh]"
     >
-      <div
-        class="p-4 border-b-2 border-yellow-400 flex justify-between items-center"
-      >
+      <div class="p-4 flex justify-between items-center">
         <h2 class="text-lg font-bold text-gray-100">{{ title }}</h2>
         <button @click="open = false" class="text-gray-300 cursor-pointer">
           X
