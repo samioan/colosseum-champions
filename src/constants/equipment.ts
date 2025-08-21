@@ -1,9 +1,11 @@
 import { StatKey, EquipmentId, EquipmentSlot, Operator } from "@/enums";
 import type { Equipment } from "@/types";
+import { shortSword, longSword } from "@/assets";
 
 export const EQUIPMENT: Record<EquipmentId, Equipment> = {
   [EquipmentId.SHORT_SWORD]: {
     label: "Short Sword",
+    image: shortSword,
     description: "STR + 10",
     gold: 5,
     isEquipped: false,
@@ -19,6 +21,7 @@ export const EQUIPMENT: Record<EquipmentId, Equipment> = {
   },
   [EquipmentId.LONG_SWORD]: {
     label: "Long Sword",
+    image: longSword,
     description: "STR + 20",
     gold: 10,
     isEquipped: false,
@@ -34,6 +37,7 @@ export const EQUIPMENT: Record<EquipmentId, Equipment> = {
   },
   [EquipmentId.SMALL_SHIELD]: {
     label: "Small Shield",
+    image: "",
     description: "DEF + 10",
     gold: 15,
     isEquipped: false,
@@ -49,6 +53,7 @@ export const EQUIPMENT: Record<EquipmentId, Equipment> = {
   },
   [EquipmentId.LARGE_SHIELD]: {
     label: "Large Shield",
+    image: "",
     description: "DEF + 20",
     gold: 20,
     isEquipped: false,
@@ -64,6 +69,7 @@ export const EQUIPMENT: Record<EquipmentId, Equipment> = {
   },
   [EquipmentId.LIGHT_MAIL]: {
     label: "Light Mail",
+    image: "",
     description: "DEF + 10",
     gold: 25,
     isEquipped: false,
@@ -79,6 +85,7 @@ export const EQUIPMENT: Record<EquipmentId, Equipment> = {
   },
   [EquipmentId.LIGHT_GLOVES]: {
     label: "Light Gloves",
+    image: "",
     description: "DEF + 10",
     gold: 30,
     isEquipped: false,
@@ -94,6 +101,7 @@ export const EQUIPMENT: Record<EquipmentId, Equipment> = {
   },
   [EquipmentId.LIGHT_BOOTS]: {
     label: "Light Boots",
+    image: "",
     description: "DEF + 10",
     gold: 35,
     isEquipped: false,
@@ -109,6 +117,7 @@ export const EQUIPMENT: Record<EquipmentId, Equipment> = {
   },
   [EquipmentId.LIGHT_HELMET]: {
     label: "Light Helmet",
+    image: "",
     description: "DEF + 10",
     gold: 40,
     isEquipped: false,
@@ -124,6 +133,7 @@ export const EQUIPMENT: Record<EquipmentId, Equipment> = {
   },
   [EquipmentId.HEAVY_MAIL]: {
     label: "Heavy Mail",
+    image: "",
     description: "DEF + 20",
     gold: 45,
     isEquipped: false,
@@ -139,6 +149,7 @@ export const EQUIPMENT: Record<EquipmentId, Equipment> = {
   },
   [EquipmentId.HEAVY_GLOVES]: {
     label: "Heavy Gloves",
+    image: "",
     description: "DEF + 20",
     gold: 50,
     isEquipped: false,
@@ -154,6 +165,7 @@ export const EQUIPMENT: Record<EquipmentId, Equipment> = {
   },
   [EquipmentId.HEAVY_BOOTS]: {
     label: "Heavy Boots",
+    image: "",
     description: "DEF + 20",
     gold: 55,
     isEquipped: false,
@@ -169,6 +181,7 @@ export const EQUIPMENT: Record<EquipmentId, Equipment> = {
   },
   [EquipmentId.HEAVY_HELMET]: {
     label: "Heavy Helmet",
+    image: "",
     description: "DEF + 20",
     gold: 60,
     isEquipped: false,

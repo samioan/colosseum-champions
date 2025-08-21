@@ -8,6 +8,7 @@ import { ABILITIES } from "@/constants/abilities";
 import { PERKS } from "@/constants/perks";
 import { ITEMS } from "@/constants/items";
 import { EQUIPMENT } from "@/constants/equipment";
+import { EQUIPMENT_LABELS } from "@/constants/equipmentLabels";
 
 export {
   NAMES,
@@ -20,4 +21,5 @@ export {
   PERKS,
   ITEMS,
   EQUIPMENT,
+  EQUIPMENT_LABELS,
 };

@@ -13,6 +13,7 @@ type AbilityPayload = {
 export type Ability = {
   label: string;
   description: string;
+  image: string;
   points: number;
   stamina: number;
   cooldown: number;

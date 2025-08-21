@@ -21,11 +21,6 @@ export const useGameStore = defineStore("game", () => {
 
   const gladiatorActivityButtons = computed(() => [
     {
-      onClick: () => toggleDrawer(DrawerState.STATS, "Stats"),
-      label: "S",
-      colorClasses: "bg-cBlue",
-    },
-    {
       onClick: () => toggleDrawer(DrawerState.ABILITIES, "Abilities"),
       label: "A",
       colorClasses: "bg-cBlue",

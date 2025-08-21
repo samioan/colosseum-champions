@@ -3,4 +3,19 @@ import titleBackground from "@/assets/titleBackground.gif";
 import dungeonBackground from "@/assets/dungeonBackground.jpg";
 import logo from "@/assets/logo.png";
 
-export { gameBackground, titleBackground, logo, dungeonBackground };
+import { shortSword, longSword } from "@/assets/equipment";
+import { healthPotion } from "@/assets/items";
+import { smash } from "@/assets/abilities";
+import { defensive } from "@/assets/perks";
+
+export {
+  gameBackground,
+  titleBackground,
+  logo,
+  dungeonBackground,
+  shortSword,
+  longSword,
+  healthPotion,
+  smash,
+  defensive,
+};

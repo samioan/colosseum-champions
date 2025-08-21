@@ -6,8 +6,6 @@ export enum StatKey {
   MAX_STAMINA = "maxStamina",
   STRENGTH = "strength",
   MAX_STRENGTH = "maxStrength",
-  DEXTERITY = "dexterity",
-  MAX_DEXTERITY = "maxDexterity",
   DEFENSE = "defense",
   MAX_DEFENSE = "maxDefense",
   EXPERIENCE = "experience",

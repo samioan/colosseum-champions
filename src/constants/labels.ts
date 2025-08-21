@@ -5,7 +5,6 @@ export const LABELS: Record<Label, string> = {
   [Label.STAMINA]: "SP",
   [Label.EXPERIENCE]: "XP",
   [Label.STRENGTH]: "STR",
-  [Label.DEXTERITY]: "DEX",
   [Label.DEFENSE]: "DEF",
   [Label.GOLD]: "GOLD",
   [Label.FIGHT]: "F",

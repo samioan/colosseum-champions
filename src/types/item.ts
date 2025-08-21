@@ -5,6 +5,7 @@ export type Item = {
   description: string;
   gold: number;
   amount: number;
+  image: string;
   bonuses: {
     stat: StatKey;
     operator: Operator;

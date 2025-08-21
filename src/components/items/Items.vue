@@ -1,10 +1,8 @@
 <script setup lang="ts">
-import { Button, Dropdown } from "@/components";
-import { LABELS } from "@/constants";
-
 defineProps<{
   gold: number;
   items: {
+    image: string;
     label: string;
     description: string;
     gold: number;
@@ -15,44 +13,32 @@ defineProps<{
 </script>
 
 <template>
-  <div class="flex-1 p-4 pt-0 mt-[70px]">
-    <div
-      class="absolute top-[59px] w-full p-4 bg-cBgDark left-0 flex items-center justify-between gap-2 pb-4 mb-4"
-    >
-      <span class="font-medium">{{ LABELS.gold }}</span>
-      {{ gold }}
-    </div>
+  <div class="p-4">
     <div
       v-for="item in items"
-      class="flex flex-col items-center justify-center gap-2 p-4 rounded-lg"
+      class="p-4 rounded-xl"
       :class="{
-        'bg-cBgLight': item.amount,
+        'bg-cBgLight border-2 border-cYellow': item.amount,
         'bg-cBgDarker': !item.amount,
+        'opacity-50': gold < item.gold && !item.amount,
         'mb-4': items.indexOf(item) < items.length - 1,
       }"
+      @click="item.onBuy()"
     >
-      <Dropdown>
-        <template #header>
-          <div class="text-lg font-bold text-white text-center">
-            {{ item.label }} {{ item.amount }}
+      <div class="flex gap-4 items-center">
+        <img v-if="item.image" class="w-15 h-15" :src="item.image" />
+        <div v-else class="rounded-lg w-15 h-15 bg-cBgDark" />
+        <div class="flex flex-1 flex-col gap-2">
+          <div class="text-sm font-bold text-white">
+            {{ item.label }}
           </div>
-        </template>
-        <template #content>
-          <div class="flex flex-col gap-2 pt-2">
-            <div class="text-sm text-gray-400 text-center">
-              {{ item.description }}
-            </div>
-            <div class="flex justify-center gap-4">
-              <Button
-                label="Buy"
-                :disabled="gold < item.gold"
-                :on-click="item.onBuy"
-                color-classes="bg-cBlue"
-              />
-            </div>
+          <div class="text-xs text-gray-400">
+            {{ item.description }}
           </div>
-        </template>
-      </Dropdown>
+          <div class="text-xs text-gray-400">Gold: {{ item.gold }}</div>
+        </div>
+        <div>{{ item.amount }}</div>
+      </div>
     </div>
   </div>
 </template>

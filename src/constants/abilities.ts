@@ -1,10 +1,12 @@
 import type { Ability } from "@/types";
 import { StatKey, AbilityId, AbilityType, Operator } from "@/enums";
+import { smash } from "@/assets";
 
 export const ABILITIES: Record<AbilityId, Ability> = {
   [AbilityId.SMASH]: {
     label: "Smash",
-    description: "Deals x2 SP DMG",
+    description: "x2 SP DMG",
+    image: smash,
     stamina: 10,
     cooldown: 0,
     maxCooldown: 2,
@@ -26,7 +28,8 @@ export const ABILITIES: Record<AbilityId, Ability> = {
   },
   [AbilityId.SLASH]: {
     label: "Slash",
-    description: "Deals x5 HP DMG",
+    description: "x5 HP DMG",
+    image: "",
     stamina: 15,
     cooldown: 0,
     maxCooldown: 3,
@@ -48,7 +51,8 @@ export const ABILITIES: Record<AbilityId, Ability> = {
   },
   [AbilityId.STRIKE]: {
     label: "Strike",
-    description: "Deals x1 HP + SP DMG",
+    description: "x1 HP + SP DMG",
+    image: "",
     stamina: 20,
     cooldown: 0,
     maxCooldown: 2,
@@ -75,7 +79,8 @@ export const ABILITIES: Record<AbilityId, Ability> = {
   },
   [AbilityId.BASH]: {
     label: "Bash",
-    description: "Deals x1 STR DMG",
+    description: "x1 STR DMG",
+    image: "",
     stamina: 25,
     cooldown: 0,
     maxCooldown: 3,
@@ -95,7 +100,8 @@ export const ABILITIES: Record<AbilityId, Ability> = {
   },
   [AbilityId.SLICE]: {
     label: "Slice",
-    description: "Deals x1 DEF DMG",
+    description: "x1 DEF DMG",
+    image: "",
     stamina: 30,
     cooldown: 0,
     maxCooldown: 2,
@@ -116,6 +122,7 @@ export const ABILITIES: Record<AbilityId, Ability> = {
   [AbilityId.HEAL]: {
     label: "Heal",
     description: "Heals x1 HP",
+    image: "",
     stamina: 10,
     cooldown: 0,
     maxCooldown: 3,

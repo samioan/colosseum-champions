@@ -4,7 +4,7 @@ import { LABELS } from "@/constants";
 
 <template>
   <div
-    class="z-[1] absolute top-[59px] w-full p-4 bg-cBgDark left-0 flex items-center justify-between gap-2"
+    class="w-full p-4 bg-cBgDark flex items-center justify-between gap-2 border-b-2 border-gray-500"
   >
     <span class="font-medium">{{ LABELS.points }}</span>
     <slot />

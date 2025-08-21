@@ -1,4 +1,4 @@
-import type { Gladiator, Ability, Perk } from "@/types";
+import type { Gladiator, Ability, Perk, Equipment } from "@/types";
 import { createName, getRandomRange } from "@/utils";
 import {
   ENEMY_STAT_RANGES,
@@ -26,8 +26,6 @@ export default function createEnemy(gladiatorLevel: number = 1) {
     getRandomRange(ranges.STRENGTH.min, ranges.STRENGTH.max) * gladiatorLevel;
   const defense =
     getRandomRange(ranges.DEFENSE.min, ranges.DEFENSE.max) * gladiatorLevel;
-  const dexterity =
-    getRandomRange(ranges.DEXTERITY.min, ranges.DEXTERITY.max) * gladiatorLevel;
 
   function generateRandomAbilities() {
     const keys = Object.keys(ABILITIES) as AbilityId[];
@@ -63,7 +61,9 @@ export default function createEnemy(gladiatorLevel: number = 1) {
   }
 
   function equipRandomFromEachSlot() {
-    const equips = EQUIPMENT;
+    const equips: Record<EquipmentId, Equipment> = JSON.parse(
+      JSON.stringify(EQUIPMENT)
+    );
 
     for (const id in equips) {
       equips[id as EquipmentId].isEquipped = false;
@@ -98,8 +98,6 @@ export default function createEnemy(gladiatorLevel: number = 1) {
       [StatKey.MAX_STRENGTH]: strength,
       [StatKey.DEFENSE]: defense,
       [StatKey.MAX_DEFENSE]: defense,
-      [StatKey.DEXTERITY]: dexterity,
-      [StatKey.MAX_DEXTERITY]: dexterity,
       [StatKey.EXPERIENCE]: 0,
       [StatKey.MAX_EXPERIENCE]: 0,
       [StatKey.POINTS]: 0,

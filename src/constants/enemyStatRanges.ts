@@ -11,10 +11,6 @@ export const ENEMY_STAT_RANGES = {
     min: 3,
     max: 6,
   },
-  DEXTERITY: {
-    min: 3,
-    max: 6,
-  },
   DEFENSE: {
     min: 3,
     max: 6,

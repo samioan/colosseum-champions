@@ -1,5 +1,10 @@
 import type { Gladiator, GladiatorStats } from "@/types";
-import { handleStat, performAbility, checkForLevelUp } from "@/utils";
+import {
+  handleStat,
+  performAbility,
+  checkForLevelUp,
+  getRandomRange,
+} from "@/utils";
 import { StatAction, StatKey } from "@/enums";
 
 export default function handleFighting(
@@ -45,9 +50,7 @@ export default function handleFighting(
       });
     }
 
-    const didEvade =
-      Math.random() <
-      gladiator.stats.dexterity / (gladiator.stats.dexterity + 100);
+    const didEvade = getRandomRange(0, 100) >= 80;
 
     const damage = didEvade
       ? 0
@@ -56,12 +59,10 @@ export default function handleFighting(
             curAttacker.stats.strength *
             (100 / (100 + curDefender.stats.defense));
 
-          const critChance =
-            curAttacker.stats.dexterity / (curAttacker.stats.dexterity + 200);
-          const isCrit = Math.random() < critChance;
+          const isCrit = getRandomRange(0, 100) >= 80;
 
           if (isCrit) {
-            damage *= 5;
+            damage *= 2;
           }
 
           return Math.floor(damage);
@@ -100,7 +101,6 @@ export default function handleFighting(
       StatKey.STAMINA,
       StatKey.STRENGTH,
       StatKey.DEFENSE,
-      StatKey.DEXTERITY,
     ].forEach((stat) => {
       const maxStat = `max${stat[0].toUpperCase()}${stat.slice(1)}` as StatKey;
       handleStat(

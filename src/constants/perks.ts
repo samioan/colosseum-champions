@@ -1,27 +1,12 @@
 import type { Perk } from "@/types";
 import { StatKey, PerkId, Operator } from "@/enums";
+import { defensive } from "@/assets";
 
 export const PERKS: Record<PerkId, Perk> = {
-  [PerkId.AGILE]: {
-    label: "Agile",
-    description: "DEX * 2 when below 25% HP",
-    isUnlocked: false,
-    isEquipped: false,
-    points: 2,
-    bonuses: [
-      {
-        stat: StatKey.MAX_DEXTERITY,
-        operator: Operator.MULTIPLICATION,
-        value: 2,
-        requirements: [
-          { stat: StatKey.HEALTH, operator: Operator.LESS_THAN, value: 0.25 },
-        ],
-      },
-    ],
-  },
   [PerkId.DEFENSIVE]: {
     label: "Defensive",
     description: "DEF * 2 when below 25% SP",
+    image: defensive,
     isUnlocked: false,
     isEquipped: false,
     points: 4,
@@ -39,6 +24,7 @@ export const PERKS: Record<PerkId, Perk> = {
   [PerkId.STRONG]: {
     label: "Strong",
     description: "STR * 2 when below 25% HP and 25% SP",
+    image: "",
     isUnlocked: false,
     isEquipped: false,
     points: 6,
@@ -57,6 +43,7 @@ export const PERKS: Record<PerkId, Perk> = {
   [PerkId.TIRELESS]: {
     label: "Tireless",
     description: "Max SP * 2",
+    image: "",
     isUnlocked: false,
     isEquipped: false,
     points: 8,

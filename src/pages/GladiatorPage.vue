@@ -4,20 +4,17 @@ import { storeToRefs } from "pinia";
 import { useGameStore } from "@/stores/game";
 import { usePlayerStore } from "@/stores/player";
 import {
-  CardContainer,
-  CardHeader,
   Button,
-  Header,
   Drawer,
-  CardStatBar,
   CodexPerks,
-  CodexStats,
   Items,
   CodexAbilities,
   Armory,
+  Dropdown,
+  CodexPoints,
 } from "@/components";
-import { dungeonBackground } from "@/assets";
 import { DrawerState } from "@/enums";
+import { LABELS } from "@/constants";
 
 const gameStore = useGameStore();
 const playerStore = usePlayerStore();
@@ -27,37 +24,25 @@ const { gladiatorActivityButtons, drawer } = storeToRefs(gameStore);
 const {
   player,
   playerStats,
-  playerHeaderProps,
-  playerMainStats,
   playerSecondaryStats,
   playerAbilities,
   playerPerks,
   playerItems,
   playerEquipment,
+  playerSelectedAbilities,
+  playerSelectedPerks,
+  playerSelectedItems,
+  playerSelectedEquipment,
 } = storeToRefs(playerStore);
 
-const codexProps = computed(() => ({
-  statsSection: {
-    title: "STATS",
-    data: {
-      points: player.value.stats.points,
-      stats: playerSecondaryStats.value,
-    },
-  },
-  abilitiesSection: {
-    title: "ABILITES",
-    data: {
-      points: player.value.stats.points,
-      abilities: playerAbilities.value,
-    },
-  },
-  perksSection: {
-    title: "PERKS",
-    data: {
-      points: player.value.stats.points,
-      perks: playerPerks.value,
-    },
-  },
+const abilitiesProps = computed(() => ({
+  points: player.value.stats.points,
+  abilities: playerAbilities.value,
+}));
+
+const perksProps = computed(() => ({
+  points: player.value.stats.points,
+  perks: playerPerks.value,
 }));
 
 const armoryProps = computed(() => ({
@@ -77,49 +62,217 @@ watch(
     player.value.stats.stamina = playerStats.value.maxStamina;
     player.value.stats.strength = playerStats.value.maxStrength;
     player.value.stats.defense = playerStats.value.maxDefense;
-    player.value.stats.dexterity = playerStats.value.maxDexterity;
   },
   { deep: true }
 );
 </script>
 
 <template>
-  <div class="flex min-w-screen min-h-screen">
-    <div class="flex flex-col justify-center mx-auto sm:w-1/2 w-full z-[1]">
-      <Header
-        ><img class="object-cover h-full" :src="dungeonBackground"
-      /></Header>
-      <CardContainer>
-        <CardHeader v-bind="playerHeaderProps" />
+  <div class="flex w-screen min-h-screen">
+    <div class="flex flex-col mx-auto sm:w-1/2 w-full z-[1] min-h-screen">
+      <div
+        class="bg-cBgDark flex flex-col w-full pb-[74px] min-h-screen border-2 border-gray-500"
+      >
+        <Dropdown>
+          <template #header>
+            <div
+              class="flex p-4 justify-between items-center gap-4 border-b-2 border-gray-500"
+            >
+              <h2 class="text-sm font-bold text-gray-100">
+                {{ player.name }}
+              </h2>
+              <span
+                class="text-xs px-2 py-1 rounded-full bg-yellow-900 text-yellow-200 font-semibold whitespace-nowrap"
+              >
+                {{ LABELS.level }} {{ player.stats.level }}
+              </span>
+            </div>
+          </template>
+          <template #content>
+            <div
+              class="flex p-4 flex-wrap gap-4 border-b-2 border-gray-500 justify-between"
+            >
+              <div class="flex gap-2 text-xs">
+                <span class="text-gray-300"> XP:</span>
+                <span class="text-gray-100"
+                  >{{ player.stats.experience }} /
+                  {{ player.stats.maxExperience }}</span
+                >
+              </div>
+              <div class="flex gap-2 text-xs">
+                <span class="text-gray-300"> P:</span>
+                <span class="text-gray-100">{{ player.stats.points }}</span>
+              </div>
+              <div class="flex gap-2 text-xs">
+                <span class="text-gray-300"> G:</span>
+                <span class="text-gray-100">{{ player.stats.gold }}</span>
+              </div>
+            </div>
+          </template>
+        </Dropdown>
 
-        <div class="flex gap-4">
-          <div class="flex-1 flex flex-col gap-3">
-            <CardStatBar v-for="stat in playerMainStats" v-bind="stat" />
-          </div>
-        </div>
+        <Dropdown>
+          <template #header
+            ><div class="p-4 border-b-2 border-gray-500 text-center">
+              STATS
+            </div></template
+          >
+          <template #content>
+            <div class="flex flex-col p-2 border-b-2 border-gray-500">
+              <div v-for="statObj in playerSecondaryStats">
+                <div
+                  class="flex items-center justify-between p-2"
+                  :class="player.stats.points ? '' : 'pointer-events-none'"
+                  @click="statObj.onClick"
+                >
+                  <div class="flex gap-2 text-sm">
+                    <span class="font-medium text-gray-300"
+                      >{{ statObj.label }}:</span
+                    >
+                    <span class="text-gray-100">{{ statObj.stat }}</span>
+                  </div>
 
-        <div class="flex flex-wrap gap-2 mt-2 justify-center">
+                  <button
+                    v-if="player.stats.points"
+                    class="px-2 py-1 text-xs font-bold rounded-full bg-cBlue text-white disabled:opacity-50"
+                  >
+                    +
+                  </button>
+                </div>
+              </div>
+            </div>
+          </template>
+        </Dropdown>
+
+        <Dropdown v-if="playerSelectedAbilities?.length">
+          <template #header
+            ><div class="p-4 border-b-2 border-gray-500 text-center">
+              ABILITIES
+            </div>
+          </template>
+          <template #content>
+            <div
+              class="flex flex-wrap justify-center gap-4 p-4 border-b-2 border-gray-500"
+            >
+              <div
+                v-for="ability in playerSelectedAbilities"
+                @click="ability.onActivate"
+                class="rounded-lg bg-cBgLight flex items-center justify-center w-15 h-15"
+                :class="{
+                  'border-2 border-cYellow': ability.isActive,
+                }"
+              >
+                <img
+                  v-if="ability.image"
+                  class="p-2 rounded-lg object-cover"
+                  :src="ability.image"
+                />
+                <div v-else class="w-10 h-10 rounded-lg bg-cBgDark" />
+              </div>
+            </div>
+          </template>
+        </Dropdown>
+
+        <Dropdown v-if="playerSelectedPerks?.length">
+          <template #header
+            ><div class="p-4 border-b-2 border-gray-500 text-center">
+              PERKS
+            </div></template
+          >
+          <template #content>
+            <div
+              class="flex flex-wrap justify-center gap-4 p-4 border-b-2 border-gray-500"
+            >
+              <img
+                class="p-2 justify-center rounded-lg bg-cBgLight w-15 h-15 object-cover"
+                v-for="perk in playerSelectedPerks"
+                :src="perk"
+              />
+            </div>
+          </template>
+        </Dropdown>
+
+        <Dropdown v-if="playerSelectedEquipment?.length">
+          <template #header>
+            <div class="p-4 border-b-2 border-gray-500 text-center">
+              EQUIPMENT
+            </div>
+          </template>
+          <template #content>
+            <div
+              class="flex flex-wrap justify-center gap-4 p-4 border-b-2 border-gray-500"
+            >
+              <img
+                class="p-2 justify-center rounded-lg bg-cBgLight w-15 h-15 object-cover"
+                v-for="item in playerSelectedEquipment"
+                :src="item"
+              />
+            </div>
+          </template>
+        </Dropdown>
+
+        <Dropdown v-if="playerSelectedItems?.length">
+          <template #header
+            ><div class="p-4 border-b-2 border-gray-500 text-center">
+              ITEMS
+            </div></template
+          >
+          <template #content>
+            <div
+              class="flex flex-wrap justify-center gap-4 p-4 border-b-2 border-gray-500"
+            >
+              <div
+                v-for="item in playerSelectedItems"
+                class="relative w-15 h-15"
+              >
+                <img
+                  class="w-15 h-15 object-cover p-2 rounded-lg bg-cBgLight"
+                  :src="item.image"
+                />
+                <div
+                  class="absolute bottom-0 right-0 bg-cBgDarker text-white text-xs px-1 rounded-tl-lg rounded-br-lg"
+                >
+                  {{ item.amount }}
+                </div>
+              </div>
+            </div>
+          </template>
+        </Dropdown>
+
+        <div
+          class="flex flex-wrap gap-2 p-4 justify-center fixed bottom-0 left-0 w-full bg-cBgDark border-2 border-gray-500"
+        >
           <Button
             v-for="button in gladiatorActivityButtons"
             v-bind="button"
             class="w-fit text-xl"
           />
         </div>
-      </CardContainer>
+      </div>
     </div>
+
     <Drawer v-model="drawer.isOpen" :title="drawer.title">
+      <template #header>
+        <div
+          v-if="
+            drawer.state === DrawerState.ARMORY ||
+            drawer.state === DrawerState.ITEMS
+          "
+          class="w-full p-4 bg-cBgDark flex items-center gap-2 border-b-2 border-gray-500"
+        >
+          <span class="font-medium">{{ LABELS.gold }}:</span>
+          {{ player.stats.gold }}
+        </div>
+        <CodexPoints v-else>{{ player.stats.points }}</CodexPoints>
+      </template>
       <template #content>
-        <CodexStats
-          v-if="drawer.state === DrawerState.STATS"
-          v-bind="codexProps.statsSection.data"
-        />
         <CodexAbilities
           v-if="drawer.state === DrawerState.ABILITIES"
-          v-bind="codexProps.abilitiesSection.data"
+          v-bind="abilitiesProps"
         />
         <CodexPerks
           v-if="drawer.state === DrawerState.PERKS"
-          v-bind="codexProps.perksSection.data"
+          v-bind="perksProps"
         />
         <Armory
           v-if="drawer.state === DrawerState.ARMORY"

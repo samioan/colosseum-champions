@@ -102,11 +102,6 @@ export const usePlayerStore = defineStore("player", () => {
         maxStat: StatKey.MAX_DEFENSE,
         value: 1,
       },
-      {
-        stat: StatKey.DEXTERITY,
-        maxStat: StatKey.MAX_DEXTERITY,
-        value: 1,
-      },
     ].map(({ stat, maxStat, value }) => ({
       label: LABELS[stat as unknown as Label],
       stat: playerStats.value[stat],
@@ -148,6 +143,7 @@ export const usePlayerStore = defineStore("player", () => {
     Object.values(player.value.abilities)
       .filter((ability) => ability.isEquipped)
       .map((ability) => ({
+        image: ability.image,
         label: ability.label,
         isActive: ability.isActive,
         cooldown: ability.cooldown,
@@ -166,7 +162,7 @@ export const usePlayerStore = defineStore("player", () => {
   const playerSelectedPerks = computed(() =>
     Object.values(player.value.perks)
       .filter((perk) => perk.isEquipped)
-      .map((perk) => perk.label)
+      .map((perk) => perk.image)
   );
 
   const playerItems = computed(() => {
@@ -186,10 +182,12 @@ export const usePlayerStore = defineStore("player", () => {
   });
 
   const playerSelectedItems = computed(() => {
-    return Object.values(player.value.items).map((item) => ({
-      ...item,
-      onUse: () => useItem(item, player.value.stats, playerStats.value),
-    }));
+    return Object.values(player.value.items)
+      .filter((item) => item.amount)
+      .map((item) => ({
+        ...item,
+        onUse: () => useItem(item, player.value.stats, playerStats.value),
+      }));
   });
 
   const playerEquipment = computed(() => {
@@ -219,6 +217,12 @@ export const usePlayerStore = defineStore("player", () => {
     }));
   });
 
+  const playerSelectedEquipment = computed(() => {
+    return Object.values(player.value.equipment)
+      .filter((equipment) => equipment.isEquipped)
+      .map(({ image }) => image);
+  });
+
   return {
     player,
     playerHeaderProps,
@@ -232,5 +236,6 @@ export const usePlayerStore = defineStore("player", () => {
     playerSelectedItems,
     playerStats,
     playerEquipment,
+    playerSelectedEquipment,
   };
 });

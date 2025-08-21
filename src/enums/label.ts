@@ -3,7 +3,6 @@ export enum Label {
   STAMINA = "stamina",
   EXPERIENCE = "experience",
   STRENGTH = "strength",
-  DEXTERITY = "dexterity",
   DEFENSE = "defense",
   GOLD = "gold",
   FIGHT = "fight",

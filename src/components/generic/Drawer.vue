@@ -1,17 +1,116 @@
 <script setup lang="ts">
-import { watch, onUnmounted } from "vue";
+import { ref, watch, onUnmounted } from "vue";
 
-defineProps<{
-  title: string;
-}>();
+defineProps<{ title: string }>();
 
 const open = defineModel<boolean>();
+
+const startY = ref(0);
+const currentY = ref(0);
+const offsetY = ref(0);
+const isDragging = ref(false);
+const lastTime = ref(0);
+const velocity = ref(0);
+const isSnapAnimating = ref(false);
+const closing = ref(false);
+
+const THRESHOLD = 100;
+const FLICK_SPEED = 800;
+
+function addGlobalListeners() {
+  window.addEventListener("mousemove", onMove);
+  window.addEventListener("mouseup", onEnd);
+  window.addEventListener("touchmove", onMove, { passive: false });
+  window.addEventListener("touchend", onEnd);
+}
+
+function removeGlobalListeners() {
+  window.removeEventListener("mousemove", onMove);
+  window.removeEventListener("mouseup", onEnd);
+  window.removeEventListener("touchmove", onMove as any);
+  window.removeEventListener("touchend", onEnd);
+}
+
+const onStart = (e: TouchEvent | MouseEvent) => {
+  isDragging.value = true;
+  isSnapAnimating.value = false;
+  closing.value = false;
+
+  startY.value =
+    "touches" in e ? e.touches[0].clientY : (e as MouseEvent).clientY;
+  currentY.value = startY.value;
+  lastTime.value = performance.now();
+  velocity.value = 0;
+
+  addGlobalListeners();
+};
+
+const onMove = (e: TouchEvent | MouseEvent) => {
+  if (!isDragging.value) return;
+
+  if ("touches" in e) {
+    if (e.touches.length > 1) return;
+    e.preventDefault();
+  }
+
+  const y = "touches" in e ? e.touches[0].clientY : (e as MouseEvent).clientY;
+
+  const now = performance.now();
+  const dy = y - currentY.value;
+  const dt = now - lastTime.value || 1;
+
+  velocity.value = (dy / dt) * 1000;
+  currentY.value = y;
+  lastTime.value = now;
+
+  offsetY.value = Math.max(0, currentY.value - startY.value);
+};
+
+const onEnd = () => {
+  if (!isDragging.value) return;
+  isDragging.value = false;
+  removeGlobalListeners();
+
+  const shouldClose = offsetY.value > THRESHOLD || velocity.value > FLICK_SPEED;
+
+  if (shouldClose) {
+    closing.value = true;
+    setTimeout(() => {
+      closing.value = false;
+      open.value = false;
+    }, 100);
+  } else {
+    isSnapAnimating.value = true;
+    offsetY.value = 0;
+  }
+};
+
+const onTransformEnd = (e: TransitionEvent) => {
+  if (e.propertyName !== "transform") return;
+  if (isSnapAnimating.value) isSnapAnimating.value = false;
+};
+
+const onFlickTransitionEnd = (e: TransitionEvent) => {
+  if (!closing.value) return;
+  if (e.propertyName !== "transform") return;
+
+  closing.value = false;
+  offsetY.value = 0;
+  open.value = false;
+};
+
+const onAfterLeave = () => {
+  offsetY.value = 0;
+  isSnapAnimating.value = false;
+};
 
 watch(open, (val) => {
   document.body.style.overflow = val ? "hidden" : "";
 });
+
 onUnmounted(() => {
   document.body.style.overflow = "";
+  removeGlobalListeners();
 });
 </script>
 
@@ -21,19 +120,41 @@ onUnmounted(() => {
       v-if="open"
       class="fixed inset-0 bg-black/70 z-40 transition-opacity"
       @click="open = false"
-    ></div>
+    />
   </transition>
 
-  <transition name="slide-up">
+  <transition name="slide-up" @after-leave="onAfterLeave">
     <div
-      v-if="open"
-      class="fixed left-0 bottom-0 w-full rounded-t-xl bg-cBgDark z-50 transform transition-transform duration-300 ease-in-out flex flex-col max-h-[90vh]"
+      v-if="open || closing"
+      class="fixed left-0 bottom-0 w-full rounded-t-xl bg-cBgDark z-50 flex flex-col max-h-[90vh] will-change-transform border-2 border-gray-500"
+      :class="[
+        {
+          'no-transition': isDragging,
+          'snap-transition': isSnapAnimating,
+          'flick-leave': closing,
+        },
+      ]"
+      :style="{ '--drag-y': `${offsetY}px` }"
+      @transitionend="
+        onTransformEnd;
+        onFlickTransitionEnd;
+      "
     >
-      <div class="p-4 flex justify-between items-center">
-        <h2 class="text-lg font-bold text-gray-100">{{ title }}</h2>
-        <button @click="open = false" class="text-gray-300 cursor-pointer">
-          X
-        </button>
+      <div
+        class="select-none"
+        @touchstart.passive="onStart"
+        @mousedown="onStart"
+      >
+        <div class="w-full flex justify-center pt-2">
+          <div class="w-12 h-1.5 bg-gray-500 rounded-full"></div>
+        </div>
+
+        <div
+          class="p-4 flex justify-between items-center cursor-grab active:cursor-grabbing border-b-2 border-gray-500"
+        >
+          <h2 class="text-lg font-bold text-gray-100">{{ title }}</h2>
+        </div>
+        <slot name="header" />
       </div>
 
       <div class="overflow-y-auto scrollbar-hidden">
@@ -46,7 +167,7 @@ onUnmounted(() => {
 <style scoped>
 .fade-enter-active,
 .fade-leave-active {
-  transition: opacity 0.3s;
+  transition: opacity 0.25s;
 }
 .fade-enter-from,
 .fade-leave-to {
@@ -59,6 +180,27 @@ onUnmounted(() => {
 }
 .slide-up-enter-from,
 .slide-up-leave-to {
-  transform: translateY(100%);
+  --base-y: 100%;
+}
+.slide-up-enter-to,
+.slide-up-leave-from {
+  --base-y: 0%;
+}
+
+div[style*="--drag-y"] {
+  transform: translateY(calc(var(--base-y, 0%) + var(--drag-y, 0px)));
+}
+
+.no-transition {
+  transition: none !important;
+}
+
+.snap-transition {
+  transition: transform 0.18s ease-out !important;
+}
+
+.flick-leave {
+  transition: transform 0.25s ease-out !important;
+  transform: translateY(calc(100% + var(--drag-y, 0px))) !important;
 }
 </style>
