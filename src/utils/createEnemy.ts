@@ -103,7 +103,6 @@ export default function createEnemy(gladiatorLevel: number = 1) {
       [StatKey.POINTS]: 0,
       [StatKey.GOLD]: 0,
     },
-    hasTurn: false,
     abilities: generateRandomAbilities(),
     perks: generateRandomPerks(),
     items: ITEMS,

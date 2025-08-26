@@ -2,10 +2,11 @@ import { defineStore } from "pinia";
 import { ref, computed } from "vue";
 import { useRouter } from "vue-router";
 import { LABELS, ROUTES } from "@/constants";
-import { DrawerState } from "@/enums";
+import { DrawerState, FightTurn } from "@/enums";
 
 export const useGameStore = defineStore("game", () => {
   const router = useRouter();
+  const fightTurn = ref<FightTurn>(FightTurn.NONE);
 
   const drawer = ref<{ isOpen: boolean; state: DrawerState; title: string }>({
     isOpen: false,
@@ -51,5 +52,6 @@ export const useGameStore = defineStore("game", () => {
     gladiatorActivityButtons,
     drawer,
     toggleDrawer,
+    fightTurn,
   };
 });

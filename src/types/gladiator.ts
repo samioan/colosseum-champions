@@ -4,7 +4,6 @@ import { AbilityId, PerkId, ItemId, EquipmentId } from "@/enums";
 export type Gladiator = {
   name: string;
   stats: GladiatorStats;
-  hasTurn: boolean;
   intervalId?: number;
   abilities: Record<AbilityId, Ability>;
   perks: Record<PerkId, Perk>;

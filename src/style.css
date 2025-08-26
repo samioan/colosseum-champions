@@ -26,6 +26,7 @@
 
 body {
   margin: 0;
+  touch-action: manipulation;
 }
 
 .scrollbar-hidden::-webkit-scrollbar {

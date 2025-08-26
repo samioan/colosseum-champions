@@ -7,6 +7,12 @@ import { shortSword, longSword } from "@/assets/equipment";
 import { healthPotion } from "@/assets/items";
 import { smash } from "@/assets/abilities";
 import { defensive } from "@/assets/perks";
+import {
+  enemy1Death,
+  enemy1Idle,
+  enemy1Attack,
+  enemy1Hurt,
+} from "@/assets/enemies";
 
 export {
   gameBackground,
@@ -18,4 +24,8 @@ export {
   healthPotion,
   smash,
   defensive,
+  enemy1Death,
+  enemy1Idle,
+  enemy1Attack,
+  enemy1Hurt,
 };

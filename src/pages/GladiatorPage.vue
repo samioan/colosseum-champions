@@ -71,16 +71,16 @@ watch(
   <div class="flex w-screen min-h-screen">
     <div class="flex flex-col mx-auto sm:w-1/2 w-full z-[1] min-h-screen">
       <div
-        class="bg-cBgDark flex flex-col w-full pb-[74px] min-h-screen border-2 border-gray-500"
+        class="bg-cBgDark flex flex-col w-full pb-[100px] min-h-screen border-4 border-gray-500"
       >
         <Dropdown>
           <template #header>
             <div
-              class="flex p-4 justify-between items-center gap-4 border-b-2 border-gray-500"
+              class="flex p-2 justify-between items-center gap-4 border-b-2 border-gray-500"
             >
-              <h2 class="text-sm font-bold text-gray-100">
+              <span class="text-sm text-gray-100">
                 {{ player.name }}
-              </h2>
+              </span>
               <span
                 class="text-xs px-2 py-1 rounded-full bg-yellow-900 text-yellow-200 font-semibold whitespace-nowrap"
               >
@@ -90,7 +90,7 @@ watch(
           </template>
           <template #content>
             <div
-              class="flex p-4 flex-wrap gap-4 border-b-2 border-gray-500 justify-between"
+              class="flex p-2 flex-wrap gap-4 border-b-2 border-gray-500 justify-between"
             >
               <div class="flex gap-2 text-xs">
                 <span class="text-gray-300"> XP:</span>
@@ -113,12 +113,12 @@ watch(
 
         <Dropdown>
           <template #header
-            ><div class="p-4 border-b-2 border-gray-500 text-center">
+            ><div class="p-2 text-sm border-b-2 border-gray-500 text-center">
               STATS
             </div></template
           >
           <template #content>
-            <div class="flex flex-col p-2 border-b-2 border-gray-500">
+            <div class="flex flex-col border-b-2 border-gray-500">
               <div v-for="statObj in playerSecondaryStats">
                 <div
                   class="flex items-center justify-between p-2"
@@ -146,13 +146,13 @@ watch(
 
         <Dropdown v-if="playerSelectedAbilities?.length">
           <template #header
-            ><div class="p-4 border-b-2 border-gray-500 text-center">
+            ><div class="p-2 text-sm border-b-2 border-gray-500 text-center">
               ABILITIES
             </div>
           </template>
           <template #content>
             <div
-              class="flex flex-wrap justify-center gap-4 p-4 border-b-2 border-gray-500"
+              class="flex flex-wrap justify-center gap-4 p-2 border-b-2 border-gray-500"
             >
               <div
                 v-for="ability in playerSelectedAbilities"
@@ -175,13 +175,13 @@ watch(
 
         <Dropdown v-if="playerSelectedPerks?.length">
           <template #header
-            ><div class="p-4 border-b-2 border-gray-500 text-center">
+            ><div class="p-2 text-sm border-b-2 border-gray-500 text-center">
               PERKS
             </div></template
           >
           <template #content>
             <div
-              class="flex flex-wrap justify-center gap-4 p-4 border-b-2 border-gray-500"
+              class="flex flex-wrap justify-center gap-4 p-2 border-b-2 border-gray-500"
             >
               <img
                 class="p-2 justify-center rounded-lg bg-cBgLight w-15 h-15 object-cover"
@@ -194,13 +194,13 @@ watch(
 
         <Dropdown v-if="playerSelectedEquipment?.length">
           <template #header>
-            <div class="p-4 border-b-2 border-gray-500 text-center">
+            <div class="p-2 text-sm border-b-2 border-gray-500 text-center">
               EQUIPMENT
             </div>
           </template>
           <template #content>
             <div
-              class="flex flex-wrap justify-center gap-4 p-4 border-b-2 border-gray-500"
+              class="flex flex-wrap justify-center gap-4 p-2 border-b-2 border-gray-500"
             >
               <img
                 class="p-2 justify-center rounded-lg bg-cBgLight w-15 h-15 object-cover"
@@ -213,13 +213,13 @@ watch(
 
         <Dropdown v-if="playerSelectedItems?.length">
           <template #header
-            ><div class="p-4 border-b-2 border-gray-500 text-center">
+            ><div class="p-2 text-sm border-b-2 border-gray-500 text-center">
               ITEMS
             </div></template
           >
           <template #content>
             <div
-              class="flex flex-wrap justify-center gap-4 p-4 border-b-2 border-gray-500"
+              class="flex flex-wrap justify-center gap-4 p-2 border-b-2 border-gray-500"
             >
               <div
                 v-for="item in playerSelectedItems"
@@ -240,7 +240,7 @@ watch(
         </Dropdown>
 
         <div
-          class="flex flex-wrap gap-2 p-4 justify-center fixed bottom-0 left-0 w-full bg-cBgDark border-2 border-gray-500"
+          class="flex flex-wrap gap-2 p-2 justify-center fixed bottom-0 left-0 w-full bg-cBgDark border-4 border-t-2 border-gray-500"
         >
           <Button
             v-for="button in gladiatorActivityButtons"
@@ -258,7 +258,7 @@ watch(
             drawer.state === DrawerState.ARMORY ||
             drawer.state === DrawerState.ITEMS
           "
-          class="w-full p-4 bg-cBgDark flex items-center gap-2 border-b-2 border-gray-500"
+          class="w-full p-2 bg-cBgDark flex items-center gap-2 border-b-2 border-gray-500"
         >
           <span class="font-medium">{{ LABELS.gold }}:</span>
           {{ player.stats.gold }}

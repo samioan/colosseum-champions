@@ -5,20 +5,23 @@ import {
   checkForLevelUp,
   getRandomRange,
 } from "@/utils";
-import { StatAction, StatKey } from "@/enums";
+import { StatAction, StatKey, FightTurn } from "@/enums";
+import type { Ref } from "vue";
 
 export default function handleFighting(
   gladiator: Gladiator,
   enemy: Gladiator,
   updatedGladiatorStats: GladiatorStats,
-  updatedEnemyStats: GladiatorStats
+  updatedEnemyStats: GladiatorStats,
+  fightTurn: Ref<FightTurn>
 ) {
-  const curAttacker = gladiator.hasTurn ? gladiator : enemy;
-  const curDefender = gladiator.hasTurn ? enemy : gladiator;
-  const curAttackerStats = gladiator.hasTurn
+  const isPlayersTurn = fightTurn.value === FightTurn.PLAYER;
+  const curAttacker = isPlayersTurn ? gladiator : enemy;
+  const curDefender = isPlayersTurn ? enemy : gladiator;
+  const curAttackerStats = isPlayersTurn
     ? updatedGladiatorStats
     : updatedEnemyStats;
-  const curDefenderStats = gladiator.hasTurn
+  const curDefenderStats = isPlayersTurn
     ? updatedEnemyStats
     : updatedGladiatorStats;
 
@@ -80,6 +83,7 @@ export default function handleFighting(
   if (gladiator.stats.health <= 0) {
     clearInterval(gladiator.intervalId);
     gladiator.intervalId = undefined;
+    fightTurn.value = FightTurn.NONE;
     return;
   } else if (enemy.stats.health <= 0) {
     handleStat(
@@ -119,9 +123,15 @@ export default function handleFighting(
     clearInterval(gladiator.intervalId);
     gladiator.intervalId = undefined;
     checkForLevelUp(gladiator.stats, updatedGladiatorStats);
+    fightTurn.value = FightTurn.NONE;
     return;
   }
 
-  curAttacker.hasTurn = false;
-  curDefender.hasTurn = true;
+  if (fightTurn.value === FightTurn.NONE) {
+    fightTurn.value = Math.random() < 0.5 ? FightTurn.PLAYER : FightTurn.ENEMY;
+  } else if (fightTurn.value === FightTurn.PLAYER) {
+    fightTurn.value = FightTurn.ENEMY;
+  } else if (fightTurn.value === FightTurn.ENEMY) {
+    fightTurn.value = FightTurn.PLAYER;
+  }
 }

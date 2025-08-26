@@ -9,3 +9,4 @@ export { ItemId } from "@/enums/itemId";
 export { EquipmentId } from "@/enums/equipmentId";
 export { EquipmentSlot } from "@/enums/equipmentSlot";
 export { Operator } from "@/enums/operator";
+export { FightTurn } from "@/enums/fightTurn";

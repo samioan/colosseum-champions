@@ -19,16 +19,16 @@ defineProps<{
 </script>
 
 <template>
-  <div class="flex-1 text-sm text-gray-300 p-4">
+  <div class="flex-1 text-sm text-gray-300 p-2">
     <div
       v-for="ability in abilities"
-      class="p-4 rounded-xl mb-4"
+      class="p-2 rounded-xl mb-2"
       :class="{
         'bg-cBgLight': ability.isEquipped,
         'bg-cBgDarker': !ability.isEquipped,
         'border-2 border-cYellow': ability.isActive,
         'opacity-50': points < ability.points && !ability.isUnlocked,
-        'mb-4': abilities.indexOf(ability) < abilities.length - 1,
+        'mb-2': abilities.indexOf(ability) < abilities.length - 1,
       }"
     >
       <div class="flex gap-4 items-center">

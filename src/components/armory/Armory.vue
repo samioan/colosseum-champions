@@ -30,24 +30,24 @@ const equipmentCategories = computed(() => {
 </script>
 
 <template>
-  <div class="flex-1 text-sm text-gray-300 p-4">
+  <div class="flex-1 text-sm text-gray-300 p-2">
     <div v-for="category in Object.entries(equipmentCategories)">
-      <div class="mb-4">
+      <div class="mb-2 text-center">
         {{ EQUIPMENT_LABELS[category[0] as EquipmentSlot] }}
       </div>
       <div
         v-for="item in category[1]"
-        class="p-4 rounded-xl mb-4"
+        class="p-2 rounded-xl mb-2"
         :class="{
           'bg-cBgLight': item.isUnlocked,
           'bg-cBgDarker': !item.isUnlocked,
           'border-2 border-cYellow': item.isEquipped,
           'opacity-50': gold < item.gold && !item.isUnlocked,
-          'mb-4': equipment.indexOf(item) < equipment.length - 1,
+          'mb-2': equipment.indexOf(item) < equipment.length - 1,
         }"
         @click="item.isUnlocked ? item.onEquip() : item.onBuy()"
       >
-        <div class="flex gap-4 items-center">
+        <div class="flex gap-2 items-center">
           <img v-if="item.image" class="w-15 h-15" :src="item.image" />
           <div v-else class="rounded-lg w-15 h-15 bg-cBgDark" />
           <div class="flex flex-col gap-2">

@@ -169,14 +169,16 @@ export const usePlayerStore = defineStore("player", () => {
     return Object.values(player.value.items).map((item) => ({
       ...item,
       onBuy: () => {
-        handleStat(
-          player.value.stats,
-          StatKey.GOLD,
-          item.gold,
-          StatAction.DECREASE,
-          playerStats.value
-        );
-        item.amount += 1;
+        if (player.value.stats.gold >= item.gold) {
+          handleStat(
+            player.value.stats,
+            StatKey.GOLD,
+            item.gold,
+            StatAction.DECREASE,
+            playerStats.value
+          );
+          item.amount += 1;
+        }
       },
     }));
   });
@@ -194,14 +196,16 @@ export const usePlayerStore = defineStore("player", () => {
     return Object.values(player.value.equipment).map((item) => ({
       ...item,
       onBuy: () => {
-        handleStat(
-          player.value.stats,
-          StatKey.GOLD,
-          item.gold,
-          StatAction.DECREASE,
-          playerStats.value
-        );
-        item.isUnlocked = true;
+        if (player.value.stats.gold >= item.gold) {
+          handleStat(
+            player.value.stats,
+            StatKey.GOLD,
+            item.gold,
+            StatAction.DECREASE,
+            playerStats.value
+          );
+          item.isUnlocked = true;
+        }
       },
       onEquip: () => {
         if (item.isEquipped) item.isEquipped = false;

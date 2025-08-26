@@ -126,7 +126,7 @@ onUnmounted(() => {
   <transition name="slide-up" @after-leave="onAfterLeave">
     <div
       v-if="open || closing"
-      class="fixed left-0 bottom-0 w-full rounded-t-xl bg-cBgDark z-50 flex flex-col max-h-[90vh] will-change-transform border-2 border-gray-500"
+      class="fixed left-0 bottom-0 w-full rounded-t-xl bg-cBgDark z-50 flex flex-col max-h-[90vh] will-change-transform border-4 border-gray-500"
       :class="[
         {
           'no-transition': isDragging,
@@ -150,9 +150,11 @@ onUnmounted(() => {
         </div>
 
         <div
-          class="p-4 flex justify-between items-center cursor-grab active:cursor-grabbing border-b-2 border-gray-500"
+          class="p-2 flex justify-between items-center cursor-grab active:cursor-grabbing border-b-4 border-gray-500"
         >
-          <h2 class="text-lg font-bold text-gray-100">{{ title }}</h2>
+          <span class="text-lg font-bold text-gray-100 text-center w-full">
+            {{ title }}
+          </span>
         </div>
         <slot name="header" />
       </div>

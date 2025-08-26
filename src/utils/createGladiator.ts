@@ -12,7 +12,6 @@ export default function createGladiator(): Gladiator {
   return {
     name: createName(),
     stats: JSON.parse(JSON.stringify(PLAYER_BASE_STATS)),
-    hasTurn: false,
     abilities: JSON.parse(JSON.stringify(ABILITIES)),
     perks: JSON.parse(JSON.stringify(PERKS)),
     items: JSON.parse(JSON.stringify(ITEMS)),

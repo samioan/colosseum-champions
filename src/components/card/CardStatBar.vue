@@ -14,22 +14,24 @@ const statPercent = computed(() =>
 </script>
 
 <template>
-  <div>
-    <div class="flex gap-4 text-sm">
-      <span class="font-medium text-gray-300">{{ label }}:</span>
-      <span class="text-gray-100"
-        >{{ stat }} {{ maxStat ? "/" : "" }} {{ maxStat }}</span
-      >
-    </div>
+  <div class="relative w-full">
     <div
-      class="w-full h-2 bg-gray-700 rounded-full overflow-hidden mt-1"
       v-if="maxStat"
+      class="w-full h-6 bg-gray-700 rounded-lg overflow-hidden"
     >
       <div
-        class="h-2 rounded-full transition-all duration-300"
+        class="h-6 rounded-lg transition-all duration-300"
         :class="colorClass"
         :style="{ width: statPercent + '%' }"
       ></div>
+    </div>
+
+    <div
+      class="absolute inset-0 flex items-center justify-center text-sm font-medium"
+    >
+      <span class="text-gray-100 drop-shadow">
+        {{ stat }}{{ maxStat ? " / " + maxStat : "" }}
+      </span>
     </div>
   </div>
 </template>
