@@ -1,5 +1,7 @@
 import CombatPage from "@/pages/CombatPage.vue";
-import GladiatorPage from "@/pages/GladiatorPage.vue";
-import HomePage from "@/pages/HomePage.vue";
+import CharacterPage from "@/pages/CharacterPage.vue";
+import MenuPage from "@/pages/MenuPage.vue";
+import CutscenePage from "@/pages/CutscenePage.vue";
+import CreationPage from "@/pages/CreationPage.vue";
 
-export { CombatPage, GladiatorPage, HomePage };
+export { CombatPage, CharacterPage, MenuPage, CutscenePage, CreationPage };

@@ -1,3 +1,3 @@
-import healthPotion from "@/assets/items/healthPotion.webp";
+import healthPotion from "@/assets/items/healthPotion.png";
 
 export { healthPotion };

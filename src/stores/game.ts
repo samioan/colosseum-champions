@@ -1,12 +1,18 @@
 import { defineStore } from "pinia";
 import { ref, computed } from "vue";
 import { useRouter } from "vue-router";
-import { LABELS, ROUTES } from "@/constants";
-import { DrawerState, FightTurn } from "@/enums";
+import { LABELS, ROUTES, CUTSCENES } from "@/constants";
+import { DrawerState, FightTurn, CutsceneId } from "@/enums";
+import type { Cutscene } from "@/types";
+import { perks, items, abilities, armory, arena } from "@/assets";
 
 export const useGameStore = defineStore("game", () => {
   const router = useRouter();
   const fightTurn = ref<FightTurn>(FightTurn.NONE);
+  const currentCutsceneId = ref<CutsceneId>(CutsceneId.INTRO);
+  const currentCutscene = computed<Cutscene>(
+    () => CUTSCENES[currentCutsceneId.value]
+  );
 
   const drawer = ref<{ isOpen: boolean; state: DrawerState; title: string }>({
     isOpen: false,
@@ -23,28 +29,23 @@ export const useGameStore = defineStore("game", () => {
   const gladiatorActivityButtons = computed(() => [
     {
       onClick: () => toggleDrawer(DrawerState.ABILITIES, "Abilities"),
-      label: "A",
-      colorClasses: "bg-cBlue",
+      image: abilities,
     },
     {
       onClick: () => toggleDrawer(DrawerState.PERKS, "Perks"),
-      label: "P",
-      colorClasses: "bg-cBlue",
+      image: perks,
     },
     {
       onClick: () => toggleDrawer(DrawerState.ARMORY, "Armory"),
-      label: LABELS.armory,
-      colorClasses: "bg-cBlue",
+      image: armory,
     },
     {
       onClick: () => toggleDrawer(DrawerState.ITEMS, "Items"),
-      label: LABELS.items,
-      colorClasses: "bg-cBlue",
+      image: items,
     },
     {
       onClick: () => router.push(ROUTES.combat),
-      label: LABELS.fight,
-      colorClasses: "bg-cDarkRed",
+      image: arena,
     },
   ]);
 
@@ -53,5 +54,7 @@ export const useGameStore = defineStore("game", () => {
     drawer,
     toggleDrawer,
     fightTurn,
+    currentCutsceneId,
+    currentCutscene,
   };
 });

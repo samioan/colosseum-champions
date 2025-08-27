@@ -3,10 +3,15 @@ import { computed, onBeforeMount } from "vue";
 import { useRouter } from "vue-router";
 import { storeToRefs } from "pinia";
 import { usePlayerStore, useEnemyStore, useGameStore } from "@/stores";
-import { CombatCard, CardStatBar, Modal, Header } from "@/components";
+import {
+  CardStatBar,
+  Modal,
+  CharacterHeader,
+  PageContainer,
+} from "@/components";
 import { gameBackground } from "@/assets";
 import { createEnemy, handleFighting } from "@/utils";
-import { ROUTES, LABELS } from "@/constants";
+import { ROUTES } from "@/constants";
 import { enemy1Death, enemy1Idle, enemy1Attack, enemy1Hurt } from "@/assets";
 import { FightTurn } from "@/enums";
 
@@ -17,7 +22,6 @@ const { fightTurn } = storeToRefs(useGameStore());
 const {
   player,
   playerStats,
-  playerHeaderProps,
   playerMainStats,
   playerSelectedAbilities,
   playerSelectedItems,
@@ -25,34 +29,34 @@ const {
 
 const { enemy, enemyStats, enemyMainStats } = storeToRefs(useEnemyStore());
 
-const gladiatorCardProps = computed(() => ({
-  headerProps: playerHeaderProps.value,
-  mainStats: playerMainStats.value.slice(0, 2),
-  abilities: playerSelectedAbilities.value,
-  items: playerSelectedItems.value,
-}));
-
 onBeforeMount(() => {
   enemy.value = createEnemy(player.value.stats.level);
   enemy.value.stats.health = enemyStats.value.maxHealth;
   enemy.value.stats.stamina = enemyStats.value.maxStamina;
   enemy.value.stats.strength = enemyStats.value.maxStrength;
   enemy.value.stats.defense = enemyStats.value.maxDefense;
-  player.value.intervalId = setInterval(() => {
-    handleFighting(
-      player.value,
-      enemy.value,
-      playerStats.value,
-      enemyStats.value,
-      fightTurn
-    );
-  }, 1000);
+  setTimeout(() => {
+    player.value.intervalId = setInterval(() => {
+      handleFighting(
+        player.value,
+        enemy.value,
+        playerStats.value,
+        enemyStats.value,
+        fightTurn
+      );
+    }, 1000);
+  }, 400);
 });
 
 const combatModalProps = computed(() => ({
   isVisible: player.value.stats.health <= 0 || enemy.value?.stats.health <= 0,
   onClick: () =>
-    router.push(ROUTES[player.value.stats.health <= 0 ? "home" : "gladiator"]),
+    router.push(ROUTES[player.value.stats.health <= 0 ? "menu" : "character"]),
+}));
+
+const combatModalContent = computed(() => ({
+  image: gameBackground,
+  text: enemy.value?.stats.health <= 0 ? "Victory!" : "Defeat!",
 }));
 
 const enemyImage = computed(() => {
@@ -69,69 +73,98 @@ const enemyImage = computed(() => {
 </script>
 
 <template>
-  <div class="flex min-w-screen min-h-screen">
-    <div class="flex flex-col justify-center mx-auto md:w-1/2 w-full z-[1]">
+  <PageContainer>
+    <div
+      class="flex flex-col gap-4 border border-cBgLight bg-cBgDark p-4 rounded-lg"
+    >
+      <CharacterHeader :name="enemy.name" :level="enemy.stats.level" />
+      <CardStatBar v-bind="enemyMainStats[0]" />
+    </div>
+
+    <div class="flex-1 relative">
+      <img
+        class="object-cover h-full rounded-lg"
+        :src="gameBackground"
+        alt="background"
+      />
+      <img
+        class="absolute bottom-0 object-cover left-1/2 h-full -translate-x-1/2"
+        :src="enemyImage"
+        alt="enemy"
+      />
+    </div>
+
+    <div
+      class="flex flex-col gap-4 border border-cBgLight bg-cBgDark p-4 rounded-lg"
+    >
+      <CharacterHeader :name="player.name" :level="player.stats.level" />
+      <div class="flex gap-4">
+        <CardStatBar v-for="stat in playerMainStats" v-bind="stat" />
+      </div>
+    </div>
+
+    <div
+      class="flex flex-wrap gap-4 px-3 justify-end items-center min-h-[68px] relative border border-cBgLight rounded-lg bg-cBgDark"
+    >
       <div
-        class="bg-cBgDark flex flex-col w-full border-4 border-b-2 border-gray-500"
+        class="absolute left-0 top-0 p-1 text-xs z-[20] bg-cBgLight rounded-lg"
+      >
+        ABILITIES
+      </div>
+      <div
+        class="relative box-border flex flex-col gap-2 p-2 items-center justify-center rounded-lg text-sm bg-cBgLight cursor-pointer overflow-hidden w-12 h-12 bg-cBgLight rounded-lg"
+        :class="{
+          'border-2 border-cYellow': ability.isActive,
+        }"
+        v-for="ability in playerSelectedAbilities"
+        :key="ability.label"
+        @click="ability.onActivate"
       >
         <div
-          class="flex justify-between items-center gap-4 p-2 border-b-2 border-gray-500"
-        >
-          <h2 class="text-xs font-bold text-gray-100">
-            {{ enemy.name }}
-          </h2>
-          <span
-            class="text-xs px-2 py-1 rounded-full bg-yellow-900 text-yellow-200 font-semibold whitespace-nowrap"
-          >
-            {{ LABELS.level }} {{ enemy.stats.level }}
-          </span>
-        </div>
+          class="absolute bottom-0 left-0 w-full bg-cOrange transition-all duration-500 ease-out"
+          :style="{
+            height: `${(ability.cooldown / ability.maxCooldown) * 100}%`,
+          }"
+        ></div>
 
-        <div class="flex gap-2 p-2" v-if="enemyMainStats">
-          <div class="flex-1 flex flex-col gap-3">
-            <CardStatBar v-for="stat in enemyMainStats" v-bind="stat" />
-          </div>
-        </div>
+        <img
+          v-if="ability.image"
+          class="object-cover relative z-10"
+          :src="ability.image"
+        />
       </div>
-      <Header
-        class="relative w-full justify-center items-center overflow-hidden"
+    </div>
+
+    <div
+      class="flex flex-wrap gap-4 px-3 justify-end items-center min-h-[68px] relative border border-cBgLight rounded-lg bg-cBgDark"
+    >
+      <div
+        class="absolute left-0 top-0 p-1 text-xs z-[20] bg-cBgLight rounded-lg"
+      >
+        ITEMS
+      </div>
+      <div
+        v-for="item in playerSelectedItems"
+        class="flex gap-2 items-center relative"
       >
         <img
-          class="object-cover h-full"
-          :src="gameBackground"
-          alt="background"
+          class="w-12 h-12 object-cover p-2 rounded-lg bg-cBgLight"
+          :src="item.image"
+          @click="item.onUse"
         />
-
-        <img
-          class="absolute bottom-0 object-cover left-1/2 h-full float-slow"
-          :src="enemyImage"
-          alt="enemy"
-        />
-      </Header>
-      <CombatCard v-bind="gladiatorCardProps" />
-      <Modal v-bind="combatModalProps">
-        <h2 class="text-gray-300 mb-6">Fight over!</h2>
-      </Modal>
+        <div
+          class="absolute bottom-0 right-0 bg-cBgDarker text-xs px-1 rounded-tl-lg rounded-br-lg"
+        >
+          {{ item.amount }}
+        </div>
+      </div>
     </div>
-  </div>
+
+    <Modal v-bind="combatModalProps">
+      <div class="flex flex-col mb-2">
+        <img :src="combatModalContent.image" />
+        <span class="p-2">{{ combatModalContent.text }}</span>
+      </div>
+    </Modal>
+  </PageContainer>
 </template>
-
-<style scoped>
-@keyframes float-slow {
-  0%,
-  100% {
-    transform: translate(-50%, 0);
-  }
-  50% {
-    transform: translate(-50%, 3px);
-  }
-}
-
-.float {
-  animation: float 3s ease-in-out infinite;
-}
-
-.float-slow {
-  animation: float-slow 4s ease-in-out infinite;
-}
-</style>

@@ -1,30 +1,36 @@
-import CombatCard from "@/components/CombatCard.vue";
-import { Button, Drawer, Modal, Header, Dropdown } from "@/components/generic";
-import { CardHeader, CardStatBar } from "@/components/card";
 import {
-  CodexStats,
-  CodexHeader,
-  CodexAbilities,
-  CodexPerks,
-  CodexPoints,
-} from "@/components/codex";
+  Button,
+  Drawer,
+  Modal,
+  Dropdown,
+  PageContainer,
+  StatsSection,
+  Icon,
+  CharacterHeader,
+  CharacterSection,
+} from "@/components/generic";
+import { CardStatBar } from "@/components/card";
+import { CodexAbilities, CodexPerks } from "@/components/codex";
 import { Items } from "@/components/items";
 import { Armory } from "@/components/armory";
+import { CreationHeader } from "@/components/creation";
+import { MiscStatsSection } from "@/components/character";
 
 export {
   Drawer,
-  CardHeader,
   CardStatBar,
-  CombatCard,
   Modal,
   Button,
-  Header,
   Dropdown,
-  CodexStats,
-  CodexHeader,
   CodexAbilities,
   CodexPerks,
-  CodexPoints,
   Items,
   Armory,
+  CreationHeader,
+  PageContainer,
+  StatsSection,
+  Icon,
+  CharacterHeader,
+  MiscStatsSection,
+  CharacterSection,
 };

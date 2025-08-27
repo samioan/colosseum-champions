@@ -44,7 +44,7 @@ const onAfterLeave = (el: Element) => {
 </script>
 
 <template>
-  <div class="w-full">
+  <div class="p-4 border border-cBgLight bg-cBgDark rounded-lg">
     <div @click="toggle" class="cursor-pointer select-none">
       <slot name="header" />
     </div>
@@ -56,7 +56,9 @@ const onAfterLeave = (el: Element) => {
       @after-leave="onAfterLeave"
     >
       <div v-show="isOpen" ref="content">
-        <slot name="content" />
+        <div class="pt-4">
+          <slot name="content" />
+        </div>
       </div>
     </transition>
   </div>

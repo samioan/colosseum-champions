@@ -30,19 +30,19 @@ defineProps<{
           <img v-if="item.image" class="w-15 h-15" :src="item.image" />
           <div v-else class="rounded-lg w-15 h-15 bg-cBgDark" />
           <div
-            class="absolute bottom-0 right-0 bg-cBgDarker text-white text-xs px-1 rounded-full"
+            class="absolute bottom-0 right-0 bg-cBgDarker text-xs px-1 rounded-full"
           >
             {{ item.amount }}
           </div>
         </div>
         <div class="flex flex-1 flex-col gap-2">
-          <div class="text-sm font-bold text-white">
+          <div class="text-sm">
             {{ item.label }}
           </div>
-          <div class="text-xs text-gray-400">
+          <div class="text-xs">
             {{ item.description }}
           </div>
-          <div class="text-xs text-gray-400">Gold: {{ item.gold }}</div>
+          <div class="text-xs">Gold: {{ item.gold }}</div>
         </div>
       </div>
     </div>

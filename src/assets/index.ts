@@ -13,6 +13,21 @@ import {
   enemy1Attack,
   enemy1Hurt,
 } from "@/assets/enemies";
+import { scene1, scene2 } from "@/assets/cutscenes";
+import {
+  perks,
+  items,
+  abilities,
+  gold,
+  armory,
+  arena,
+  points,
+  experience,
+  defense,
+  strength,
+  health,
+  energy,
+} from "@/assets/ui";
 
 export {
   gameBackground,
@@ -28,4 +43,18 @@ export {
   enemy1Idle,
   enemy1Attack,
   enemy1Hurt,
+  scene1,
+  scene2,
+  perks,
+  items,
+  abilities,
+  gold,
+  armory,
+  arena,
+  points,
+  experience,
+  defense,
+  strength,
+  health,
+  energy,
 };

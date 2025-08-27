@@ -12,6 +12,7 @@ import {
 } from "@/utils";
 import { LABELS } from "@/constants";
 import { StatAction, StatKey, Label } from "@/enums";
+import { defense, strength, health, energy } from "@/assets";
 
 export const usePlayerStore = defineStore("player", () => {
   const player = ref<Gladiator>(createGladiator());
@@ -67,8 +68,6 @@ export const usePlayerStore = defineStore("player", () => {
     [
       { stat: StatKey.HEALTH, colorClass: "bg-cRed" },
       { stat: StatKey.STAMINA, colorClass: "bg-cGreen" },
-      { stat: StatKey.EXPERIENCE, colorClass: "bg-cBlue" },
-      { stat: StatKey.GOLD, colorClass: "bg-cYellow" },
     ].map(({ stat, colorClass }) => ({
       label: LABELS[stat as unknown as Label],
       stat: playerStats.value[stat],
@@ -86,47 +85,53 @@ export const usePlayerStore = defineStore("player", () => {
         stat: StatKey.HEALTH,
         maxStat: StatKey.MAX_HEALTH,
         value: 10,
+        image: health,
       },
       {
         stat: StatKey.STAMINA,
         maxStat: StatKey.MAX_STAMINA,
         value: 10,
+        image: energy,
       },
       {
         stat: StatKey.STRENGTH,
         maxStat: StatKey.MAX_STRENGTH,
         value: 1,
+        image: strength,
       },
       {
         stat: StatKey.DEFENSE,
         maxStat: StatKey.MAX_DEFENSE,
         value: 1,
+        image: defense,
       },
-    ].map(({ stat, maxStat, value }) => ({
-      label: LABELS[stat as unknown as Label],
+    ].map(({ stat, maxStat, value, image }) => ({
+      image: image,
       stat: playerStats.value[stat],
       onClick: () => {
-        handleStat(
-          player.value.stats,
-          StatKey.POINTS,
-          1,
-          StatAction.DECREASE,
-          playerStats.value
-        );
-        handleStat(
-          player.value.stats,
-          maxStat,
-          value,
-          StatAction.INCREASE,
-          playerStats.value
-        );
-        handleStat(
-          player.value.stats,
-          stat,
-          value,
-          StatAction.INCREASE,
-          playerStats.value
-        );
+        if (player.value.stats.points > 0) {
+          handleStat(
+            player.value.stats,
+            StatKey.POINTS,
+            1,
+            StatAction.DECREASE,
+            playerStats.value
+          );
+          handleStat(
+            player.value.stats,
+            maxStat,
+            value,
+            StatAction.INCREASE,
+            playerStats.value
+          );
+          handleStat(
+            player.value.stats,
+            stat,
+            value,
+            StatAction.INCREASE,
+            playerStats.value
+          );
+        }
       },
     }))
   );
@@ -152,6 +157,16 @@ export const usePlayerStore = defineStore("player", () => {
       }))
   );
 
+  const characterSelectedAbilities = computed(() =>
+    Object.values(player.value.abilities)
+      .filter((ability) => ability.isEquipped)
+      .map((ability) => ({
+        image: ability.image,
+        onClick: () => activateAbility(ability, player.value),
+        customClasses: ability.isActive ? "border-cYellow" : "",
+      }))
+  );
+
   const playerPerks = computed(() => {
     return Object.values(player.value.perks).map((perk) => ({
       ...perk,
@@ -162,7 +177,7 @@ export const usePlayerStore = defineStore("player", () => {
   const playerSelectedPerks = computed(() =>
     Object.values(player.value.perks)
       .filter((perk) => perk.isEquipped)
-      .map((perk) => perk.image)
+      .map((perk) => ({ image: perk.image }))
   );
 
   const playerItems = computed(() => {
@@ -189,6 +204,15 @@ export const usePlayerStore = defineStore("player", () => {
       .map((item) => ({
         ...item,
         onUse: () => useItem(item, player.value.stats, playerStats.value),
+      }));
+  });
+
+  const characterSelectedItems = computed(() => {
+    return Object.values(player.value.items)
+      .filter((item) => item.amount)
+      .map((item) => ({
+        image: item.image,
+        amount: item.amount,
       }));
   });
 
@@ -224,7 +248,7 @@ export const usePlayerStore = defineStore("player", () => {
   const playerSelectedEquipment = computed(() => {
     return Object.values(player.value.equipment)
       .filter((equipment) => equipment.isEquipped)
-      .map(({ image }) => image);
+      .map((equipment) => ({ image: equipment.image }));
   });
 
   return {
@@ -241,5 +265,7 @@ export const usePlayerStore = defineStore("player", () => {
     playerStats,
     playerEquipment,
     playerSelectedEquipment,
+    characterSelectedAbilities,
+    characterSelectedItems,
   };
 });

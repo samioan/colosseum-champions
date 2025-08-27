@@ -1,26 +1,37 @@
 import { createRouter, createWebHistory } from "vue-router";
-import { CombatPage, GladiatorPage, HomePage } from "@/pages";
+import {
+  CombatPage,
+  CutscenePage,
+  CreationPage,
+  CharacterPage,
+  MenuPage,
+} from "@/pages";
 import { ROUTES } from "@/constants";
 
 const routes = [
   {
-    path: ROUTES.home,
-    component: HomePage,
+    path: ROUTES.menu,
+    component: MenuPage,
   },
-
   {
-    path: ROUTES.gladiator,
-    name: "Gladiator",
-    component: GladiatorPage,
+    path: ROUTES.cutscene,
+    component: CutscenePage,
+  },
+  {
+    path: ROUTES.creation,
+    component: CreationPage,
+  },
+  {
+    path: ROUTES.character,
+    component: CharacterPage,
   },
   {
     path: ROUTES.combat,
-    name: "Combat",
     component: CombatPage,
   },
   {
     path: "/:pathMatch(.*)*",
-    redirect: ROUTES.home,
+    redirect: ROUTES.menu,
   },
 ];
 

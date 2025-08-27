@@ -19,7 +19,7 @@ defineProps<{
 </script>
 
 <template>
-  <div class="flex-1 text-sm text-gray-300 p-2">
+  <div class="flex-1 text-sm p-2">
     <div
       v-for="ability in abilities"
       class="p-2 rounded-xl mb-2"
@@ -36,13 +36,13 @@ defineProps<{
         <div v-else class="rounded-lg w-15 h-15 bg-cBgDark" />
         <div class="flex-1">
           <div class="flex flex-col gap-2">
-            <div class="font-bold text-white">
+            <div>
               {{ ability.label }}
             </div>
-            <div class="text-xs text-gray-400">
+            <div class="text-xs">
               {{ ability.description }}
             </div>
-            <div class="text-xs text-gray-400">
+            <div class="text-xs">
               <span>{{ ability.stamina }} SP</span>
               <span> P: {{ ability.points }}</span>
             </div>

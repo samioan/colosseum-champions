@@ -1,5 +1,7 @@
 export const ROUTES = {
-  home: "/",
-  gladiator: "/gladiator",
+  menu: "/",
+  cutscene: "/cutscene",
+  creation: "/creation",
+  character: "/character",
   combat: "/combat",
 };

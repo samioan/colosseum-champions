@@ -11,7 +11,7 @@ const props = defineProps<{
 const modalButtonProps = computed(() => ({
   onClick: props.onClick,
   label: LABELS.continue,
-  colorClasses: "bg-amber-600 text-white hover:bg-amber-700",
+  colorClasses: "bg-amber-600 hover:bg-amber-700",
 }));
 
 watch(
@@ -39,7 +39,7 @@ onUnmounted(() => {
       v-if="isVisible"
       class="fixed inset-0 bg-black/70 flex items-center justify-center z-50"
     >
-      <div class="bg-cBgDark text-center p-6 w-[90%] max-w-md rounded-xl">
+      <div class="bg-cBgDark text-center p-4 w-[90%] max-w-md rounded-xl">
         <slot />
         <Button v-bind="modalButtonProps" />
       </div>

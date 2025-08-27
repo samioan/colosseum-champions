@@ -14,7 +14,7 @@ defineProps<{
 </script>
 
 <template>
-  <div class="flex-1 text-sm text-gray-300 p-2">
+  <div class="flex-1 text-sm p-2">
     <div
       v-for="perk in perks"
       class="p-2 rounded-xl mb-2"
@@ -30,13 +30,13 @@ defineProps<{
         <img v-if="perk.image" class="w-15 h-15" :src="perk.image" />
         <div v-else class="rounded-lg w-15 h-15 bg-cBgDark" />
         <div class="flex flex-col gap-2 flex-1">
-          <div class="font-bold text-white">
+          <div>
             {{ perk.label }}
           </div>
-          <div class="text-xs text-gray-400">
+          <div class="text-xs">
             {{ perk.description }}
           </div>
-          <div class="text-xs text-gray-400">Points: {{ perk.points }}</div>
+          <div class="text-xs">Points: {{ perk.points }}</div>
         </div>
       </div>
     </div>

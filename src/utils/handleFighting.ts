@@ -53,28 +53,24 @@ export default function handleFighting(
       });
     }
 
+    const isCrit = getRandomRange(0, 100) >= 80;
     const didEvade = getRandomRange(0, 100) >= 80;
 
-    const damage = didEvade
-      ? 0
-      : (() => {
-          let damage =
-            curAttacker.stats.strength *
-            (100 / (100 + curDefender.stats.defense));
+    let damage =
+      curAttacker.stats.strength * (100 / (100 + curDefender.stats.defense));
 
-          const isCrit = getRandomRange(0, 100) >= 80;
+    if (isCrit) {
+      damage *= 2;
+    }
 
-          if (isCrit) {
-            damage *= 2;
-          }
-
-          return Math.floor(damage);
-        })();
+    if (didEvade) {
+      damage = damage / 4;
+    }
 
     handleStat(
       curDefender.stats,
       StatKey.HEALTH,
-      damage,
+      Math.floor(damage),
       StatAction.DECREASE,
       curDefenderStats
     );

@@ -30,7 +30,7 @@ const equipmentCategories = computed(() => {
 </script>
 
 <template>
-  <div class="flex-1 text-sm text-gray-300 p-2">
+  <div class="flex-1 text-sm p-2">
     <div v-for="category in Object.entries(equipmentCategories)">
       <div class="mb-2 text-center">
         {{ EQUIPMENT_LABELS[category[0] as EquipmentSlot] }}
@@ -51,13 +51,13 @@ const equipmentCategories = computed(() => {
           <img v-if="item.image" class="w-15 h-15" :src="item.image" />
           <div v-else class="rounded-lg w-15 h-15 bg-cBgDark" />
           <div class="flex flex-col gap-2">
-            <div class="font-bold text-white">
+            <div>
               {{ item.label }}
             </div>
-            <div class="text-xs text-gray-400">
+            <div class="text-xs">
               {{ item.description }}
             </div>
-            <div class="text-xs text-gray-400">Gold: {{ item.gold }}</div>
+            <div class="text-xs">Gold: {{ item.gold }}</div>
           </div>
         </div>
       </div>
