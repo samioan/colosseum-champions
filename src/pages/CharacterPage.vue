@@ -5,20 +5,18 @@ import { useGameStore } from "@/stores/game";
 import { usePlayerStore } from "@/stores/player";
 import {
   Drawer,
-  CodexPerks,
+  Perks,
   Items,
-  CodexAbilities,
-  Armory,
-  Dropdown,
+  Abilities,
+  Equipment,
+  Accordion,
   StatsSection,
   Icon,
   CharacterHeader,
-  MiscStatsSection,
+  MiscStats,
   CharacterSection,
-  PageContainer,
 } from "@/components";
-import { DrawerState } from "@/enums";
-import { LABELS } from "@/constants";
+import { DrawerState, IconSize } from "@/enums";
 import { gold, points, experience } from "@/assets";
 
 const gameStore = useGameStore();
@@ -66,7 +64,7 @@ const perksProps = computed(() => ({
   perks: playerPerks.value,
 }));
 
-const armoryProps = computed(() => ({
+const equipmentProps = computed(() => ({
   gold: player.value.stats.gold,
   equipment: playerEquipment.value,
 }));
@@ -80,7 +78,7 @@ const sections = computed(() => [
   {
     headerComponent: CharacterHeader,
     headerProps: { name: player.value.name, level: player.value.stats.level },
-    contentComponent: MiscStatsSection,
+    contentComponent: MiscStats,
     contentProps: { stats: playerMiscStats.value },
     condition: true,
   },
@@ -132,9 +130,11 @@ watch(
 </script>
 
 <template>
-  <PageContainer class="pb-[100px]">
+  <div
+    class="flex flex-col bg-cBgDarker mx-auto gap-4 p-4 pb-[100px] h-screen lg:w-1/2 md:w-2/3 sm:w-3/4 w-full overflow-y-auto scrollbar-hidden"
+  >
     <template v-for="(section, index) in sections" :key="index">
-      <Dropdown v-if="section.condition">
+      <Accordion v-if="section.condition">
         <template #header>
           <div v-if="section.label" class="text-sm text-center">
             {{ section.label }}
@@ -152,7 +152,7 @@ watch(
             v-bind="section.contentProps"
           />
         </template>
-      </Dropdown>
+      </Accordion>
     </template>
 
     <div class="fixed bottom-0 left-0 w-full">
@@ -163,47 +163,25 @@ watch(
           v-for="button in gladiatorActivityButtons"
           :image="button.image"
           :on-click="button.onClick"
-          custom-classes="w-13 h-13"
+          :size="IconSize.MEDIUM"
           is-light
         />
       </div>
     </div>
 
     <Drawer v-model="drawer.isOpen" :title="drawer.title">
-      <template #header>
-        <div
-          v-if="
-            drawer.state === DrawerState.ARMORY ||
-            drawer.state === DrawerState.ITEMS
-          "
-          class="w-full p-2 bg-cBgDarker flex items-center gap-2 border-b border-cBgLight"
-        >
-          <span>{{ LABELS.gold }}:</span>
-          {{ player.stats.gold }}
-        </div>
-        <div
-          v-else
-          class="w-full p-2 bg-cBgDarker flex items-center justify-between gap-2 border-b border-cBgLight"
-        >
-          <span>{{ LABELS.points }}</span>
-          {{ player.stats.points }}
-        </div>
-      </template>
       <template #content>
-        <CodexAbilities
+        <Abilities
           v-if="drawer.state === DrawerState.ABILITIES"
           v-bind="abilitiesProps"
         />
-        <CodexPerks
-          v-if="drawer.state === DrawerState.PERKS"
-          v-bind="perksProps"
-        />
-        <Armory
-          v-if="drawer.state === DrawerState.ARMORY"
-          v-bind="armoryProps"
+        <Perks v-if="drawer.state === DrawerState.PERKS" v-bind="perksProps" />
+        <Equipment
+          v-if="drawer.state === DrawerState.EQUIPMENT"
+          v-bind="equipmentProps"
         />
         <Items v-if="drawer.state === DrawerState.ITEMS" v-bind="itemsProps" />
       </template>
     </Drawer>
-  </PageContainer>
+  </div>
 </template>

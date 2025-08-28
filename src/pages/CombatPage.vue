@@ -3,12 +3,7 @@ import { computed, onBeforeMount } from "vue";
 import { useRouter } from "vue-router";
 import { storeToRefs } from "pinia";
 import { usePlayerStore, useEnemyStore, useGameStore } from "@/stores";
-import {
-  CardStatBar,
-  Modal,
-  CharacterHeader,
-  PageContainer,
-} from "@/components";
+import { StatusBar, Modal, CharacterHeader, Button } from "@/components";
 import { gameBackground } from "@/assets";
 import { createEnemy, handleFighting } from "@/utils";
 import { ROUTES } from "@/constants";
@@ -48,16 +43,9 @@ onBeforeMount(() => {
   }, 400);
 });
 
-const combatModalProps = computed(() => ({
-  isVisible: player.value.stats.health <= 0 || enemy.value?.stats.health <= 0,
-  onClick: () =>
-    router.push(ROUTES[player.value.stats.health <= 0 ? "menu" : "character"]),
-}));
-
-const combatModalContent = computed(() => ({
-  image: gameBackground,
-  text: enemy.value?.stats.health <= 0 ? "Victory!" : "Defeat!",
-}));
+const isModalVisible = computed(
+  () => player.value.stats.health <= 0 || enemy.value?.stats.health <= 0
+);
 
 const enemyImage = computed(() => {
   if (enemy.value.stats.health > 0) {
@@ -73,12 +61,14 @@ const enemyImage = computed(() => {
 </script>
 
 <template>
-  <PageContainer>
+  <div
+    class="flex flex-col bg-cBgDarker mx-auto gap-4 p-4 h-screen lg:w-1/2 md:w-2/3 sm:w-3/4 w-full overflow-y-auto scrollbar-hidden"
+  >
     <div
       class="flex flex-col gap-4 border border-cBgLight bg-cBgDark p-4 rounded-lg"
     >
       <CharacterHeader :name="enemy.name" :level="enemy.stats.level" />
-      <CardStatBar v-bind="enemyMainStats[0]" />
+      <StatusBar v-bind="enemyMainStats[0]" />
     </div>
 
     <div class="flex-1 relative">
@@ -99,7 +89,7 @@ const enemyImage = computed(() => {
     >
       <CharacterHeader :name="player.name" :level="player.stats.level" />
       <div class="flex gap-4">
-        <CardStatBar v-for="stat in playerMainStats" v-bind="stat" />
+        <StatusBar v-for="stat in playerMainStats" v-bind="stat" />
       </div>
     </div>
 
@@ -160,11 +150,21 @@ const enemyImage = computed(() => {
       </div>
     </div>
 
-    <Modal v-bind="combatModalProps">
+    <Modal v-model="isModalVisible">
       <div class="flex flex-col mb-2">
-        <img :src="combatModalContent.image" />
-        <span class="p-2">{{ combatModalContent.text }}</span>
+        <img :src="gameBackground" />
+        <span class="p-2">{{
+          enemy?.stats.health <= 0 ? "Victory!" : "Defeat!"
+        }}</span>
       </div>
+      <Button
+        :on-click="
+          () =>
+            router.push(ROUTES[player.stats.health <= 0 ? 'menu' : 'character'])
+        "
+      >
+        Continue
+      </Button>
     </Modal>
-  </PageContainer>
+  </div>
 </template>

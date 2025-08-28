@@ -6,7 +6,7 @@ import type { Cutscene } from "@/types";
 import { CUTSCENES, ROUTES } from "@/constants";
 import { ref } from "vue";
 import { useRouter } from "vue-router";
-import { Button, PageContainer } from "@/components";
+import { Button } from "@/components";
 
 const router = useRouter();
 const { currentCutsceneId } = storeToRefs(useGameStore());
@@ -45,7 +45,10 @@ function nextStep() {
 </script>
 
 <template>
-  <PageContainer @click="nextStep">
+  <div
+    class="flex flex-col bg-cBgDarker mx-auto gap-4 p-4 h-screen lg:w-1/2 md:w-2/3 sm:w-3/4 w-full overflow-y-auto scrollbar-hidden"
+    @click="nextStep"
+  >
     <div class="flex flex-col w-full h-full gap-4">
       <img :src="cutsceneStep.image" class="h-1/2 object-cover" />
       <span class="text-center py-2">{{ cutsceneStep.text }}</span>
@@ -54,5 +57,5 @@ function nextStep() {
         <Button :on-click="() => router.push(ROUTES.creation)">Begin</Button>
       </div>
     </div>
-  </PageContainer>
+  </div>
 </template>

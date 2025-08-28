@@ -5,14 +5,7 @@ import { useRouter } from "vue-router";
 import { usePlayerStore } from "@/stores";
 import { computed, watch } from "vue";
 import { EquipmentSlot } from "@/enums";
-import {
-  CreationHeader,
-  Button,
-  StatsSection,
-  Icon,
-  PageContainer,
-  CharacterSection,
-} from "@/components";
+import { Button, StatsSection, Icon, CharacterSection } from "@/components";
 import { points } from "@/assets";
 
 const router = useRouter();
@@ -43,8 +36,10 @@ watch(
 </script>
 
 <template>
-  <PageContainer>
-    <CreationHeader>Choose Your Name</CreationHeader>
+  <div
+    class="flex flex-col bg-cBgDarker mx-auto gap-4 p-4 h-screen lg:w-1/2 md:w-2/3 sm:w-3/4 w-full overflow-y-auto scrollbar-hidden"
+  >
+    <div class="bg-cBgDark p-2 text-center rounded-lg">Choose Your Name</div>
     <input
       id="gladiatorName"
       type="text"
@@ -53,7 +48,7 @@ watch(
       class="p-2 rounded-lg bg-cBgDark text-center border border-cBgLight"
     />
 
-    <CreationHeader>Choose Your Stats</CreationHeader>
+    <div class="bg-cBgDark p-2 text-center rounded-lg">Choose Your Stats</div>
     <div class="flex flex-col p-4 border border-cBgLight bg-cBgDark rounded-lg">
       <StatsSection
         :stats="playerSecondaryStats"
@@ -66,10 +61,12 @@ watch(
       </div>
     </div>
 
-    <CreationHeader>Choose Your Weapon</CreationHeader>
-    <CharacterSection :items="weapons"></CharacterSection>
+    <div class="bg-cBgDark p-2 text-center rounded-lg">Choose Your Weapon</div>
+    <div class="p-4 border border-cBgLight bg-cBgDark rounded-lg">
+      <CharacterSection :items="weapons"></CharacterSection>
+    </div>
     <div class="flex flex-grow items-end justify-center bg-cBgDarker">
       <Button :on-click="() => router.push(ROUTES.combat)">Fight</Button>
     </div>
-  </PageContainer>
+  </div>
 </template>

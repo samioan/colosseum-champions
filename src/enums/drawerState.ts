@@ -4,5 +4,5 @@ export enum DrawerState {
   ABILITIES = "abilities",
   PERKS = "perks",
   ITEMS = "items",
-  ARMORY = "armory",
+  EQUIPMENT = "equipment",
 }

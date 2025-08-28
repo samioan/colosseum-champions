@@ -11,3 +11,4 @@ export { EquipmentSlot } from "@/enums/equipmentSlot";
 export { Operator } from "@/enums/operator";
 export { FightTurn } from "@/enums/fightTurn";
 export { CutsceneId } from "@/enums/cutsceneId";
+export { IconSize } from "@/enums/iconSize";

@@ -2,7 +2,7 @@ import perks from "@/assets/ui/perks.png";
 import items from "@/assets/ui/items.png";
 import abilities from "@/assets/ui/abilities.png";
 import gold from "@/assets/ui/gold.png";
-import armory from "@/assets/ui/armory.png";
+import equipment from "@/assets/ui/equipment.png";
 import arena from "@/assets/ui/arena.png";
 import points from "@/assets/ui/points.png";
 import experience from "@/assets/ui/experience.png";
@@ -16,7 +16,7 @@ export {
   items,
   abilities,
   gold,
-  armory,
+  equipment,
   arena,
   points,
   experience,

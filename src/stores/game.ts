@@ -1,10 +1,10 @@
 import { defineStore } from "pinia";
 import { ref, computed } from "vue";
 import { useRouter } from "vue-router";
-import { LABELS, ROUTES, CUTSCENES } from "@/constants";
+import { ROUTES, CUTSCENES } from "@/constants";
 import { DrawerState, FightTurn, CutsceneId } from "@/enums";
 import type { Cutscene } from "@/types";
-import { perks, items, abilities, armory, arena } from "@/assets";
+import { perks, items, abilities, equipment, arena } from "@/assets";
 
 export const useGameStore = defineStore("game", () => {
   const router = useRouter();
@@ -36,8 +36,8 @@ export const useGameStore = defineStore("game", () => {
       image: perks,
     },
     {
-      onClick: () => toggleDrawer(DrawerState.ARMORY, "Armory"),
-      image: armory,
+      onClick: () => toggleDrawer(DrawerState.EQUIPMENT, "Equipment"),
+      image: equipment,
     },
     {
       onClick: () => toggleDrawer(DrawerState.ITEMS, "Items"),

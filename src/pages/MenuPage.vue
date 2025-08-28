@@ -3,7 +3,7 @@ import { useRouter } from "vue-router";
 import { ROUTES, LABELS } from "@/constants";
 import { usePlayerStore } from "@/stores";
 import { createGladiator } from "@/utils";
-import { Button, PageContainer } from "@/components";
+import { Button } from "@/components";
 
 const router = useRouter();
 const playerStore = usePlayerStore();
@@ -28,7 +28,9 @@ const buttons = [
 </script>
 
 <template>
-  <PageContainer class="justify-center">
+  <div
+    class="flex flex-col bg-cBgDarker mx-auto gap-4 p-4 h-screen lg:w-1/2 md:w-2/3 sm:w-3/4 w-full overflow-y-auto scrollbar-hidden justify-center"
+  >
     <div class="flex flex-col w-full justify-center items-center gap-4">
       <span class="text-cYellow text-[24px] text-center">{{
         LABELS.colosseumChampions
@@ -37,5 +39,5 @@ const buttons = [
         {{ button.text }}
       </Button>
     </div>
-  </PageContainer>
+  </div>
 </template>

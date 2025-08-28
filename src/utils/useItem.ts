@@ -35,12 +35,6 @@ export default function useItem(
       }
     }
 
-    console.log(
-      calculateCanUse(),
-      stats[bonus.stat],
-      updatedStats[bonus.value.stat]
-    );
-
     if (!calculateCanUse()) return;
     else {
       handleStat(

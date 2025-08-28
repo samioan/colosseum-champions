@@ -146,11 +146,11 @@ onUnmounted(() => {
         @mousedown="onStart"
       >
         <div class="w-full flex justify-center pt-2">
-          <div class="w-12 h-1.5 bg-gray-500 rounded-full"></div>
+          <div class="w-12 h-1.5 bg-cBgLight rounded-full"></div>
         </div>
 
         <div
-          class="p-2 flex justify-between items-center cursor-grab active:cursor-grabbing"
+          class="p-4 flex justify-between items-center cursor-grab active:cursor-grabbing border-b border-cBgLight"
         >
           <span class="text-lg text-center w-full">
             {{ title }}
