@@ -1,5 +1,4 @@
 import { NAMES } from "@/constants/names";
-import { SURNAMES } from "@/constants/surnames";
 import { ROUTES } from "@/constants/routes";
 import { LABELS } from "@/constants/labels";
 import { PLAYER_BASE_STATS } from "@/constants/playerBaseStats";
@@ -13,7 +12,6 @@ import { CUTSCENES } from "@/constants/cutscenes";
 
 export {
   NAMES,
-  SURNAMES,
   ROUTES,
   LABELS,
   PLAYER_BASE_STATS,

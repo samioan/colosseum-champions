@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, watch } from "vue";
+import { computed, onMounted, watch } from "vue";
 import { storeToRefs } from "pinia";
 import { useGameStore } from "@/stores/game";
 import { usePlayerStore } from "@/stores/player";
@@ -22,7 +22,7 @@ import { gold, points, experience } from "@/assets";
 const gameStore = useGameStore();
 const playerStore = usePlayerStore();
 
-const { gladiatorActivityButtons, drawer } = storeToRefs(gameStore);
+const { gladiatorActivityButtons, drawer, labels } = storeToRefs(gameStore);
 
 const {
   player,
@@ -77,13 +77,16 @@ const itemsProps = computed(() => ({
 const sections = computed(() => [
   {
     headerComponent: CharacterHeader,
-    headerProps: { name: player.value.name, level: player.value.stats.level },
+    headerProps: {
+      name: player.value.name,
+      levelLabel: `${labels.value.level} ${player.value.stats.level}`,
+    },
     contentComponent: MiscStats,
     contentProps: { stats: playerMiscStats.value },
     condition: true,
   },
   {
-    label: "STATS",
+    label: labels.value.stats,
     contentComponent: StatsSection,
     contentProps: {
       stats: playerSecondaryStats.value,
@@ -92,30 +95,37 @@ const sections = computed(() => [
     condition: true,
   },
   {
-    label: "ABILITIES",
+    label: labels.value.abilities,
     contentComponent: CharacterSection,
     contentProps: { items: characterSelectedAbilities.value },
     condition: characterSelectedAbilities.value?.length,
   },
   {
-    label: "PERKS",
+    label: labels.value.perks,
     contentComponent: CharacterSection,
     contentProps: { items: playerSelectedPerks.value },
     condition: playerSelectedPerks.value?.length,
   },
   {
-    label: "EQUIPMENT",
+    label: labels.value.equipment,
     contentComponent: CharacterSection,
     contentProps: { items: playerSelectedEquipment.value },
     condition: playerSelectedEquipment.value?.length,
   },
   {
-    label: "ITEMS",
+    label: labels.value.items,
     contentComponent: CharacterSection,
     contentProps: { items: characterSelectedItems.value },
     condition: characterSelectedItems.value?.length,
   },
 ]);
+
+onMounted(() => {
+  player.value.stats.health = playerStats.value.maxHealth;
+  player.value.stats.stamina = playerStats.value.maxStamina;
+  player.value.stats.strength = playerStats.value.maxStrength;
+  player.value.stats.defense = playerStats.value.maxDefense;
+});
 
 watch(
   player,

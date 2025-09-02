@@ -1,9 +1,7 @@
 <script setup lang="ts">
-import { LABELS } from "@/constants";
-
 defineProps<{
   name: string;
-  level: number;
+  levelLabel: string;
 }>();
 </script>
 
@@ -13,7 +11,7 @@ defineProps<{
       {{ name }}
     </span>
     <span class="text-xs px-2 py-1 rounded-lg bg-cBgLight text-center">
-      {{ LABELS.level }} {{ level }}
+      {{ levelLabel }}
     </span>
   </div>
 </template>

@@ -59,7 +59,6 @@ export const useEnemyStore = defineStore("enemy", () => {
 
   const enemyMainStats = computed(() => [
     {
-      label: LABELS.health,
       stat: enemyStats.value.health,
       maxStat: enemyStats.value.maxHealth,
       colorClass: "bg-cRed",

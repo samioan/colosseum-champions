@@ -1,11 +1,5 @@
 import { createRouter, createWebHistory } from "vue-router";
-import {
-  CombatPage,
-  CutscenePage,
-  CreationPage,
-  CharacterPage,
-  MenuPage,
-} from "@/pages";
+import { CombatPage, CutscenePage, CharacterPage, MenuPage } from "@/pages";
 import { ROUTES } from "@/constants";
 
 const routes = [
@@ -16,10 +10,6 @@ const routes = [
   {
     path: ROUTES.cutscene,
     component: CutscenePage,
-  },
-  {
-    path: ROUTES.creation,
-    component: CreationPage,
   },
   {
     path: ROUTES.character,

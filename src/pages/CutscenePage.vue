@@ -9,7 +9,7 @@ import { useRouter } from "vue-router";
 import { Button } from "@/components";
 
 const router = useRouter();
-const { currentCutsceneId } = storeToRefs(useGameStore());
+const { currentCutsceneId, stage } = storeToRefs(useGameStore());
 
 function getCutsceneSteps(id: CutsceneId): {
   image: string;
@@ -54,7 +54,12 @@ function nextStep() {
       <span class="text-center py-2">{{ cutsceneStep.text }}</span>
 
       <div class="flex flex-grow justify-center items-end">
-        <Button :on-click="() => router.push(ROUTES.creation)">Begin</Button>
+        <Button v-if="stage !== 20" :on-click="() => router.push(ROUTES.combat)"
+          >Fight</Button
+        >
+        <Button v-else :on-click="() => router.push(ROUTES.menu)"
+          >Return</Button
+        >
       </div>
     </div>
   </div>

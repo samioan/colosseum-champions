@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, onBeforeMount } from "vue";
+import { computed, onBeforeMount, watch } from "vue";
 import { useRouter } from "vue-router";
 import { storeToRefs } from "pinia";
 import { usePlayerStore, useEnemyStore, useGameStore } from "@/stores";
@@ -12,7 +12,7 @@ import { FightTurn } from "@/enums";
 
 const router = useRouter();
 
-const { fightTurn } = storeToRefs(useGameStore());
+const { fightTurn, stage, labels } = storeToRefs(useGameStore());
 
 const {
   player,
@@ -37,14 +37,17 @@ onBeforeMount(() => {
         enemy.value,
         playerStats.value,
         enemyStats.value,
-        fightTurn
+        fightTurn,
+        stage
       );
     }, 1000);
   }, 400);
 });
 
 const isModalVisible = computed(
-  () => player.value.stats.health <= 0 || enemy.value?.stats.health <= 0
+  () =>
+    player.value.stats.health <= 0 ||
+    (enemy.value.stats.health <= 0 && stage.value % 5 === 0)
 );
 
 const enemyImage = computed(() => {
@@ -58,6 +61,36 @@ const enemyImage = computed(() => {
     }
   } else return enemy1Death;
 });
+
+watch(
+  enemy,
+  () => {
+    if (
+      enemy.value.stats.health <= 0 &&
+      stage.value % 5 !== 0 &&
+      stage.value < 20
+    ) {
+      setTimeout(() => {
+        enemy.value = createEnemy(player.value.stats.level);
+        enemy.value.stats.health = enemyStats.value.maxHealth;
+        enemy.value.stats.stamina = enemyStats.value.maxStamina;
+        enemy.value.stats.strength = enemyStats.value.maxStrength;
+        enemy.value.stats.defense = enemyStats.value.maxDefense;
+        player.value.intervalId = setInterval(() => {
+          handleFighting(
+            player.value,
+            enemy.value,
+            playerStats.value,
+            enemyStats.value,
+            fightTurn,
+            stage
+          );
+        }, 1000);
+      }, 1000);
+    }
+  },
+  { deep: true }
+);
 </script>
 
 <template>
@@ -67,7 +100,10 @@ const enemyImage = computed(() => {
     <div
       class="flex flex-col gap-4 border border-cBgLight bg-cBgDark p-4 rounded-lg"
     >
-      <CharacterHeader :name="enemy.name" :level="enemy.stats.level" />
+      <CharacterHeader
+        :name="enemy.name"
+        :level-label="`${labels.level} ${enemy.stats.level}`"
+      />
       <StatusBar v-bind="enemyMainStats[0]" />
     </div>
 
@@ -87,7 +123,10 @@ const enemyImage = computed(() => {
     <div
       class="flex flex-col gap-4 border border-cBgLight bg-cBgDark p-4 rounded-lg"
     >
-      <CharacterHeader :name="player.name" :level="player.stats.level" />
+      <CharacterHeader
+        :name="player.name"
+        :level-label="`${labels.level} ${player.stats.level}`"
+      />
       <div class="flex gap-4">
         <StatusBar v-for="stat in playerMainStats" v-bind="stat" />
       </div>
@@ -159,8 +198,7 @@ const enemyImage = computed(() => {
       </div>
       <Button
         :on-click="
-          () =>
-            router.push(ROUTES[player.stats.health <= 0 ? 'menu' : 'character'])
+          () => router.push(stage === 20 ? ROUTES.cutscene : ROUTES.character)
         "
       >
         Continue

@@ -1,7 +1,5 @@
-import { NAMES, SURNAMES } from "@/constants";
+import { NAMES } from "@/constants";
 
 export default function createName() {
-  return `${NAMES[Math.floor(Math.random() * NAMES.length)]} ${
-    SURNAMES[Math.floor(Math.random() * SURNAMES.length)]
-  }`;
+  return `${NAMES[Math.floor(Math.random() * NAMES.length)]}`;
 }

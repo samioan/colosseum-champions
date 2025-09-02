@@ -1,12 +1,13 @@
 <script setup lang="ts">
 import { useRouter } from "vue-router";
 import { ROUTES, LABELS } from "@/constants";
-import { usePlayerStore } from "@/stores";
+import { usePlayerStore, useGameStore } from "@/stores";
 import { createGladiator } from "@/utils";
 import { Button } from "@/components";
 
 const router = useRouter();
 const playerStore = usePlayerStore();
+const gameStore = useGameStore();
 
 const buttons = [
   {
@@ -16,8 +17,9 @@ const buttons = [
   {
     text: LABELS.questForGlory,
     onClick: () => {
+      gameStore.stage = 1;
       playerStore.player = createGladiator();
-      router.push(ROUTES.creation);
+      router.push(ROUTES.character);
     },
   },
   {

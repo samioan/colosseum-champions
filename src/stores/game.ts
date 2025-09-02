@@ -1,15 +1,28 @@
 import { defineStore } from "pinia";
 import { ref, computed } from "vue";
 import { useRouter } from "vue-router";
-import { ROUTES, CUTSCENES } from "@/constants";
-import { DrawerState, FightTurn, CutsceneId } from "@/enums";
+import { ROUTES, CUTSCENES, LABELS } from "@/constants";
+import { DrawerState, FightTurn, CutsceneId, Language } from "@/enums";
 import type { Cutscene } from "@/types";
 import { perks, items, abilities, equipment, arena } from "@/assets";
 
 export const useGameStore = defineStore("game", () => {
   const router = useRouter();
   const fightTurn = ref<FightTurn>(FightTurn.NONE);
-  const currentCutsceneId = ref<CutsceneId>(CutsceneId.INTRO);
+  const stage = ref(1);
+  const currentLanguage = ref<Language>(Language.ENGLISH);
+  const labels = computed(() => LABELS[currentLanguage.value]);
+  const currentCutsceneId = computed<CutsceneId>(() => {
+    return (
+      {
+        1: CutsceneId.STAGE_1,
+        5: CutsceneId.STAGE_5,
+        10: CutsceneId.STAGE_10,
+        15: CutsceneId.STAGE_15,
+        20: CutsceneId.STAGE_20,
+      }[stage.value] ?? CutsceneId.STAGE_1
+    );
+  });
   const currentCutscene = computed<Cutscene>(
     () => CUTSCENES[currentCutsceneId.value]
   );
@@ -28,23 +41,30 @@ export const useGameStore = defineStore("game", () => {
 
   const gladiatorActivityButtons = computed(() => [
     {
-      onClick: () => toggleDrawer(DrawerState.ABILITIES, "Abilities"),
+      onClick: () =>
+        toggleDrawer(DrawerState.ABILITIES, labels.value.abilities),
       image: abilities,
     },
     {
-      onClick: () => toggleDrawer(DrawerState.PERKS, "Perks"),
+      onClick: () => toggleDrawer(DrawerState.PERKS, labels.value.perks),
       image: perks,
     },
     {
-      onClick: () => toggleDrawer(DrawerState.EQUIPMENT, "Equipment"),
+      onClick: () =>
+        toggleDrawer(DrawerState.EQUIPMENT, labels.value.equipment),
       image: equipment,
     },
     {
-      onClick: () => toggleDrawer(DrawerState.ITEMS, "Items"),
+      onClick: () => toggleDrawer(DrawerState.ITEMS, labels.value.items),
       image: items,
     },
     {
-      onClick: () => router.push(ROUTES.combat),
+      onClick: () =>
+        router.push(
+          stage.value % 5 === 0 || stage.value === 1
+            ? ROUTES.cutscene
+            : ROUTES.combat
+        ),
       image: arena,
     },
   ]);
@@ -56,5 +76,7 @@ export const useGameStore = defineStore("game", () => {
     fightTurn,
     currentCutsceneId,
     currentCutscene,
+    stage,
+    labels,
   };
 });

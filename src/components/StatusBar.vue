@@ -2,7 +2,6 @@
 import { computed } from "vue";
 
 const props = defineProps<{
-  label: string;
   stat: number;
   maxStat?: number;
   colorClass?: string;
