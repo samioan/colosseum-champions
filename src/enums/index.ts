@@ -13,3 +13,4 @@ export { FightTurn } from "@/enums/fightTurn";
 export { CutsceneId } from "@/enums/cutsceneId";
 export { IconSize } from "@/enums/iconSize";
 export { Language } from "@/enums/language";
+export { BonusStatus } from "@/enums/bonusStatus";

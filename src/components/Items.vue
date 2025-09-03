@@ -7,7 +7,7 @@ type Item = {
   label: string;
   description: string;
   gold: number;
-  onBuy: () => void;
+  onSelect: () => void;
   amount: number;
 };
 
@@ -40,6 +40,18 @@ const modalProps = computed(() => {
 
   const hasNotEnoughGold = props.gold < i.gold;
 
+  const warningMessage = (() => {
+    if (hasNotEnoughGold) return "Not enough gold!";
+  })();
+
+  const buttons = [
+    {
+      label: "Buy",
+      disabled: hasNotEnoughGold,
+      onClick: i.onSelect,
+    },
+  ];
+
   return {
     modelValue: isModalVisible.value,
     "onUpdate:modelValue": (val: boolean | undefined) => {
@@ -54,15 +66,14 @@ const modalProps = computed(() => {
     description: i.description,
     gold: i.gold,
     status: `Available: ${i.amount}`,
-    hasNotEnoughGold,
-    onSelect: i.onBuy,
-    equipLabel: "Buy",
+    warningMessage,
+    buttons,
   };
 });
 </script>
 
 <template>
-  <div class="flex flex-wrap justify-center p-4 gap-4">
+  <div class="flex flex-wrap justify-center gap-4">
     <DrawerIcon
       v-for="(props, index) in iconProps"
       :key="index"

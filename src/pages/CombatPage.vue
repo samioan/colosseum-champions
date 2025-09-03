@@ -102,7 +102,7 @@ watch(
     >
       <CharacterHeader
         :name="enemy.name"
-        :level-label="`${labels.level} ${enemy.stats.level}`"
+        :level-label="`${labels.LEVEL} ${enemy.stats.level}`"
       />
       <StatusBar v-bind="enemyMainStats[0]" />
     </div>
@@ -125,7 +125,7 @@ watch(
     >
       <CharacterHeader
         :name="player.name"
-        :level-label="`${labels.level} ${player.stats.level}`"
+        :level-label="`${labels.LEVEL} ${player.stats.level}`"
       />
       <div class="flex gap-4">
         <StatusBar v-for="stat in playerMainStats" v-bind="stat" />

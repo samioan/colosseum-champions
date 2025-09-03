@@ -28,7 +28,7 @@ withDefaults(
       'border border-white': isEquipped,
     }"
   >
-    <Icon :image="image" :size="IconSize.LARGE" :on-click="onSelect">{{
+    <Icon :image="image" :size="IconSize.LARGE" :on-click="onSelect" is-light>{{
       overlayText
     }}</Icon>
   </div>

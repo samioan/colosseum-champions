@@ -4,18 +4,21 @@ import { ROUTES, LABELS } from "@/constants";
 import { usePlayerStore, useGameStore } from "@/stores";
 import { createGladiator } from "@/utils";
 import { Button } from "@/components";
+import { storeToRefs } from "pinia";
 
 const router = useRouter();
 const playerStore = usePlayerStore();
 const gameStore = useGameStore();
 
+const { labels } = storeToRefs(gameStore);
+
 const buttons = [
   {
-    text: LABELS.tutorial,
+    text: labels.value.TUTORIAL,
     onClick: () => {},
   },
   {
-    text: LABELS.questForGlory,
+    text: labels.value.QUEST_FOR_GLORY,
     onClick: () => {
       gameStore.stage = 1;
       playerStore.player = createGladiator();
@@ -23,7 +26,7 @@ const buttons = [
     },
   },
   {
-    text: LABELS.options,
+    text: labels.value.OPTIONS,
     onClick: () => {},
   },
 ];
@@ -35,7 +38,7 @@ const buttons = [
   >
     <div class="flex flex-col w-full justify-center items-center gap-4">
       <span class="text-cYellow text-[24px] text-center">{{
-        LABELS.colosseumChampions
+        labels.COLOSSEUM_CHAMPIONS
       }}</span>
       <Button v-for="button in buttons" :on-click="button.onClick">
         {{ button.text }}

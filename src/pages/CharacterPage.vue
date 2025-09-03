@@ -57,16 +57,19 @@ const playerMiscStats = computed(() => [
 const abilitiesProps = computed(() => ({
   points: player.value.stats.points,
   abilities: playerAbilities.value,
+  labels: labels.value,
 }));
 
 const perksProps = computed(() => ({
   points: player.value.stats.points,
   perks: playerPerks.value,
+  labels: labels.value,
 }));
 
 const equipmentProps = computed(() => ({
   gold: player.value.stats.gold,
   equipment: playerEquipment.value,
+  labels: labels.value,
 }));
 
 const itemsProps = computed(() => ({
@@ -79,14 +82,14 @@ const sections = computed(() => [
     headerComponent: CharacterHeader,
     headerProps: {
       name: player.value.name,
-      levelLabel: `${labels.value.level} ${player.value.stats.level}`,
+      levelLabel: `${labels.value.LEVEL} ${player.value.stats.level}`,
     },
     contentComponent: MiscStats,
     contentProps: { stats: playerMiscStats.value },
     condition: true,
   },
   {
-    label: labels.value.stats,
+    label: labels.value.STATS,
     contentComponent: StatsSection,
     contentProps: {
       stats: playerSecondaryStats.value,
@@ -95,25 +98,25 @@ const sections = computed(() => [
     condition: true,
   },
   {
-    label: labels.value.abilities,
+    label: labels.value.ABILITIES,
     contentComponent: CharacterSection,
     contentProps: { items: characterSelectedAbilities.value },
     condition: characterSelectedAbilities.value?.length,
   },
   {
-    label: labels.value.perks,
+    label: labels.value.PERKS,
     contentComponent: CharacterSection,
     contentProps: { items: playerSelectedPerks.value },
     condition: playerSelectedPerks.value?.length,
   },
   {
-    label: labels.value.equipment,
+    label: labels.value.EQUIPMENT,
     contentComponent: CharacterSection,
     contentProps: { items: playerSelectedEquipment.value },
     condition: playerSelectedEquipment.value?.length,
   },
   {
-    label: labels.value.items,
+    label: labels.value.ITEMS,
     contentComponent: CharacterSection,
     contentProps: { items: characterSelectedItems.value },
     condition: characterSelectedItems.value?.length,

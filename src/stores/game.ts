@@ -42,20 +42,20 @@ export const useGameStore = defineStore("game", () => {
   const gladiatorActivityButtons = computed(() => [
     {
       onClick: () =>
-        toggleDrawer(DrawerState.ABILITIES, labels.value.abilities),
+        toggleDrawer(DrawerState.ABILITIES, labels.value.ABILITIES),
       image: abilities,
     },
     {
-      onClick: () => toggleDrawer(DrawerState.PERKS, labels.value.perks),
+      onClick: () => toggleDrawer(DrawerState.PERKS, labels.value.PERKS),
       image: perks,
     },
     {
       onClick: () =>
-        toggleDrawer(DrawerState.EQUIPMENT, labels.value.equipment),
+        toggleDrawer(DrawerState.EQUIPMENT, labels.value.EQUIPMENT),
       image: equipment,
     },
     {
-      onClick: () => toggleDrawer(DrawerState.ITEMS, labels.value.items),
+      onClick: () => toggleDrawer(DrawerState.ITEMS, labels.value.ITEMS),
       image: items,
     },
     {

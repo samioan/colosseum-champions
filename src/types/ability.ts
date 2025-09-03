@@ -1,4 +1,4 @@
-import { StatKey, AbilityType, Operator } from "@/enums";
+import { StatKey, AbilityType, Operator, BonusStatus } from "@/enums";
 
 type AbilityPayload = {
   type: AbilityType;
@@ -18,8 +18,6 @@ export type Ability = {
   stamina: number;
   cooldown: number;
   maxCooldown: number;
-  isUnlocked: boolean;
-  isEquipped: boolean;
-  isActive: boolean;
+  status: BonusStatus;
   payload: AbilityPayload[];
 };

@@ -1,4 +1,4 @@
-import { EquipmentSlot } from "@/enums";
+import { BonusStatus, EquipmentSlot } from "@/enums";
 import type { Bonus } from "@/types";
 
 export type Equipment = {
@@ -6,8 +6,7 @@ export type Equipment = {
   image: string;
   description: string;
   gold: number;
-  isUnlocked: boolean;
-  isEquipped: boolean;
+  status: BonusStatus;
   slot: EquipmentSlot;
   bonuses: Bonus[];
 };

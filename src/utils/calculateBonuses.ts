@@ -1,4 +1,4 @@
-import { EquipmentId, PerkId, Operator, StatKey } from "@/enums";
+import { EquipmentId, PerkId, Operator, StatKey, BonusStatus } from "@/enums";
 import type {
   Gladiator,
   GladiatorStats,
@@ -12,7 +12,9 @@ export default function calculateBonuses(
   gladiatorStats: GladiatorStats,
   items: Record<PerkId, Perk> | Record<EquipmentId, Equipment>
 ): GladiatorStats {
-  const equippedItems = Object.values(items).filter((item) => item.isEquipped);
+  const equippedItems = Object.values(items).filter(
+    (item) => item.status === BonusStatus.EQUIPPED
+  );
   const bonuses = equippedItems.map(({ bonuses }) => bonuses).flat();
   const calcBonuses = bonuses.map((bonus: Bonus) => {
     function calculateValue() {

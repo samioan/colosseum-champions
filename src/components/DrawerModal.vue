@@ -1,11 +1,12 @@
 <script setup lang="ts">
+import { computed } from "vue";
 import { Button, Modal, Icon } from "@/components";
 import { energy, points as pointsIcon, gold as goldIcon } from "@/assets";
 import { IconSize } from "@/enums";
 
 const open = defineModel<boolean>();
 
-withDefaults(
+const props = withDefaults(
   defineProps<{
     onClose?: () => void;
     label?: string;
@@ -15,14 +16,12 @@ withDefaults(
     points?: number;
     gold?: number;
     status?: string;
-    hasNotEnoughPoints?: boolean;
-    hasMaximumEquipped?: boolean;
-    hasNotEnoughGold?: boolean;
-    onSelect?: () => void;
-    equipLabel?: string;
-    onActivate?: () => void;
-    activateLabel?: string;
-    isEquipped?: boolean;
+    warningMessage?: string;
+    buttons?: {
+      label: string;
+      onClick: () => void;
+      disabled: boolean;
+    }[];
   }>(),
   {
     onClose: () => {},
@@ -33,15 +32,17 @@ withDefaults(
     points: 0,
     gold: 0,
     status: "",
-    hasNotEnoughPoints: false,
-    hasMaximumEquipped: false,
-    hasNotEnoughGold: false,
-    onSelect: () => {},
-    equipLabel: "",
-    onActivate: () => {},
-    activateLabel: "",
-    isEquipped: false,
+    warningMessage: "",
+    buttons: undefined,
   }
+);
+
+const stats = computed(() =>
+  [
+    { key: "stamina", value: props.stamina, icon: energy },
+    { key: "points", value: props.points, icon: pointsIcon },
+    { key: "gold", value: props.gold, icon: goldIcon },
+  ].filter((s) => s.value)
 );
 </script>
 
@@ -65,17 +66,13 @@ withDefaults(
         <div class="flex flex-col gap-4 items-start w-fit">
           <span class="text-xs text-start">{{ description }} </span>
           <div class="flex gap-4">
-            <div v-if="stamina" class="flex gap-2 items-center">
-              <Icon :image="energy" />
-              <span class="text-xs">{{ stamina }}</span>
-            </div>
-            <div v-if="points" class="flex gap-2 items-center">
-              <Icon :image="pointsIcon" />
-              <span class="text-xs">{{ points }}</span>
-            </div>
-            <div v-if="gold" class="flex gap-2 items-center">
-              <Icon :image="goldIcon" />
-              <span class="text-xs">{{ gold }}</span>
+            <div
+              v-for="stat in stats"
+              :key="stat.key"
+              class="flex gap-2 items-center"
+            >
+              <Icon :image="stat.icon" />
+              <span class="text-xs">{{ stat.value }}</span>
             </div>
           </div>
           <span class="text-xs text-cYellow">{{ status }}</span>
@@ -83,37 +80,19 @@ withDefaults(
       </div>
 
       <span
-        v-if="hasNotEnoughPoints"
+        v-if="warningMessage"
         class="p-4 bg-cBgDark border border-cBgLight rounded-lg text-xs mb-4 text-start text-cYellow"
+        >{{ warningMessage }}</span
       >
-        Not enough points!
-      </span>
-
-      <span
-        v-if="hasNotEnoughGold"
-        class="p-4 bg-cBgDark border border-cBgLight rounded-lg text-xs mb-4 text-start text-cYellow"
-      >
-        Not enough gold!
-      </span>
-
-      <span
-        v-if="hasMaximumEquipped"
-        class="p-4 bg-cBgDark border border-cBgLight rounded-lg text-xs mb-4 text-start text-cYellow"
-      >
-        Maximum number equipped!
-      </span>
 
       <div class="flex flex-col gap-4 items-center">
         <Button
-          :on-click="onSelect"
-          :disabled="
-            hasNotEnoughPoints || hasMaximumEquipped || hasNotEnoughGold
-          "
-          >{{ equipLabel }}</Button
+          v-for="button in buttons"
+          :on-click="button.onClick"
+          :disabled="button.disabled"
         >
-        <Button v-if="isEquipped" :on-click="onActivate">{{
-          activateLabel
-        }}</Button>
+          {{ button.label }}
+        </Button>
       </div>
     </div>
   </Modal>

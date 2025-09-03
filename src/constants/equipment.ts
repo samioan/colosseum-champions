@@ -1,4 +1,10 @@
-import { StatKey, EquipmentId, EquipmentSlot, Operator } from "@/enums";
+import {
+  StatKey,
+  EquipmentId,
+  EquipmentSlot,
+  Operator,
+  BonusStatus,
+} from "@/enums";
 import type { Equipment } from "@/types";
 import { shortSword, longSword } from "@/assets";
 
@@ -8,8 +14,7 @@ export const EQUIPMENT: Record<EquipmentId, Equipment> = {
     image: shortSword,
     description: "STR + 10",
     gold: 5,
-    isEquipped: false,
-    isUnlocked: false,
+    status: BonusStatus.LOCKED,
     slot: EquipmentSlot.WEAPON,
     bonuses: [
       {
@@ -24,8 +29,7 @@ export const EQUIPMENT: Record<EquipmentId, Equipment> = {
     image: longSword,
     description: "STR + 20",
     gold: 10,
-    isEquipped: false,
-    isUnlocked: false,
+    status: BonusStatus.LOCKED,
     slot: EquipmentSlot.WEAPON,
     bonuses: [
       {
@@ -40,8 +44,7 @@ export const EQUIPMENT: Record<EquipmentId, Equipment> = {
     image: "",
     description: "DEF + 10",
     gold: 15,
-    isEquipped: false,
-    isUnlocked: false,
+    status: BonusStatus.LOCKED,
     slot: EquipmentSlot.SHIELD,
     bonuses: [
       {
@@ -56,8 +59,7 @@ export const EQUIPMENT: Record<EquipmentId, Equipment> = {
     image: "",
     description: "DEF + 20",
     gold: 20,
-    isEquipped: false,
-    isUnlocked: false,
+    status: BonusStatus.LOCKED,
     slot: EquipmentSlot.SHIELD,
     bonuses: [
       {
@@ -72,8 +74,7 @@ export const EQUIPMENT: Record<EquipmentId, Equipment> = {
     image: "",
     description: "DEF + 10",
     gold: 25,
-    isEquipped: false,
-    isUnlocked: false,
+    status: BonusStatus.LOCKED,
     slot: EquipmentSlot.CHEST,
     bonuses: [
       {
@@ -88,8 +89,7 @@ export const EQUIPMENT: Record<EquipmentId, Equipment> = {
     image: "",
     description: "DEF + 10",
     gold: 30,
-    isEquipped: false,
-    isUnlocked: false,
+    status: BonusStatus.LOCKED,
     slot: EquipmentSlot.GLOVES,
     bonuses: [
       {
@@ -104,8 +104,7 @@ export const EQUIPMENT: Record<EquipmentId, Equipment> = {
     image: "",
     description: "DEF + 10",
     gold: 35,
-    isEquipped: false,
-    isUnlocked: false,
+    status: BonusStatus.LOCKED,
     slot: EquipmentSlot.BOOTS,
     bonuses: [
       {
@@ -120,8 +119,7 @@ export const EQUIPMENT: Record<EquipmentId, Equipment> = {
     image: "",
     description: "DEF + 10",
     gold: 40,
-    isEquipped: false,
-    isUnlocked: false,
+    status: BonusStatus.LOCKED,
     slot: EquipmentSlot.HELMET,
     bonuses: [
       {
@@ -136,8 +134,7 @@ export const EQUIPMENT: Record<EquipmentId, Equipment> = {
     image: "",
     description: "DEF + 20",
     gold: 45,
-    isEquipped: false,
-    isUnlocked: false,
+    status: BonusStatus.LOCKED,
     slot: EquipmentSlot.CHEST,
     bonuses: [
       {
@@ -152,8 +149,7 @@ export const EQUIPMENT: Record<EquipmentId, Equipment> = {
     image: "",
     description: "DEF + 20",
     gold: 50,
-    isEquipped: false,
-    isUnlocked: false,
+    status: BonusStatus.LOCKED,
     slot: EquipmentSlot.GLOVES,
     bonuses: [
       {
@@ -168,8 +164,7 @@ export const EQUIPMENT: Record<EquipmentId, Equipment> = {
     image: "",
     description: "DEF + 20",
     gold: 55,
-    isEquipped: false,
-    isUnlocked: false,
+    status: BonusStatus.LOCKED,
     slot: EquipmentSlot.BOOTS,
     bonuses: [
       {
@@ -184,8 +179,7 @@ export const EQUIPMENT: Record<EquipmentId, Equipment> = {
     image: "",
     description: "DEF + 20",
     gold: 60,
-    isEquipped: false,
-    isUnlocked: false,
+    status: BonusStatus.LOCKED,
     slot: EquipmentSlot.HELMET,
     bonuses: [
       {

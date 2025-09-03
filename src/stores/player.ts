@@ -10,8 +10,7 @@ import {
   useItem,
   calculateBonuses,
 } from "@/utils";
-import { LABELS } from "@/constants";
-import { StatAction, StatKey, Label } from "@/enums";
+import { StatAction, StatKey, BonusStatus } from "@/enums";
 import { defense, strength, health, energy } from "@/assets";
 
 export const usePlayerStore = defineStore("player", () => {
@@ -69,7 +68,6 @@ export const usePlayerStore = defineStore("player", () => {
       { stat: StatKey.HEALTH, colorClass: "bg-cRed" },
       { stat: StatKey.STAMINA, colorClass: "bg-cGreen" },
     ].map(({ stat, colorClass }) => ({
-      label: LABELS[stat as unknown as Label],
       stat: playerStats.value[stat],
       maxStat:
         playerStats.value[
@@ -146,11 +144,15 @@ export const usePlayerStore = defineStore("player", () => {
 
   const playerSelectedAbilities = computed(() =>
     Object.values(player.value.abilities)
-      .filter((ability) => ability.isEquipped)
+      .filter(
+        (ability) =>
+          ability.status === BonusStatus.EQUIPPED ||
+          ability.status === BonusStatus.ACTIVE
+      )
       .map((ability) => ({
         image: ability.image,
         label: ability.label,
-        isActive: ability.isActive,
+        isActive: ability.status === BonusStatus.ACTIVE,
         cooldown: ability.cooldown,
         maxCooldown: ability.maxCooldown,
         onActivate: () => activateAbility(ability, player.value),
@@ -159,11 +161,16 @@ export const usePlayerStore = defineStore("player", () => {
 
   const characterSelectedAbilities = computed(() =>
     Object.values(player.value.abilities)
-      .filter((ability) => ability.isEquipped)
+      .filter(
+        (ability) =>
+          ability.status === BonusStatus.EQUIPPED ||
+          ability.status === BonusStatus.ACTIVE
+      )
       .map((ability) => ({
         image: ability.image,
         onClick: () => activateAbility(ability, player.value),
-        customClasses: ability.isActive ? "border-cYellow" : "",
+        customClasses:
+          ability.status === BonusStatus.ACTIVE ? "border-cYellow" : "",
       }))
   );
 
@@ -176,14 +183,14 @@ export const usePlayerStore = defineStore("player", () => {
 
   const playerSelectedPerks = computed(() =>
     Object.values(player.value.perks)
-      .filter((perk) => perk.isEquipped)
+      .filter((perk) => perk.status === BonusStatus.EQUIPPED)
       .map((perk) => ({ image: perk.image }))
   );
 
   const playerItems = computed(() => {
     return Object.values(player.value.items).map((item) => ({
       ...item,
-      onBuy: () => {
+      onSelect: () => {
         if (player.value.stats.gold >= item.gold) {
           handleStat(
             player.value.stats,
@@ -219,7 +226,7 @@ export const usePlayerStore = defineStore("player", () => {
   const playerEquipment = computed(() => {
     return Object.values(player.value.equipment).map((item) => ({
       ...item,
-      onBuy: () => {
+      onSelect: () => {
         if (player.value.stats.gold >= item.gold) {
           handleStat(
             player.value.stats,
@@ -228,18 +235,23 @@ export const usePlayerStore = defineStore("player", () => {
             StatAction.DECREASE,
             playerStats.value
           );
-          item.isUnlocked = true;
+          item.status = BonusStatus.UNEQUIPPED;
         }
       },
-      onEquip: () => {
-        if (item.isEquipped) item.isEquipped = false;
+      onActivate: () => {
+        if (item.status === BonusStatus.EQUIPPED)
+          item.status = BonusStatus.UNEQUIPPED;
         else {
           Object.values(player.value.equipment)
             .filter((curItem) => curItem.slot === item.slot)
             .forEach((curItem) => {
-              curItem.isEquipped = false;
+              if (curItem.status !== BonusStatus.LOCKED)
+                curItem.status = BonusStatus.UNEQUIPPED;
             });
-          item.isEquipped = !item.isEquipped;
+          item.status =
+            item.status === BonusStatus.UNEQUIPPED
+              ? BonusStatus.EQUIPPED
+              : BonusStatus.UNEQUIPPED;
         }
       },
     }));
@@ -247,7 +259,7 @@ export const usePlayerStore = defineStore("player", () => {
 
   const playerSelectedEquipment = computed(() => {
     return Object.values(player.value.equipment)
-      .filter((equipment) => equipment.isEquipped)
+      .filter((equipment) => equipment.status === BonusStatus.EQUIPPED)
       .map((equipment) => ({ image: equipment.image }));
   });
 

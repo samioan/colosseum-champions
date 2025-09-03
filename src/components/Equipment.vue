@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { EQUIPMENT_LABELS } from "@/constants";
-import { EquipmentSlot } from "@/enums";
+import { BonusStatus, EquipmentSlot, Label } from "@/enums";
 import { computed, ref } from "vue";
 import { DrawerIcon, DrawerModal, Accordion } from "@/components";
 
@@ -10,15 +10,15 @@ type Equip = {
   description: string;
   gold: number;
   slot: EquipmentSlot;
-  isEquipped: boolean;
-  isUnlocked: boolean;
-  onBuy: () => void;
-  onEquip: () => void;
+  status: BonusStatus;
+  onSelect: () => void;
+  onActivate: () => void;
 };
 
 const props = defineProps<{
   gold: number;
   equipment: Equip[];
+  labels: Record<Label, string>;
 }>();
 
 const isModalVisible = ref(false);
@@ -41,9 +41,12 @@ const selectedEquip = computed<Equip | null>(() => {
 const equipStatus = computed(() => {
   const e = selectedEquip.value;
   if (!e) return "";
-  if (e.isEquipped) return "Equipped";
-  if (e.isUnlocked) return "Unequipped";
-  return "Locked";
+  return {
+    [BonusStatus.LOCKED]: props.labels.LOCKED,
+    [BonusStatus.UNEQUIPPED]: props.labels.UNEQUIPPED,
+    [BonusStatus.EQUIPPED]: props.labels.EQUIPPED,
+    [BonusStatus.ACTIVE]: props.labels.ACTIVE,
+  }[e.status];
 });
 
 const categoryProps = computed(() => {
@@ -53,13 +56,16 @@ const categoryProps = computed(() => {
       label: EQUIPMENT_LABELS[slot as EquipmentSlot],
       icons: items.map((equip, index) => ({
         image: equip.image,
-        isActive: equip.isEquipped,
-        isEquipped: equip.isUnlocked && !equip.isEquipped,
-        overlayText: equip.isEquipped
-          ? "EQP"
-          : equip.isUnlocked
-          ? "UNEQ"
-          : "LCK",
+        isActive: equip.status === BonusStatus.EQUIPPED,
+        isEquipped: equip.status === BonusStatus.UNEQUIPPED,
+        overlayText: (() => {
+          return {
+            [BonusStatus.LOCKED]: props.labels.LCK,
+            [BonusStatus.UNEQUIPPED]: props.labels.UNEQ,
+            [BonusStatus.EQUIPPED]: props.labels.EQP,
+            [BonusStatus.ACTIVE]: props.labels.ACT,
+          }[equip.status];
+        })(),
         onSelect: () => {
           isModalVisible.value = true;
           selectedSlot.value = equip.slot;
@@ -74,14 +80,27 @@ const modalProps = computed(() => {
   const e = selectedEquip.value;
   if (!e) return {};
 
-  const hasNotEnoughGold = props.gold < e.gold && !e.isUnlocked;
-  const equipLabel = !e.isUnlocked
-    ? "Unlock"
-    : !e.isEquipped
-    ? "Equip"
-    : "Unequip";
+  const hasNotEnoughGold =
+    props.gold < e.gold && e.status === BonusStatus.LOCKED;
+  const equipLabel = {
+    [BonusStatus.LOCKED]: props.labels.UNLOCK,
+    [BonusStatus.UNEQUIPPED]: props.labels.EQUIP,
+    [BonusStatus.EQUIPPED]: props.labels.UNEQUIP,
+    [BonusStatus.ACTIVE]: props.labels.UNEQUIP,
+  }[e.status];
 
-  const onSelect = () => (e.isUnlocked ? e.onEquip() : e.onBuy());
+  const warningMessage = (() => {
+    if (hasNotEnoughGold) return "Not enough gold!";
+  })();
+
+  const buttons = [
+    {
+      label: equipLabel,
+      disabled: hasNotEnoughGold,
+      onClick: () =>
+        e.status === BonusStatus.LOCKED ? e.onSelect() : e.onActivate(),
+    },
+  ];
 
   return {
     modelValue: isModalVisible.value,
@@ -97,15 +116,14 @@ const modalProps = computed(() => {
     description: e.description,
     gold: e.gold,
     status: equipStatus.value,
-    hasNotEnoughGold,
-    onSelect,
-    equipLabel,
+    warningMessage,
+    buttons,
   };
 });
 </script>
 
 <template>
-  <div class="flex flex-col justify-center p-4 gap-4">
+  <div class="flex flex-col justify-center gap-4">
     <Accordion v-for="category in categoryProps" :key="category.slot">
       <template #header>
         <div class="text-center">

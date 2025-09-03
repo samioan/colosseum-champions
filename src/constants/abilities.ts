@@ -1,5 +1,11 @@
 import type { Ability } from "@/types";
-import { StatKey, AbilityId, AbilityType, Operator } from "@/enums";
+import {
+  StatKey,
+  AbilityId,
+  AbilityType,
+  Operator,
+  BonusStatus,
+} from "@/enums";
 import { smash } from "@/assets";
 
 export const ABILITIES: Record<AbilityId, Ability> = {
@@ -11,9 +17,7 @@ export const ABILITIES: Record<AbilityId, Ability> = {
     cooldown: 0,
     maxCooldown: 2,
     points: 2,
-    isUnlocked: false,
-    isEquipped: false,
-    isActive: false,
+    status: BonusStatus.LOCKED,
     payload: [
       {
         type: AbilityType.OFFENSIVE,
@@ -34,9 +38,7 @@ export const ABILITIES: Record<AbilityId, Ability> = {
     cooldown: 0,
     maxCooldown: 3,
     points: 4,
-    isUnlocked: false,
-    isEquipped: false,
-    isActive: false,
+    status: BonusStatus.LOCKED,
     payload: [
       {
         type: AbilityType.OFFENSIVE,
@@ -57,9 +59,7 @@ export const ABILITIES: Record<AbilityId, Ability> = {
     cooldown: 0,
     maxCooldown: 2,
     points: 6,
-    isUnlocked: false,
-    isEquipped: false,
-    isActive: false,
+    status: BonusStatus.LOCKED,
     payload: [
       {
         type: AbilityType.OFFENSIVE,
@@ -85,9 +85,7 @@ export const ABILITIES: Record<AbilityId, Ability> = {
     cooldown: 0,
     maxCooldown: 3,
     points: 8,
-    isUnlocked: false,
-    isEquipped: false,
-    isActive: false,
+    status: BonusStatus.LOCKED,
     payload: [
       {
         type: AbilityType.OFFENSIVE,
@@ -106,9 +104,7 @@ export const ABILITIES: Record<AbilityId, Ability> = {
     cooldown: 0,
     maxCooldown: 2,
     points: 10,
-    isUnlocked: false,
-    isEquipped: false,
-    isActive: false,
+    status: BonusStatus.LOCKED,
     payload: [
       {
         type: AbilityType.OFFENSIVE,
@@ -127,9 +123,7 @@ export const ABILITIES: Record<AbilityId, Ability> = {
     cooldown: 0,
     maxCooldown: 3,
     points: 12,
-    isUnlocked: false,
-    isEquipped: false,
-    isActive: false,
+    status: BonusStatus.LOCKED,
     payload: [
       {
         type: AbilityType.DEFENSIVE,

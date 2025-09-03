@@ -1,3 +1,4 @@
+import type { BonusStatus } from "@/enums";
 import type { Bonus } from "@/types";
 
 export type Perk = {
@@ -5,7 +6,6 @@ export type Perk = {
   description: string;
   image: string;
   points: number;
-  isUnlocked: boolean;
-  isEquipped: boolean;
+  status: BonusStatus;
   bonuses: Bonus[];
 };

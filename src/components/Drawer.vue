@@ -159,7 +159,7 @@ onUnmounted(() => {
         <slot name="header" />
       </div>
 
-      <div class="overflow-y-auto scrollbar-hidden">
+      <div class="overflow-y-auto scrollbar-hidden p-4">
         <slot name="content" />
       </div>
     </div>
