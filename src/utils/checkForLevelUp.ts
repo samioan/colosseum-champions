@@ -8,7 +8,7 @@ export default function checkForLevelUp(
 ) {
   while (stats.experience >= stats.maxExperience) {
     handleStat(stats, StatKey.LEVEL, 1, StatAction.INCREASE, updatedStats);
-    handleStat(stats, StatKey.POINTS, 20, StatAction.INCREASE, updatedStats);
+    handleStat(stats, StatKey.POINTS, 3, StatAction.INCREASE, updatedStats);
     handleStat(
       stats,
       StatKey.EXPERIENCE,
@@ -19,7 +19,7 @@ export default function checkForLevelUp(
     handleStat(
       stats,
       StatKey.MAX_EXPERIENCE,
-      Math.floor(100 * Math.pow(stats.level, 1.2)),
+      Math.floor(100 * Math.pow(stats.level, 1)),
       StatAction.SET,
       updatedStats
     );

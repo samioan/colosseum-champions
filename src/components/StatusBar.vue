@@ -22,10 +22,8 @@ const statPercent = computed(() =>
       ></div>
     </div>
 
-    <div class="absolute inset-0 flex items-center justify-center text-sm">
-      <span class="drop-shadow">
-        {{ stat }}{{ maxStat ? " / " + maxStat : "" }}
-      </span>
+    <div class="absolute inset-0 flex items-center justify-center text-xs">
+      {{ stat }}{{ maxStat ? "/" + maxStat : "" }}
     </div>
   </div>
 </template>

@@ -1,18 +1,18 @@
 export const ENEMY_STAT_RANGES = {
   HEALTH: {
-    min: 10,
-    max: 10,
+    min: 5,
+    max: 8,
   },
   STAMINA: {
-    min: 0,
-    max: 0,
+    min: 5,
+    max: 8,
   },
   STRENGTH: {
     min: 1,
-    max: 1,
+    max: 3,
   },
   DEFENSE: {
     min: 1,
-    max: 1,
+    max: 3,
   },
 };

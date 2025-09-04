@@ -5,19 +5,19 @@ import { useGameStore } from "@/stores/game";
 import { usePlayerStore } from "@/stores/player";
 import {
   Drawer,
-  Perks,
-  Items,
-  Abilities,
-  Equipment,
   Accordion,
   StatsSection,
   Icon,
   CharacterHeader,
   MiscStats,
   CharacterSection,
+  DrawerIcon,
+  DrawerModal,
 } from "@/components";
 import { DrawerState, IconSize } from "@/enums";
 import { gold, points, experience } from "@/assets";
+import { useBonusDrawer } from "@/composables";
+import { EQUIPMENT_LABELS } from "@/constants";
 
 const gameStore = useGameStore();
 const playerStore = usePlayerStore();
@@ -35,7 +35,7 @@ const {
   playerSelectedPerks,
   playerSelectedEquipment,
   characterSelectedAbilities,
-  characterSelectedItems,
+  playerSelectedItems,
 } = storeToRefs(playerStore);
 
 const playerMiscStats = computed(() => [
@@ -54,28 +54,42 @@ const playerMiscStats = computed(() => [
   },
 ]);
 
-const abilitiesProps = computed(() => ({
-  points: player.value.stats.points,
-  abilities: playerAbilities.value,
-  labels: labels.value,
-}));
+const bonusProps = computed(() => {
+  switch (drawer.value.state) {
+    case DrawerState.ABILITIES:
+      return playerAbilities.value;
+    case DrawerState.PERKS:
+      return playerPerks.value;
+    case DrawerState.ITEMS:
+      return playerItems.value;
+    case DrawerState.EQUIPMENT:
+      return playerEquipment.value;
+    default:
+      return playerAbilities.value;
+  }
+});
 
-const perksProps = computed(() => ({
-  points: player.value.stats.points,
-  perks: playerPerks.value,
-  labels: labels.value,
-}));
+const bonusResource = computed(() => {
+  switch (drawer.value.state) {
+    case DrawerState.ABILITIES:
+      return player.value.stats.points;
+    case DrawerState.PERKS:
+      return player.value.stats.points;
+    case DrawerState.ITEMS:
+      return player.value.stats.gold;
+    case DrawerState.EQUIPMENT:
+      return player.value.stats.gold;
+    default:
+      return player.value.stats.points;
+  }
+});
 
-const equipmentProps = computed(() => ({
-  gold: player.value.stats.gold,
-  equipment: playerEquipment.value,
-  labels: labels.value,
-}));
-
-const itemsProps = computed(() => ({
-  gold: player.value.stats.gold,
-  items: playerItems.value,
-}));
+const { categoryProps, iconProps, modalProps } = useBonusDrawer(
+  bonusResource,
+  bonusProps,
+  labels.value,
+  EQUIPMENT_LABELS
+);
 
 const sections = computed(() => [
   {
@@ -118,17 +132,10 @@ const sections = computed(() => [
   {
     label: labels.value.ITEMS,
     contentComponent: CharacterSection,
-    contentProps: { items: characterSelectedItems.value },
-    condition: characterSelectedItems.value?.length,
+    contentProps: { items: playerSelectedItems.value },
+    condition: playerSelectedItems.value?.length,
   },
 ]);
-
-onMounted(() => {
-  player.value.stats.health = playerStats.value.maxHealth;
-  player.value.stats.stamina = playerStats.value.maxStamina;
-  player.value.stats.strength = playerStats.value.maxStrength;
-  player.value.stats.defense = playerStats.value.maxDefense;
-});
 
 watch(
   player,
@@ -138,7 +145,7 @@ watch(
     player.value.stats.strength = playerStats.value.maxStrength;
     player.value.stats.defense = playerStats.value.maxDefense;
   },
-  { deep: true }
+  { deep: true, immediate: true }
 );
 </script>
 
@@ -184,16 +191,39 @@ watch(
 
     <Drawer v-model="drawer.isOpen" :title="drawer.title">
       <template #content>
-        <Abilities
-          v-if="drawer.state === DrawerState.ABILITIES"
-          v-bind="abilitiesProps"
-        />
-        <Perks v-if="drawer.state === DrawerState.PERKS" v-bind="perksProps" />
-        <Equipment
-          v-if="drawer.state === DrawerState.EQUIPMENT"
-          v-bind="equipmentProps"
-        />
-        <Items v-if="drawer.state === DrawerState.ITEMS" v-bind="itemsProps" />
+        <div class="flex flex-wrap justify-center gap-4">
+          <DrawerIcon
+            v-if="drawer.state !== DrawerState.EQUIPMENT"
+            v-for="(props, index) in iconProps"
+            :key="index"
+            v-bind="props"
+          />
+
+          <Accordion
+            v-else
+            v-for="category in categoryProps"
+            :key="category.slot"
+            class="w-full"
+          >
+            <template #header>
+              <div class="text-center">
+                {{ category.label }}
+              </div>
+            </template>
+
+            <template #content>
+              <div class="flex flex-wrap justify-center gap-4">
+                <DrawerIcon
+                  v-for="(props, index) in category.icons"
+                  :key="index"
+                  v-bind="props"
+                />
+              </div>
+            </template>
+          </Accordion>
+        </div>
+
+        <DrawerModal v-bind="modalProps" />
       </template>
     </Drawer>
   </div>

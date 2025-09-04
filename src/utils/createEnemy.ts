@@ -13,21 +13,24 @@ import {
   PerkId,
   EquipmentId,
   EquipmentSlot,
+  BonusStatus,
 } from "@/enums";
 
-export default function createEnemy(gladiatorLevel: number = 1) {
+export default function createEnemy(level: number = 1) {
   const ranges = ENEMY_STAT_RANGES;
 
   const maxHealth =
-    getRandomRange(ranges.HEALTH.min, ranges.HEALTH.max) * gladiatorLevel;
+    getRandomRange(ranges.HEALTH.min, ranges.HEALTH.max) * level;
   const maxStamina =
-    getRandomRange(ranges.STAMINA.min, ranges.STAMINA.max) * gladiatorLevel;
+    getRandomRange(ranges.STAMINA.min, ranges.STAMINA.max) * level;
   const strength =
-    getRandomRange(ranges.STRENGTH.min, ranges.STRENGTH.max) * gladiatorLevel;
+    getRandomRange(ranges.STRENGTH.min, ranges.STRENGTH.max) * level;
   const defense =
-    getRandomRange(ranges.DEFENSE.min, ranges.DEFENSE.max) * gladiatorLevel;
+    getRandomRange(ranges.DEFENSE.min, ranges.DEFENSE.max) * level;
 
   function generateRandomAbilities() {
+    if (level < 10) return ABILITIES;
+
     const keys = Object.keys(ABILITIES) as AbilityId[];
 
     const randomKey = keys[Math.floor(Math.random() * keys.length)];
@@ -37,14 +40,15 @@ export default function createEnemy(gladiatorLevel: number = 1) {
         key,
         {
           ...ABILITIES[key],
-          isActive: key === randomKey,
-          isEquipped: key === randomKey,
+          status: key === randomKey ? BonusStatus.ACTIVE : BonusStatus.LOCKED,
         },
       ])
     ) as Record<AbilityId, Ability>;
   }
 
   function generateRandomPerks() {
+    if (level < 10) return PERKS;
+
     const keys = Object.keys(PERKS) as PerkId[];
 
     const randomKey = keys[Math.floor(Math.random() * keys.length)];
@@ -54,7 +58,7 @@ export default function createEnemy(gladiatorLevel: number = 1) {
         key,
         {
           ...PERKS[key],
-          isEquipped: key === randomKey,
+          status: key === randomKey ? BonusStatus.EQUIPPED : BonusStatus.LOCKED,
         },
       ])
     ) as Record<PerkId, Perk>;
@@ -65,8 +69,10 @@ export default function createEnemy(gladiatorLevel: number = 1) {
       JSON.stringify(EQUIPMENT)
     );
 
+    if (level < 10) return equips;
+
     for (const id in equips) {
-      equips[id as EquipmentId].isEquipped = false;
+      equips[id as EquipmentId].status = BonusStatus.EQUIPPED;
     }
 
     const slotGroups: Record<EquipmentSlot, EquipmentId[]> = {} as any;
@@ -80,7 +86,7 @@ export default function createEnemy(gladiatorLevel: number = 1) {
     for (const slot in slotGroups) {
       const items = slotGroups[slot as EquipmentSlot];
       const randomId = items[Math.floor(Math.random() * items.length)];
-      equips[randomId].isEquipped = true;
+      equips[randomId].status = BonusStatus.EQUIPPED;
     }
 
     return equips;
@@ -89,7 +95,7 @@ export default function createEnemy(gladiatorLevel: number = 1) {
   const enemy: Gladiator = {
     name: createName(),
     stats: {
-      [StatKey.LEVEL]: gladiatorLevel,
+      [StatKey.LEVEL]: level,
       [StatKey.HEALTH]: maxHealth,
       [StatKey.MAX_HEALTH]: maxHealth,
       [StatKey.STAMINA]: maxStamina,

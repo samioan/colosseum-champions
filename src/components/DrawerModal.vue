@@ -52,7 +52,7 @@ const stats = computed(() =>
       <div
         class="flex justify-between items-center mb-4 gap-4 bg-cBgDark border border-cBgLight rounded-lg p-4"
       >
-        <span>
+        <span class="text-start">
           {{ label }}
         </span>
         <span @click="onClose">X</span>

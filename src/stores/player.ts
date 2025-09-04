@@ -66,7 +66,7 @@ export const usePlayerStore = defineStore("player", () => {
   const playerMainStats = computed(() =>
     [
       { stat: StatKey.HEALTH, colorClass: "bg-cRed" },
-      { stat: StatKey.STAMINA, colorClass: "bg-cGreen" },
+      { stat: StatKey.STAMINA, colorClass: "bg-cBlue" },
     ].map(({ stat, colorClass }) => ({
       stat: playerStats.value[stat],
       maxStat:
@@ -191,7 +191,7 @@ export const usePlayerStore = defineStore("player", () => {
     return Object.values(player.value.items).map((item) => ({
       ...item,
       onSelect: () => {
-        if (player.value.stats.gold >= item.gold) {
+        if (player.value.stats.gold >= item.gold && item.amount <= 9) {
           handleStat(
             player.value.stats,
             StatKey.GOLD,
@@ -210,16 +210,7 @@ export const usePlayerStore = defineStore("player", () => {
       .filter((item) => item.amount)
       .map((item) => ({
         ...item,
-        onUse: () => useItem(item, player.value.stats, playerStats.value),
-      }));
-  });
-
-  const characterSelectedItems = computed(() => {
-    return Object.values(player.value.items)
-      .filter((item) => item.amount)
-      .map((item) => ({
-        image: item.image,
-        amount: item.amount,
+        onClick: () => useItem(item, player.value.stats, playerStats.value),
       }));
   });
 
@@ -278,6 +269,5 @@ export const usePlayerStore = defineStore("player", () => {
     playerEquipment,
     playerSelectedEquipment,
     characterSelectedAbilities,
-    characterSelectedItems,
   };
 });

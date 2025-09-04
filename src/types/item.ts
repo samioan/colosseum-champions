@@ -1,4 +1,4 @@
-import { Operator, StatKey } from "@/enums";
+import { StatKey } from "@/enums";
 
 export type Item = {
   label: string;
@@ -6,13 +6,6 @@ export type Item = {
   gold: number;
   amount: number;
   image: string;
-  bonuses: {
-    stat: StatKey;
-    operator: Operator;
-    value: {
-      stat: StatKey;
-      operator: Operator;
-      modifier: number;
-    };
-  }[];
+  stats: StatKey[];
+  modifier: number;
 };

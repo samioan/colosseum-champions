@@ -1,4 +1,4 @@
-import { Operator, StatAction } from "@/enums";
+import { StatAction, StatKey } from "@/enums";
 import type { GladiatorStats, Item } from "@/types";
 import { handleStat } from "@/utils";
 
@@ -7,46 +7,38 @@ export default function useItem(
   stats: GladiatorStats,
   updatedStats: GladiatorStats
 ) {
-  item.bonuses.forEach((bonus, index) => {
-    function calculateValue() {
-      switch (bonus.value.operator) {
-        case Operator.MULTIPLICATION:
-          return Math.floor(stats[bonus.value.stat] * bonus.value.modifier);
-        default:
-          return 0;
-      }
-    }
+  let usedItem = false;
 
-    function calculateAction() {
-      switch (bonus.operator) {
-        case Operator.ADDITION:
-          return StatAction.INCREASE;
-        default:
-          return StatAction.SET;
-      }
+  item.stats.forEach((stat) => {
+    const maxStat = `max${stat.charAt(0).toUpperCase()}${stat.slice(
+      1
+    )}` as StatKey;
+
+    function calculateValue() {
+      return item.modifier < 1
+        ? Math.floor(stats[stat] * item.modifier)
+        : item.modifier;
     }
 
     function calculateCanUse() {
-      switch (calculateAction()) {
-        case StatAction.INCREASE:
-          return stats[bonus.stat] < updatedStats[bonus.value.stat];
-        default:
-          return;
-      }
+      return item.modifier < 1 ? stats[stat] < updatedStats[maxStat] : true;
     }
 
-    if (!calculateCanUse()) return;
-    else {
+    if (calculateCanUse()) {
       handleStat(
         stats,
-        bonus.stat,
+        stat,
         calculateValue(),
-        calculateAction(),
+        StatAction.INCREASE,
         updatedStats
       );
-      if (index === item.bonuses.length - 1) {
-        item.amount -= 1;
-      }
+
+      usedItem = true;
     }
   });
+
+  if (usedItem) {
+    item.amount -= 1;
+    usedItem = false;
+  }
 }

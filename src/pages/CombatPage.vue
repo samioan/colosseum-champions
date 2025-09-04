@@ -25,7 +25,7 @@ const {
 const { enemy, enemyStats, enemyMainStats } = storeToRefs(useEnemyStore());
 
 onBeforeMount(() => {
-  enemy.value = createEnemy(player.value.stats.level);
+  enemy.value = createEnemy(stage.value);
   enemy.value.stats.health = enemyStats.value.maxHealth;
   enemy.value.stats.stamina = enemyStats.value.maxStamina;
   enemy.value.stats.strength = enemyStats.value.maxStrength;
@@ -52,9 +52,9 @@ const isModalVisible = computed(
 
 const enemyImage = computed(() => {
   if (enemy.value.stats.health > 0) {
-    if (fightTurn.value === FightTurn.PLAYER) {
+    if (fightTurn.value === FightTurn.ENEMY) {
       return enemy1Attack;
-    } else if (fightTurn.value === FightTurn.ENEMY) {
+    } else if (fightTurn.value === FightTurn.PLAYER) {
       return enemy1Hurt;
     } else if (fightTurn.value === FightTurn.NONE) {
       return enemy1Idle;
@@ -71,7 +71,7 @@ watch(
       stage.value < 20
     ) {
       setTimeout(() => {
-        enemy.value = createEnemy(player.value.stats.level);
+        enemy.value = createEnemy(stage.value);
         enemy.value.stats.health = enemyStats.value.maxHealth;
         enemy.value.stats.stamina = enemyStats.value.maxStamina;
         enemy.value.stats.strength = enemyStats.value.maxStrength;
@@ -136,7 +136,7 @@ watch(
       class="flex flex-wrap gap-4 px-3 justify-end items-center min-h-[68px] relative border border-cBgLight rounded-lg bg-cBgDark"
     >
       <div
-        class="absolute left-0 top-0 p-1 text-xs z-[20] bg-cBgLight rounded-lg"
+        class="absolute left-0 top-0 p-1 text-xs z-[2] bg-cBgLight rounded-lg"
       >
         ABILITIES
       </div>
@@ -165,26 +165,30 @@ watch(
     </div>
 
     <div
-      class="flex flex-wrap gap-4 px-3 justify-end items-center min-h-[68px] relative border border-cBgLight rounded-lg bg-cBgDark"
+      class="flex items-center justify-end relative border border-cBgLight rounded-lg bg-cBgDark min-h-[68px] px-3"
     >
       <div
-        class="absolute left-0 top-0 p-1 text-xs z-[20] bg-cBgLight rounded-lg"
+        class="absolute left-0 top-0 p-1 text-xs z-[2] bg-cBgLight rounded-lg"
       >
         ITEMS
       </div>
-      <div
-        v-for="item in playerSelectedItems"
-        class="flex gap-2 items-center relative"
-      >
-        <img
-          class="w-12 h-12 object-cover p-2 rounded-lg bg-cBgLight"
-          :src="item.image"
-          @click="item.onUse"
-        />
+
+      <div class="flex gap-2 items-center overflow-x-auto scrollbar-hidden">
         <div
-          class="absolute bottom-0 right-0 bg-cBgDarker text-xs px-1 rounded-tl-lg rounded-br-lg"
+          v-for="item in playerSelectedItems"
+          :key="item.label"
+          class="flex gap-2 items-center relative shrink-0"
+          @click="item.onClick"
         >
-          {{ item.amount }}
+          <img
+            class="w-12 h-12 object-cover p-2 rounded-lg bg-cBgLight cursor-pointer"
+            :src="item.image"
+          />
+          <div
+            class="absolute bottom-0 right-0 bg-cBgDarker text-xs px-1 rounded-tl-lg rounded-br-lg"
+          >
+            {{ item.amount }}
+          </div>
         </div>
       </div>
     </div>

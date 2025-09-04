@@ -2,7 +2,6 @@ import { defineStore } from "pinia";
 import { ref, computed, type ComputedRef } from "vue";
 import type { Gladiator, GladiatorStats } from "@/types";
 import { createEnemy, calculateBonuses } from "@/utils";
-import { LABELS } from "@/constants";
 import { StatKey } from "@/enums";
 
 export const useEnemyStore = defineStore("enemy", () => {

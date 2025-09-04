@@ -1,5 +1,5 @@
 import { ref, computed, type Ref } from "vue";
-import { BonusStatus, Label } from "@/enums";
+import { BonusStatus, Label, EquipmentSlot } from "@/enums";
 
 type Ability = {
   label: string;
@@ -21,17 +21,47 @@ type Perk = {
   onSelect: () => void;
 };
 
+type ShopItem = {
+  image: string;
+  label: string;
+  description: string;
+  gold: number;
+  onSelect: () => void;
+  amount: number;
+};
+
+type Equipment = {
+  image: string;
+  label: string;
+  description: string;
+  gold: number;
+  slot: EquipmentSlot;
+  status: BonusStatus;
+  onSelect: () => void;
+  onActivate: () => void;
+};
+
+type Item = Ability | Perk | ShopItem | Equipment;
+
 export function useBonusDrawer(
-  points: Ref<number>,
-  items: Ref<Ability[]> | Ref<Perk[]>,
-  labels: Record<Label, string>
+  pointsOrGold: Ref<number>,
+  items: Ref<Item[]>,
+  labels: Record<Label, string>,
+  equipmentLabels?: Record<EquipmentSlot, string>
 ) {
   const isModalVisible = ref(false);
   const selectedIndex = ref<number>(0);
+  const selectedSlot = ref<EquipmentSlot | null>(null);
 
-  const selectedItem = computed<Ability | Perk | undefined>(
-    () => items.value[selectedIndex.value]
-  );
+  const selectedItem = computed<Item | undefined>(() => {
+    if (selectedSlot.value) {
+      const equipment = (items.value as Equipment[]).filter(
+        (e) => e.slot === selectedSlot.value
+      );
+      return equipment[selectedIndex.value];
+    }
+    return items.value[selectedIndex.value];
+  });
 
   const itemLabels = {
     text: {
@@ -60,77 +90,204 @@ export function useBonusDrawer(
     },
   };
 
+  const equipmentCategories = computed<Record<EquipmentSlot, Equipment[]>>(
+    () => {
+      if (!items.value.length || !("slot" in items.value[0]))
+        return {} as Record<EquipmentSlot, Equipment[]>;
+
+      return (items.value as Equipment[]).reduce((acc, item) => {
+        if (!acc[item.slot]) acc[item.slot] = [];
+        acc[item.slot].push(item);
+        return acc;
+      }, {} as Record<EquipmentSlot, Equipment[]>);
+    }
+  );
+
+  const categoryProps = computed(() => {
+    if (!equipmentLabels) return [];
+    return (
+      Object.entries(equipmentCategories.value) as [
+        EquipmentSlot,
+        Equipment[]
+      ][]
+    ).map(([slot, eqItems]) => ({
+      slot,
+      label: equipmentLabels[slot],
+      icons: eqItems.map((equip, index) => ({
+        image: equip.image,
+        isActive: equip.status === BonusStatus.EQUIPPED,
+        isEquipped: equip.status === BonusStatus.UNEQUIPPED,
+        overlayText: itemLabels.overlay[equip.status],
+        onSelect: () => {
+          isModalVisible.value = true;
+          selectedSlot.value = equip.slot;
+          selectedIndex.value = index;
+        },
+      })),
+    }));
+  });
+
   const itemStatus = computed(() => {
     const a = selectedItem.value;
     if (!a) return "";
 
-    return itemLabels.text[a.status];
+    if ("status" in a) return itemLabels.text[a.status];
+    if ("amount" in a) return `${labels.AVAILABLE}: ${a.amount}`;
+    return "";
   });
 
-  const iconProps = computed(() =>
-    items.value.map((item, index) => ({
-      isActive: item.status === BonusStatus.ACTIVE,
-      isEquipped: item.status === BonusStatus.EQUIPPED,
-      image: item.image,
-      overlayText: itemLabels.overlay[item.status],
-      onSelect: () => {
-        isModalVisible.value = true;
-        selectedIndex.value = index;
-      },
-    }))
-  );
+  const iconProps = computed(() => {
+    if ("slot" in (items.value[0] ?? {})) return [];
+    return items.value.map((item, index) => {
+      const base = {
+        image: item.image,
+        onSelect: () => {
+          isModalVisible.value = true;
+          selectedSlot.value = null;
+          selectedIndex.value = index;
+        },
+      };
+
+      if ("status" in item) {
+        return {
+          ...base,
+          isActive: item.status === BonusStatus.ACTIVE,
+          isEquipped: item.status === BonusStatus.EQUIPPED,
+          overlayText: itemLabels.overlay[item.status],
+        };
+      }
+
+      if ("amount" in item) {
+        return {
+          ...base,
+          overlayText: `${item.amount}`,
+        };
+      }
+
+      return base;
+    });
+  });
 
   const modalProps = computed(() => {
     const item = selectedItem.value;
     if (!item) return {};
 
-    const notEnoughPoints =
-      item.status === BonusStatus.LOCKED && item.points > points.value;
-    const maxEquipped =
-      item.status === BonusStatus.UNEQUIPPED &&
-      items.value.filter((item) => item.status === BonusStatus.EQUIPPED)
-        .length === 3;
+    let warningMessage: string | undefined;
+    const buttons: { label: string; disabled: boolean; onClick: () => void }[] =
+      [];
 
-    const warningMessage = (() => {
-      if (notEnoughPoints) return "Not enough points!";
-      else if (maxEquipped) return "Maximum abilities equipped!";
-    })();
+    if ("status" in item && !("slot" in item)) {
+      const notEnoughPoints =
+        item.status === BonusStatus.LOCKED && item.points > pointsOrGold.value;
+      const maxEquipped =
+        item.status === BonusStatus.UNEQUIPPED &&
+        items.value.filter(
+          (it) =>
+            "status" in it &&
+            (it as Ability | Perk).status === BonusStatus.EQUIPPED
+        ).length === 3;
 
-    const buttons = [
-      {
+      if (notEnoughPoints) warningMessage = labels.POINTS_ERROR;
+      else if (maxEquipped) warningMessage = labels.MAX_ERROR;
+
+      buttons.push({
         label: itemLabels.button[item.status],
         disabled: notEnoughPoints || maxEquipped,
         onClick: item.onSelect,
-      },
-    ];
-
-    if ("onActivate" in item) {
-      buttons.push({
-        label: itemLabels.extra[item.status],
-        disabled:
-          item.status === BonusStatus.LOCKED ||
-          item.status === BonusStatus.UNEQUIPPED,
-        onClick: item.onActivate,
       });
+
+      if ("onActivate" in item) {
+        buttons.push({
+          label: itemLabels.extra[item.status],
+          disabled:
+            item.status === BonusStatus.LOCKED ||
+            item.status === BonusStatus.UNEQUIPPED,
+          onClick: item.onActivate,
+        });
+      }
+
+      return {
+        modelValue: isModalVisible.value,
+        "onUpdate:modelValue": (val: boolean | undefined) =>
+          (isModalVisible.value = !!val),
+        onClose: () => {
+          isModalVisible.value = false;
+          selectedIndex.value = 0;
+        },
+        label: item.label,
+        image: item.image,
+        description: item.description,
+        stamina: "stamina" in item ? item.stamina : undefined,
+        points: item.points,
+        status: itemStatus.value,
+        buttons,
+        warningMessage,
+      };
     }
 
-    return {
-      modelValue: isModalVisible.value,
-      "onUpdate:modelValue": (val: boolean | undefined) =>
-        (isModalVisible.value = !!val),
-      onClose: () => {
-        isModalVisible.value = false;
-        selectedIndex.value = 0;
-      },
-      label: item.label,
-      image: item.image,
-      description: item.description,
-      stamina: "stamina" in item ? item.stamina : undefined,
-      points: item.points,
-      status: itemStatus.value,
-      buttons,
-      warningMessage,
-    };
+    if ("amount" in item) {
+      const notEnoughGold = pointsOrGold.value < item.gold;
+      if (notEnoughGold) warningMessage = labels.GOLD_ERROR;
+
+      buttons.push({
+        label: labels.BUY,
+        disabled: notEnoughGold,
+        onClick: item.onSelect,
+      });
+
+      return {
+        modelValue: isModalVisible.value,
+        "onUpdate:modelValue": (val: boolean | undefined) =>
+          (isModalVisible.value = !!val),
+        onClose: () => {
+          isModalVisible.value = false;
+          selectedIndex.value = 0;
+        },
+        label: item.label,
+        image: item.image,
+        description: item.description,
+        gold: item.gold,
+        status: itemStatus.value,
+        buttons,
+        warningMessage,
+      };
+    }
+
+    if ("slot" in item) {
+      const notEnoughGold =
+        pointsOrGold.value < item.gold && item.status === BonusStatus.LOCKED;
+      if (notEnoughGold) warningMessage = labels.GOLD_ERROR;
+
+      const equipLabel = itemLabels.button[item.status];
+
+      buttons.push({
+        label: equipLabel,
+        disabled: notEnoughGold,
+        onClick: () =>
+          item.status === BonusStatus.LOCKED
+            ? item.onSelect()
+            : item.onActivate(),
+      });
+
+      return {
+        modelValue: isModalVisible.value,
+        "onUpdate:modelValue": (val: boolean | undefined) =>
+          (isModalVisible.value = !!val),
+        onClose: () => {
+          isModalVisible.value = false;
+          selectedIndex.value = 0;
+        },
+        label: item.label,
+        image: item.image,
+        description: item.description,
+        gold: item.gold,
+        status: itemStatus.value,
+        buttons,
+        warningMessage,
+      };
+    }
+
+    return {};
   });
 
   return {
@@ -140,5 +297,6 @@ export function useBonusDrawer(
     itemStatus,
     iconProps,
     modalProps,
+    categoryProps,
   };
 }

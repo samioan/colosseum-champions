@@ -4,7 +4,40 @@ import dungeonBackground from "@/assets/dungeonBackground.jpg";
 import logo from "@/assets/logo.png";
 
 import { shortSword, longSword } from "@/assets/equipment";
-import { healthPotion } from "@/assets/items";
+// -- ITEMS --
+import {
+  // HEALTH
+  healthPotion,
+  bigHealthPotion,
+  giantHealthPotion,
+  grandHealthPotion,
+  // ENERGY
+  energyPotion,
+  bigEnergyPotion,
+  giantEnergyPotion,
+  grandEnergyPotion,
+  // REJUVENATION
+  rejuvenationPotion,
+  bigRejuvenationPotion,
+  giantRejuvenationPotion,
+  grandRejuvenationPotion,
+  // STRENGTH
+  strengthPotion,
+  bigStrengthPotion,
+  giantStrengthPotion,
+  grandStrengthPotion,
+  // DEFENSE
+  defensePotion,
+  bigDefensePotion,
+  giantDefensePotion,
+  grandDefensePotion,
+  // BONUS
+  bonusHealthPotion,
+  bonusEnergyPotion,
+  bonusStrengthPotion,
+  bonusDefensePotion,
+  bonusPointsPotion,
+} from "@/assets/items";
 import { smash } from "@/assets/abilities";
 import { defensive } from "@/assets/perks";
 import {
@@ -36,8 +69,41 @@ export {
   dungeonBackground,
   shortSword,
   longSword,
+  // -- ITEMS --
+  // HEALTH
   healthPotion,
+  bigHealthPotion,
+  giantHealthPotion,
+  grandHealthPotion,
+  // ENERGY
+  energyPotion,
+  bigEnergyPotion,
+  giantEnergyPotion,
+  grandEnergyPotion,
+  // REJUVENATION
+  rejuvenationPotion,
+  bigRejuvenationPotion,
+  giantRejuvenationPotion,
+  grandRejuvenationPotion,
+  // STRENGTH
+  strengthPotion,
+  bigStrengthPotion,
+  giantStrengthPotion,
+  grandStrengthPotion,
+  // DEFENSE
+  defensePotion,
+  bigDefensePotion,
+  giantDefensePotion,
+  grandDefensePotion,
+  // BONUS
+  bonusHealthPotion,
+  bonusEnergyPotion,
+  bonusStrengthPotion,
+  bonusDefensePotion,
+  bonusPointsPotion,
+  // -- ABILITIES --
   smash,
+  // -- PERKS --
   defensive,
   enemy1Death,
   enemy1Idle,

@@ -4,8 +4,9 @@ import {
   performAbility,
   checkForLevelUp,
   getRandomRange,
+  createEnemy,
 } from "@/utils";
-import { StatAction, StatKey, FightTurn } from "@/enums";
+import { StatAction, StatKey, FightTurn, BonusStatus } from "@/enums";
 import type { Ref } from "vue";
 
 export default function handleFighting(
@@ -16,6 +17,14 @@ export default function handleFighting(
   fightTurn: Ref<FightTurn>,
   stage: Ref<number>
 ) {
+  if (fightTurn.value === FightTurn.NONE) {
+    fightTurn.value = Math.random() < 0.5 ? FightTurn.PLAYER : FightTurn.ENEMY;
+  } else if (fightTurn.value === FightTurn.PLAYER) {
+    fightTurn.value = FightTurn.ENEMY;
+  } else if (fightTurn.value === FightTurn.ENEMY) {
+    fightTurn.value = FightTurn.PLAYER;
+  }
+
   const isPlayersTurn = fightTurn.value === FightTurn.PLAYER;
   const curAttacker = isPlayersTurn ? gladiator : enemy;
   const curDefender = isPlayersTurn ? enemy : gladiator;
@@ -27,10 +36,12 @@ export default function handleFighting(
     : updatedGladiatorStats;
 
   const ability = Object.values(curAttacker?.abilities)?.find(
-    (ability) => ability.isActive
+    (ability) => ability.status === BonusStatus.ACTIVE
   );
   const attackerAbilities = Object.values(curAttacker?.abilities)?.filter(
-    (ability) => ability.isEquipped
+    (ability) =>
+      ability.status === BonusStatus.EQUIPPED ||
+      ability.status === BonusStatus.ACTIVE
   );
 
   if (
@@ -57,15 +68,20 @@ export default function handleFighting(
     const isCrit = getRandomRange(0, 100) >= 80;
     const didEvade = getRandomRange(0, 100) >= 80;
 
-    let damage =
+    let minDamage = Math.max(
+      1,
+      Math.floor(curAttacker.stats.strength * 0.05 + curAttacker.stats.level)
+    );
+    let rawDamage =
       curAttacker.stats.strength * (100 / (100 + curDefender.stats.defense));
+    let damage = Math.max(minDamage, Math.floor(rawDamage));
 
     if (isCrit) {
       damage *= 2;
     }
 
     if (didEvade) {
-      damage = damage / 4;
+      damage = minDamage;
     }
 
     handleStat(
@@ -87,50 +103,22 @@ export default function handleFighting(
     handleStat(
       gladiator.stats,
       StatKey.GOLD,
-      500,
+      stage.value * 10,
       StatAction.INCREASE,
       updatedGladiatorStats
     );
     handleStat(
       gladiator.stats,
       StatKey.EXPERIENCE,
-      500,
+      stage.value * 50,
       StatAction.INCREASE,
       updatedGladiatorStats
     );
-    [
-      StatKey.HEALTH,
-      StatKey.STAMINA,
-      StatKey.STRENGTH,
-      StatKey.DEFENSE,
-    ].forEach((stat) => {
-      const maxStat = `max${stat[0].toUpperCase()}${stat.slice(1)}` as StatKey;
-      handleStat(
-        gladiator.stats,
-        stat,
-        updatedGladiatorStats[maxStat],
-        StatAction.SET,
-        updatedGladiatorStats
-      );
-    });
-    if (attackerAbilities) {
-      attackerAbilities.forEach((ability) => {
-        ability.cooldown = 0;
-      });
-    }
     clearInterval(gladiator.intervalId);
     gladiator.intervalId = undefined;
     checkForLevelUp(gladiator.stats, updatedGladiatorStats);
     fightTurn.value = FightTurn.NONE;
     stage.value++;
     return;
-  }
-
-  if (fightTurn.value === FightTurn.NONE) {
-    fightTurn.value = Math.random() < 0.5 ? FightTurn.PLAYER : FightTurn.ENEMY;
-  } else if (fightTurn.value === FightTurn.PLAYER) {
-    fightTurn.value = FightTurn.ENEMY;
-  } else if (fightTurn.value === FightTurn.ENEMY) {
-    fightTurn.value = FightTurn.PLAYER;
   }
 }
