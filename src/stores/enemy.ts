@@ -18,19 +18,11 @@ export const useEnemyStore = defineStore("enemy", () => {
       enemy.value.stats,
       enemy.value.perks
     );
-    const computedEquipment = calculateBonuses(
-      enemy.value,
-      enemy.value.stats,
-      enemy.value.equipment
-    );
 
     const updatedStats = Object.fromEntries(
       Object.entries(enemy.value.stats).map((stat) => [
         stat[0],
-        stat[1] +
-          (computedPerks[stat[0] as StatKey] ?? 0) +
-          (computedEquipment[stat[0] as StatKey] ?? 0),
-        ,
+        stat[1] + (computedPerks[stat[0] as StatKey] ?? 0),
       ])
     ) as GladiatorStats;
 
@@ -39,19 +31,11 @@ export const useEnemyStore = defineStore("enemy", () => {
       updatedStats,
       enemy.value.perks
     );
-    const updatedEquipment = calculateBonuses(
-      enemy.value,
-      updatedStats,
-      enemy.value.equipment
-    );
 
     return Object.fromEntries(
       Object.entries(enemy.value.stats).map((stat) => [
         stat[0],
-        stat[1] +
-          (updatedPerks[stat[0] as StatKey] ?? 0) +
-          (updatedEquipment[stat[0] as StatKey] ?? 0),
-        ,
+        stat[1] + (updatedPerks[stat[0] as StatKey] ?? 0),
       ])
     ) as GladiatorStats;
   });

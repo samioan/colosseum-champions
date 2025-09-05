@@ -71,10 +71,6 @@ const bonusProps = computed(() => {
 
 const bonusResource = computed(() => {
   switch (drawer.value.state) {
-    case DrawerState.ABILITIES:
-      return player.value.stats.points;
-    case DrawerState.PERKS:
-      return player.value.stats.points;
     case DrawerState.ITEMS:
       return player.value.stats.gold;
     case DrawerState.EQUIPMENT:

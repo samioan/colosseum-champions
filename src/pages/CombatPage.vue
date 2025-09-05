@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, onBeforeMount, watch } from "vue";
+import { computed, onBeforeMount, watch, ref } from "vue";
 import { useRouter } from "vue-router";
 import { storeToRefs } from "pinia";
 import { usePlayerStore, useEnemyStore, useGameStore } from "@/stores";
@@ -47,19 +47,52 @@ onBeforeMount(() => {
 const isModalVisible = computed(
   () =>
     player.value.stats.health <= 0 ||
-    (enemy.value.stats.health <= 0 && stage.value % 5 === 0)
+    (enemy.value.stats.health <= 0 && stage.value % 5 === 1)
 );
+
+const isAttacking = ref(false);
+const isHit = ref(false);
+const isFading = ref(false);
+const isAppearing = ref(false);
+
+function shakeEnemyAttack() {
+  isAttacking.value = true;
+  setTimeout(() => (isAttacking.value = false), 500);
+}
+
+function shakeEnemyHit() {
+  isHit.value = true;
+  setTimeout(() => (isHit.value = false), 500);
+}
+
+function fadeEnemy() {
+  isFading.value = true;
+  if (stage.value % 5 !== 1) {
+    setTimeout(() => (isFading.value = false), 1000);
+  }
+}
+
+function appearEnemy() {
+  isAppearing.value = true;
+  setTimeout(() => (isAppearing.value = false), 1000);
+}
 
 const enemyImage = computed(() => {
   if (enemy.value.stats.health > 0) {
     if (fightTurn.value === FightTurn.ENEMY) {
+      shakeEnemyAttack();
       return enemy1Attack;
     } else if (fightTurn.value === FightTurn.PLAYER) {
+      shakeEnemyHit();
       return enemy1Hurt;
     } else if (fightTurn.value === FightTurn.NONE) {
+      appearEnemy();
       return enemy1Idle;
     }
-  } else return enemy1Death;
+  } else {
+    fadeEnemy();
+    return enemy1Death;
+  }
 });
 
 watch(
@@ -67,7 +100,7 @@ watch(
   () => {
     if (
       enemy.value.stats.health <= 0 &&
-      stage.value % 5 !== 0 &&
+      stage.value % 5 !== 1 &&
       stage.value < 20
     ) {
       setTimeout(() => {
@@ -115,6 +148,12 @@ watch(
       />
       <img
         class="absolute bottom-0 object-cover left-1/2 h-full -translate-x-1/2"
+        :class="{
+          'shake-attack': isAttacking,
+          'shake-hit': isHit,
+          'fade-out': isFading,
+          'fade-in': isAppearing,
+        }"
         :src="enemyImage"
         alt="enemy"
       />
@@ -210,3 +249,71 @@ watch(
     </Modal>
   </div>
 </template>
+
+<style scoped>
+@keyframes shakeAttack {
+  0%,
+  100% {
+    transform: translateX(0);
+  }
+  25% {
+    transform: translateX(-2px);
+  }
+  50% {
+    transform: translateX(2px);
+  }
+  75% {
+    transform: translateX(-2px);
+  }
+}
+
+@keyframes shakeHit {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  25% {
+    transform: translateY(-2px);
+  }
+  50% {
+    transform: translateY(2px);
+  }
+  75% {
+    transform: translateY(-2px);
+  }
+}
+
+@keyframes fadeOut {
+  0% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+.shake-attack {
+  animation: shakeAttack 0.5s ease-in-out;
+}
+
+.shake-hit {
+  animation: shakeHit 0.5s ease-in-out;
+}
+
+.fade-out {
+  animation: fadeOut 0.75s ease-in forwards;
+}
+
+.fade-in {
+  animation: fadeIn 0.75s ease-in forwards;
+}
+</style>

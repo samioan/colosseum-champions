@@ -19,14 +19,12 @@ import {
 export default function createEnemy(level: number = 1) {
   const ranges = ENEMY_STAT_RANGES;
 
-  const maxHealth =
-    getRandomRange(ranges.HEALTH.min, ranges.HEALTH.max) * level;
+  const maxHealth = getRandomRange(ranges.HEALTH[0], ranges.HEALTH[1]) * level;
   const maxStamina =
-    getRandomRange(ranges.STAMINA.min, ranges.STAMINA.max) * level;
+    getRandomRange(ranges.STAMINA[0], ranges.STAMINA[1]) * level;
   const strength =
-    getRandomRange(ranges.STRENGTH.min, ranges.STRENGTH.max) * level;
-  const defense =
-    getRandomRange(ranges.DEFENSE.min, ranges.DEFENSE.max) * level;
+    getRandomRange(ranges.STRENGTH[0], ranges.STRENGTH[1]) * level;
+  const defense = getRandomRange(ranges.DEFENSE[0], ranges.DEFENSE[1]) * level;
 
   function generateRandomAbilities() {
     if (level < 10) return ABILITIES;

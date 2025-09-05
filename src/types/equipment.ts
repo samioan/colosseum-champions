@@ -1,5 +1,4 @@
 import { BonusStatus, EquipmentSlot } from "@/enums";
-import type { Bonus } from "@/types";
 
 export type Equipment = {
   label: string;
@@ -8,5 +7,6 @@ export type Equipment = {
   gold: number;
   status: BonusStatus;
   slot: EquipmentSlot;
-  bonuses: Bonus[];
+  attack?: number[];
+  armor?: number;
 };

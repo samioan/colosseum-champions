@@ -44,10 +44,11 @@ const onAfterLeave = (el: Element) => {
 </script>
 
 <template>
-  <div class="p-4 border border-cBgLight bg-cBgDark rounded-lg">
-    <div @click="toggle" class="cursor-pointer select-none">
-      <slot name="header" />
-    </div>
+  <div
+    class="p-4 border border-cBgLight bg-cBgDark rounded-lg cursor-pointer select-none"
+    @click="toggle"
+  >
+    <slot name="header" />
 
     <transition
       @enter="onEnter"

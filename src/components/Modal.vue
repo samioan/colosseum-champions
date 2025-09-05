@@ -14,6 +14,7 @@ onUnmounted(() => {
 
 <template>
   <Teleport to="body">
+    <div v-if="open" class="fixed inset-0 bg-black/70 z-50" />
     <Transition
       enter-active-class="transition ease-out duration-300"
       enter-from-class="opacity-0 scale-95"
@@ -24,7 +25,7 @@ onUnmounted(() => {
     >
       <div
         v-if="open"
-        class="fixed inset-0 bg-black/70 flex items-center justify-center z-50"
+        class="fixed inset-0 flex items-center justify-center z-50"
         @click="open = false"
       >
         <div class="bg-cBgDarker text-center p-4 w-[90%] max-w-md rounded-xl">

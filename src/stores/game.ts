@@ -22,10 +22,10 @@ export const useGameStore = defineStore("game", () => {
     return (
       {
         1: CutsceneId.STAGE_1,
-        5: CutsceneId.STAGE_5,
-        10: CutsceneId.STAGE_10,
-        15: CutsceneId.STAGE_15,
-        20: CutsceneId.STAGE_20,
+        6: CutsceneId.STAGE_5,
+        11: CutsceneId.STAGE_10,
+        16: CutsceneId.STAGE_15,
+        21: CutsceneId.STAGE_20,
       }[stage.value] ?? CutsceneId.STAGE_1
     );
   });
@@ -66,7 +66,11 @@ export const useGameStore = defineStore("game", () => {
     },
     {
       onClick: () =>
-        router.push(stage.value % 5 === 0 ? ROUTES.cutscene : ROUTES.combat),
+        router.push(
+          stage.value % 5 === 1 && stage.value !== 1
+            ? ROUTES.cutscene
+            : ROUTES.combat
+        ),
       image: arena,
     },
   ]);

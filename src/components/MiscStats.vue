@@ -11,7 +11,7 @@ defineProps<{
 </script>
 
 <template>
-  <div class="flex flex-wrap gap-2">
+  <div class="flex flex-wrap gap-2 justify-between">
     <div class="flex gap-2 text-xs items-center" v-for="statObj in stats">
       <Icon :image="statObj.image" />
       <span>{{ statObj.stat }}</span>

@@ -20,7 +20,7 @@ withDefaults(
     <img
       :src="image"
       class="border border-cBgLight rounded-lg relative p-1"
-      @click="onClick"
+      @click.stop="onClick"
       :class="[
         customClasses,
         isLight ? 'bg-cBgDark' : 'bg-cBgDarker',

@@ -22,18 +22,11 @@ export const usePlayerStore = defineStore("player", () => {
       player.value.stats,
       player.value.perks
     );
-    const computedEquipment = calculateBonuses(
-      player.value,
-      player.value.stats,
-      player.value.equipment
-    );
 
     const updatedStats = Object.fromEntries(
       Object.entries(player.value.stats).map((stat) => [
         stat[0],
-        stat[1] +
-          (computedPerks[stat[0] as StatKey] ?? 0) +
-          (computedEquipment[stat[0] as StatKey] ?? 0),
+        stat[1] + (computedPerks[stat[0] as StatKey] ?? 0),
       ])
     ) as GladiatorStats;
 
@@ -42,18 +35,11 @@ export const usePlayerStore = defineStore("player", () => {
       updatedStats,
       player.value.perks
     );
-    const updatedEquipment = calculateBonuses(
-      player.value,
-      updatedStats,
-      player.value.equipment
-    );
 
     return Object.fromEntries(
       Object.entries(player.value.stats).map((stat) => [
         stat[0],
-        stat[1] +
-          (updatedPerks[stat[0] as StatKey] ?? 0) +
-          (updatedEquipment[stat[0] as StatKey] ?? 0),
+        stat[1] + (updatedPerks[stat[0] as StatKey] ?? 0),
       ])
     ) as GladiatorStats;
   });
