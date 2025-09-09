@@ -9,6 +9,7 @@ withDefaults(
     image?: string;
     onSelect?: () => void;
     overlayText?: string;
+    isLight?: boolean;
   }>(),
   {
     isActive: false,
@@ -16,6 +17,7 @@ withDefaults(
     image: "",
     onSelect: () => {},
     overlayText: "",
+    isLight: true,
   }
 );
 </script>
@@ -28,8 +30,12 @@ withDefaults(
       'border border-white': isEquipped,
     }"
   >
-    <Icon :image="image" :size="IconSize.LARGE" :on-click="onSelect" is-light>{{
-      overlayText
-    }}</Icon>
+    <Icon
+      :image="image"
+      :size="IconSize.LARGE"
+      :on-click="onSelect"
+      :is-light="isLight"
+      >{{ overlayText }}</Icon
+    >
   </div>
 </template>

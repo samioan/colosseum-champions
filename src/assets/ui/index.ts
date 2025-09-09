@@ -1,5 +1,4 @@
 import perks from "@/assets/ui/perks.png";
-import items from "@/assets/ui/items.png";
 import abilities from "@/assets/ui/abilities.png";
 import gold from "@/assets/ui/gold.png";
 import equipment from "@/assets/ui/equipment.png";
@@ -13,7 +12,6 @@ import energy from "@/assets/ui/energy.png";
 
 export {
   perks,
-  items,
   abilities,
   gold,
   equipment,

@@ -118,6 +118,7 @@ export function useBonusDrawer(
         isActive: equip.status === BonusStatus.EQUIPPED,
         isEquipped: equip.status === BonusStatus.UNEQUIPPED,
         overlayText: itemLabels.overlay[equip.status],
+        isLight: false,
         onSelect: () => {
           isModalVisible.value = true;
           selectedSlot.value = equip.slot;

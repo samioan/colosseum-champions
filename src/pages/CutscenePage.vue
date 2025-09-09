@@ -46,7 +46,7 @@ function nextStep() {
 
 <template>
   <div
-    class="flex flex-col bg-cBgDarker mx-auto gap-4 p-4 h-screen lg:w-1/2 md:w-2/3 sm:w-3/4 w-full overflow-y-auto scrollbar-hidden"
+    class="flex flex-col mx-auto gap-4 p-4 h-screen lg:w-1/2 md:w-2/3 sm:w-3/4 w-full overflow-y-auto scrollbar-hidden relative"
     @click="nextStep"
   >
     <div class="flex flex-col w-full h-full gap-4">

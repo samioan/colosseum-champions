@@ -128,7 +128,7 @@ watch(
 
 <template>
   <div
-    class="flex flex-col bg-cBgDarker mx-auto gap-4 p-4 h-screen lg:w-1/2 md:w-2/3 sm:w-3/4 w-full overflow-y-auto scrollbar-hidden"
+    class="flex flex-col mx-auto gap-4 p-4 h-screen lg:w-1/2 md:w-2/3 sm:w-3/4 w-full overflow-y-auto scrollbar-hidden relative"
   >
     <div
       class="flex flex-col gap-4 border border-cBgLight bg-cBgDark p-4 rounded-lg"
@@ -235,7 +235,7 @@ watch(
     <Modal v-model="isModalVisible">
       <div class="flex flex-col mb-2">
         <img :src="gameBackground" />
-        <span class="p-2">{{
+        <span class="p-4 pb-2">{{
           enemy?.stats.health <= 0 ? "Victory!" : "Defeat!"
         }}</span>
       </div>

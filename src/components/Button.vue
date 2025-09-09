@@ -8,7 +8,7 @@ defineProps<{
 <template>
   <button
     :disabled="disabled"
-    class="bg-cBgLight w-full p-2 rounded-lg cursor-pointer"
+    class="bg-cOrange w-full p-2 rounded-lg cursor-pointer"
     :class="{ 'opacity-50': disabled }"
     @click.stop="onClick"
   >

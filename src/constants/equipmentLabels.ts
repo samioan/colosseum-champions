@@ -5,6 +5,6 @@ export const EQUIPMENT_LABELS: Record<EquipmentSlot, string> = {
   [EquipmentSlot.WEAPON]: "WEAPONS",
   [EquipmentSlot.SHIELD]: "SHIELDS",
   [EquipmentSlot.HELMET]: "HELMETS",
-  [EquipmentSlot.GLOVES]: "GLOVES",
-  [EquipmentSlot.CHEST]: "CHESTS",
+  [EquipmentSlot.GAUNTLETS]: "GAUNTLETS",
+  [EquipmentSlot.BREASTPLATE]: "BREASTPLATES",
 };

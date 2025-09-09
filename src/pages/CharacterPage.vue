@@ -147,7 +147,7 @@ watch(
 
 <template>
   <div
-    class="flex flex-col bg-cBgDarker mx-auto gap-4 p-4 pb-[100px] h-screen lg:w-1/2 md:w-2/3 sm:w-3/4 w-full overflow-y-auto scrollbar-hidden"
+    class="flex flex-col mx-auto gap-4 p-4 pb-[100px] h-screen lg:w-1/2 md:w-2/3 sm:w-3/4 w-full overflow-y-auto scrollbar-hidden relative"
   >
     <template v-for="(section, index) in sections" :key="index">
       <Accordion v-if="section.condition">
@@ -173,7 +173,7 @@ watch(
 
     <div class="fixed bottom-0 left-0 w-full">
       <div
-        class="flex flex-wrap gap-4 p-4 justify-center lg:w-1/2 md:w-2/3 sm:w-3/4 w-full bg-cBgDarker mx-auto"
+        class="flex flex-wrap gap-4 p-4 justify-center w-full mx-auto bg-cBgDarker border-t border-cBgLight"
       >
         <Icon
           v-for="button in gladiatorActivityButtons"

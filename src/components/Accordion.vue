@@ -44,11 +44,10 @@ const onAfterLeave = (el: Element) => {
 </script>
 
 <template>
-  <div
-    class="p-4 border border-cBgLight bg-cBgDark rounded-lg cursor-pointer select-none"
-    @click="toggle"
-  >
-    <slot name="header" />
+  <div class="border border-cBgLight bg-cBgDark rounded-lg select-none">
+    <div @click="toggle" class="p-4 cursor-pointer">
+      <slot name="header" />
+    </div>
 
     <transition
       @enter="onEnter"
@@ -57,7 +56,7 @@ const onAfterLeave = (el: Element) => {
       @after-leave="onAfterLeave"
     >
       <div v-show="isOpen" ref="content">
-        <div class="pt-4">
+        <div class="p-4 border-t border-cBgLight">
           <slot name="content" />
         </div>
       </div>

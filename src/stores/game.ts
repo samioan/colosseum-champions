@@ -4,13 +4,7 @@ import { useRouter } from "vue-router";
 import { ROUTES, CUTSCENES, LABELS } from "@/constants";
 import { DrawerState, FightTurn, CutsceneId, Language } from "@/enums";
 import type { Cutscene } from "@/types";
-import {
-  perks,
-  abilities,
-  equipment,
-  arena,
-  grandHealthPotion,
-} from "@/assets";
+import { perks, abilities, weapon05, arena, giantHealthPotion } from "@/assets";
 
 export const useGameStore = defineStore("game", () => {
   const router = useRouter();
@@ -58,11 +52,11 @@ export const useGameStore = defineStore("game", () => {
     {
       onClick: () =>
         toggleDrawer(DrawerState.EQUIPMENT, labels.value.EQUIPMENT),
-      image: equipment,
+      image: weapon05,
     },
     {
       onClick: () => toggleDrawer(DrawerState.ITEMS, labels.value.ITEMS),
-      image: grandHealthPotion,
+      image: giantHealthPotion,
     },
     {
       onClick: () =>

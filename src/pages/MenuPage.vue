@@ -5,6 +5,7 @@ import { usePlayerStore, useGameStore } from "@/stores";
 import { createGladiator } from "@/utils";
 import { Button } from "@/components";
 import { storeToRefs } from "pinia";
+import { logo } from "@/assets";
 
 const router = useRouter();
 const playerStore = usePlayerStore();
@@ -34,12 +35,12 @@ const buttons = [
 
 <template>
   <div
-    class="flex flex-col bg-cBgDarker mx-auto gap-4 p-4 h-screen lg:w-1/2 md:w-2/3 sm:w-3/4 w-full overflow-y-auto scrollbar-hidden justify-center"
+    class="flex flex-col mx-auto gap-4 p-4 h-screen lg:w-1/2 md:w-2/3 sm:w-3/4 w-full overflow-y-auto scrollbar-hidden justify-center relative"
   >
-    <div class="flex flex-col w-full justify-center items-center gap-4">
-      <span class="text-cYellow text-[24px] text-center">{{
-        labels.COLOSSEUM_CHAMPIONS
-      }}</span>
+    <div
+      class="flex flex-col w-full justify-center items-center gap-4 flex-grow"
+    >
+      <img :src="logo" class="max-h-128 object-contain flex-shrink-0" />
       <Button v-for="button in buttons" :on-click="button.onClick">
         {{ button.text }}
       </Button>

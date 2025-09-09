@@ -14,7 +14,10 @@ defineProps<{
 <template>
   <div class="flex flex-col gap-2">
     <div v-for="statObj in stats">
-      <div class="flex items-center justify-between" @click="statObj.onClick">
+      <div
+        class="flex items-center justify-between"
+        @click.stop="statObj.onClick"
+      >
         <div class="flex gap-2 items-center">
           <Icon :image="statObj.image" />
           <span>{{ statObj.stat }}</span>
