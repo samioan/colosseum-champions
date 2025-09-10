@@ -65,7 +65,7 @@ const stats = computed(() =>
 
         <div class="flex flex-col gap-4 items-start w-fit">
           <span class="text-xs text-start">{{ description }} </span>
-          <div class="flex gap-4">
+          <div class="flex gap-4" v-if="stats.length">
             <div
               v-for="stat in stats"
               :key="stat.key"
@@ -75,7 +75,7 @@ const stats = computed(() =>
               <span class="text-xs">{{ stat.value }}</span>
             </div>
           </div>
-          <span class="text-xs text-cYellow">{{ status }}</span>
+          <span class="text-xs text-cYellow" v-if="status">{{ status }}</span>
         </div>
       </div>
 

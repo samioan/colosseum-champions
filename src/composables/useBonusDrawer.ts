@@ -41,7 +41,16 @@ type Equipment = {
   onActivate: () => void;
 };
 
-type Item = Ability | Perk | ShopItem | Equipment;
+type Stage = {
+  label: string;
+  description: string;
+  image: string;
+  gold: number;
+  unlocked: boolean;
+  onSelect: () => void;
+};
+
+type Item = Ability | Perk | ShopItem | Equipment | Stage;
 
 export function useBonusDrawer(
   pointsOrGold: Ref<number>,
@@ -283,6 +292,33 @@ export function useBonusDrawer(
         description: item.description,
         gold: item.gold,
         status: itemStatus.value,
+        buttons,
+        warningMessage,
+      };
+    }
+
+    if ("unlocked" in item) {
+      const notEnoughGold = pointsOrGold.value < item.gold;
+      if (notEnoughGold) warningMessage = labels.GOLD_ERROR;
+
+      buttons.push({
+        label: labels.FIGHT,
+        disabled: notEnoughGold,
+        onClick: item.onSelect,
+      });
+
+      return {
+        modelValue: isModalVisible.value,
+        "onUpdate:modelValue": (val: boolean | undefined) =>
+          (isModalVisible.value = !!val),
+        onClose: () => {
+          isModalVisible.value = false;
+          selectedIndex.value = 0;
+        },
+        label: item.label,
+        image: item.image,
+        description: item.description,
+        gold: item.gold,
         buttons,
         warningMessage,
       };

@@ -13,6 +13,7 @@ export const LABELS: Record<Language, Record<Label, string>> = {
     [Label.PERKS]: "PERKS",
     [Label.EQUIPMENT]: "EQUIPMENT",
     [Label.ITEMS]: "ITEMS",
+    [Label.STAGES]: "STAGES",
     [Label.LOCKED]: "Locked",
     [Label.UNEQUIPPED]: "Unequipped",
     [Label.EQUIPPED]: "Equipped",
@@ -32,6 +33,7 @@ export const LABELS: Record<Language, Record<Label, string>> = {
     [Label.BUY]: "Buy",
     [Label.AVAILABLE]: "Available",
     [Label.HEALTH_POTION]: "Health Potion",
+    [Label.FIGHT]: "Fight",
   },
   [Language.GREEK]: {
     [Label.COLOSSEUM_CHAMPIONS]: "Πρωταθλητές του Κολοσσαίου",
@@ -45,6 +47,7 @@ export const LABELS: Record<Language, Record<Label, string>> = {
     [Label.PERKS]: "ΠΡΟΝΟΜΙΑ",
     [Label.EQUIPMENT]: "ΕΞΟΠΛΙΣΜΟΣ",
     [Label.ITEMS]: "ΑΝΤΙΚΕΙΜΕΝΑ",
+    [Label.STAGES]: "ΕΠΙΠΕΔΑ",
     [Label.LOCKED]: "Κλειδωμένο",
     [Label.UNEQUIPPED]: "Μη Εξοπλισμένο",
     [Label.EQUIPPED]: "Εξοπλισμένο",
@@ -64,5 +67,6 @@ export const LABELS: Record<Language, Record<Label, string>> = {
     [Label.BUY]: "Αγόρασε",
     [Label.AVAILABLE]: "Διαθέσιμα",
     [Label.HEALTH_POTION]: "Φίλτρο Ζωής",
+    [Label.FIGHT]: "Πολέμησε",
   },
 };

@@ -54,7 +54,9 @@ function nextStep() {
       <span class="text-center py-2">{{ cutsceneStep.text }}</span>
 
       <div class="flex flex-grow justify-center items-end">
-        <Button v-if="stage !== 20" :on-click="() => router.push(ROUTES.combat)"
+        <Button
+          v-if="stage !== 120"
+          :on-click="() => router.push(ROUTES.combat)"
           >Fight</Button
         >
         <Button v-else :on-click="() => router.push(ROUTES.menu)"

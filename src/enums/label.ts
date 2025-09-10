@@ -10,6 +10,7 @@ export enum Label {
   PERKS = "PERKS",
   EQUIPMENT = "EQUIPMENT",
   ITEMS = "ITEMS",
+  STAGES = "STAGES",
   LOCKED = "LOCKED",
   UNEQUIPPED = "UNEQUIPPED",
   EQUIPPED = "EQUIPPED",
@@ -29,4 +30,5 @@ export enum Label {
   BUY = "BUY",
   AVAILABLE = "AVAILABLE",
   HEALTH_POTION = "HEALTH_POTION",
+  FIGHT = "FIGHT",
 }

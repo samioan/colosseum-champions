@@ -16,7 +16,7 @@ export default function useItem(
 
     function calculateValue() {
       return item.modifier < 1
-        ? Math.floor(stats[stat] * item.modifier)
+        ? Math.floor(updatedStats[maxStat] * item.modifier)
         : item.modifier;
     }
 

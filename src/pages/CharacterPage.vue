@@ -1,5 +1,6 @@
 <script setup lang="ts">
-import { computed, onMounted, watch } from "vue";
+import { computed, watch } from "vue";
+
 import { storeToRefs } from "pinia";
 import { useGameStore } from "@/stores/game";
 import { usePlayerStore } from "@/stores/player";
@@ -22,7 +23,8 @@ import { EQUIPMENT_LABELS } from "@/constants";
 const gameStore = useGameStore();
 const playerStore = usePlayerStore();
 
-const { gladiatorActivityButtons, drawer, labels } = storeToRefs(gameStore);
+const { gladiatorActivityButtons, drawer, labels, stages } =
+  storeToRefs(gameStore);
 
 const {
   player,
@@ -64,6 +66,8 @@ const bonusProps = computed(() => {
       return playerItems.value;
     case DrawerState.EQUIPMENT:
       return playerEquipment.value;
+    case DrawerState.STAGES:
+      return stages.value;
     default:
       return playerAbilities.value;
   }
@@ -74,6 +78,8 @@ const bonusResource = computed(() => {
     case DrawerState.ITEMS:
       return player.value.stats.gold;
     case DrawerState.EQUIPMENT:
+      return player.value.stats.gold;
+    case DrawerState.STAGES:
       return player.value.stats.gold;
     default:
       return player.value.stats.points;

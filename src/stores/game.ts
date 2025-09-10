@@ -1,15 +1,22 @@
 import { defineStore } from "pinia";
 import { ref, computed } from "vue";
 import { useRouter } from "vue-router";
-import { ROUTES, CUTSCENES, LABELS } from "@/constants";
+import { CUTSCENES, LABELS, ROUTES, STAGES } from "@/constants";
 import { DrawerState, FightTurn, CutsceneId, Language } from "@/enums";
 import type { Cutscene } from "@/types";
-import { perks, abilities, weapon05, arena, giantHealthPotion } from "@/assets";
+import {
+  perks,
+  abilities,
+  weapon05,
+  breastplate06,
+  giantHealthPotion,
+} from "@/assets";
 
 export const useGameStore = defineStore("game", () => {
   const router = useRouter();
   const fightTurn = ref<FightTurn>(FightTurn.NONE);
   const stage = ref(1);
+  const highestStage = ref(1);
   const currentLanguage = ref<Language>(Language.ENGLISH);
   const labels = computed(() => LABELS[currentLanguage.value]);
   const currentCutsceneId = computed<CutsceneId>(() => {
@@ -52,22 +59,30 @@ export const useGameStore = defineStore("game", () => {
     {
       onClick: () =>
         toggleDrawer(DrawerState.EQUIPMENT, labels.value.EQUIPMENT),
-      image: weapon05,
+      image: breastplate06,
     },
     {
       onClick: () => toggleDrawer(DrawerState.ITEMS, labels.value.ITEMS),
       image: giantHealthPotion,
     },
     {
-      onClick: () =>
-        router.push(
-          stage.value % 5 === 1 && stage.value !== 1
-            ? ROUTES.cutscene
-            : ROUTES.combat
-        ),
-      image: arena,
+      onClick: () => toggleDrawer(DrawerState.STAGES, labels.value.STAGES),
+      image: weapon05,
     },
   ]);
+
+  const stages = computed(() => {
+    const allStages = STAGES.map((stageObj) => ({
+      ...stageObj,
+      unlocked: highestStage.value >= stageObj.level - 1,
+      onSelect: () => {
+        stage.value = stageObj.level;
+        router.push(ROUTES.combat);
+      },
+    }));
+
+    return allStages.filter((stage) => stage.unlocked);
+  });
 
   return {
     gladiatorActivityButtons,
@@ -77,6 +92,8 @@ export const useGameStore = defineStore("game", () => {
     currentCutsceneId,
     currentCutscene,
     stage,
+    highestStage,
+    stages,
     labels,
   };
 });

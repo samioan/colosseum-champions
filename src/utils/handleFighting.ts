@@ -135,7 +135,6 @@ export default function handleFighting(
     clearInterval(gladiator.intervalId);
     gladiator.intervalId = undefined;
     fightTurn.value = FightTurn.NONE;
-    stage.value = 1;
     return;
   } else if (enemy.stats.health <= 0) {
     handleStat(
@@ -156,7 +155,6 @@ export default function handleFighting(
     gladiator.intervalId = undefined;
     checkForLevelUp(gladiator.stats, updatedGladiatorStats);
     fightTurn.value = FightTurn.NONE;
-    stage.value++;
     return;
   }
 }

@@ -1,8 +1,19 @@
-import gameBackground from "@/assets/gameBackground.png";
-import titleBackground from "@/assets/titleBackground.gif";
-import dungeonBackground from "@/assets/dungeonBackground.jpg";
 import logo from "@/assets/logo.png";
 
+import {
+  background01,
+  background02,
+  background03,
+  background04,
+  background05,
+  background06,
+  background07,
+  background08,
+  background09,
+  background10,
+  background11,
+  background12,
+} from "@/assets/backgrounds";
 import {
   weapon01,
   weapon02,
@@ -115,10 +126,19 @@ import {
 } from "@/assets/ui";
 
 export {
-  gameBackground,
-  titleBackground,
   logo,
-  dungeonBackground,
+  background01,
+  background02,
+  background03,
+  background04,
+  background05,
+  background06,
+  background07,
+  background08,
+  background09,
+  background10,
+  background11,
+  background12,
   weapon01,
   weapon02,
   weapon03,

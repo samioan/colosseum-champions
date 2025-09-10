@@ -4,15 +4,30 @@ import { useRouter } from "vue-router";
 import { storeToRefs } from "pinia";
 import { usePlayerStore, useEnemyStore, useGameStore } from "@/stores";
 import { StatusBar, Modal, CharacterHeader, Button } from "@/components";
-import { gameBackground } from "@/assets";
+import {
+  background01,
+  background02,
+  background03,
+  background04,
+  background05,
+  background06,
+  background07,
+  background08,
+  background09,
+  background10,
+  background11,
+  background12,
+} from "@/assets";
 import { createEnemy, handleFighting } from "@/utils";
 import { ROUTES } from "@/constants";
 import { enemy1Death, enemy1Idle, enemy1Attack, enemy1Hurt } from "@/assets";
-import { FightTurn } from "@/enums";
+import { DrawerState, FightTurn } from "@/enums";
 
 const router = useRouter();
 
-const { fightTurn, stage, labels } = storeToRefs(useGameStore());
+const { fightTurn, stage, labels, highestStage, drawer } = storeToRefs(
+  useGameStore()
+);
 
 const {
   player,
@@ -25,6 +40,9 @@ const {
 const { enemy, enemyStats, enemyMainStats } = storeToRefs(useEnemyStore());
 
 onBeforeMount(() => {
+  if (drawer.value.isOpen) {
+    useGameStore().toggleDrawer(DrawerState.EMPTY, "");
+  }
   enemy.value = createEnemy(stage.value);
   enemy.value.stats.health = enemyStats.value.maxHealth;
   enemy.value.stats.stamina = enemyStats.value.maxStamina;
@@ -47,7 +65,7 @@ onBeforeMount(() => {
 const isModalVisible = computed(
   () =>
     player.value.stats.health <= 0 ||
-    (enemy.value.stats.health <= 0 && stage.value % 5 === 1)
+    (enemy.value.stats.health <= 0 && stage.value % 10 === 0)
 );
 
 const isAttacking = ref(false);
@@ -67,7 +85,7 @@ function shakeEnemyHit() {
 
 function fadeEnemy() {
   isFading.value = true;
-  if (stage.value % 5 !== 1) {
+  if (stage.value % 10 !== 0) {
     setTimeout(() => (isFading.value = false), 1000);
   }
 }
@@ -86,7 +104,9 @@ const enemyImage = computed(() => {
       shakeEnemyHit();
       return enemy1Hurt;
     } else if (fightTurn.value === FightTurn.NONE) {
-      appearEnemy();
+      if (player.value.stats.health > 0) {
+        appearEnemy();
+      }
       return enemy1Idle;
     }
   } else {
@@ -95,15 +115,39 @@ const enemyImage = computed(() => {
   }
 });
 
+const backgrounds = [
+  background01,
+  background02,
+  background03,
+  background04,
+  background05,
+  background06,
+  background07,
+  background08,
+  background09,
+  background10,
+  background11,
+  background12,
+];
+
+function getBackgroundForStage() {
+  const index = Math.min(
+    Math.ceil(stage.value / 10) - 1,
+    backgrounds.length - 1
+  );
+  return backgrounds[index];
+}
+
 watch(
   enemy,
   () => {
     if (
       enemy.value.stats.health <= 0 &&
-      stage.value % 5 !== 1 &&
-      stage.value < 20
+      stage.value % 10 !== 0 &&
+      stage.value < 120
     ) {
       setTimeout(() => {
+        stage.value++;
         enemy.value = createEnemy(stage.value);
         enemy.value.stats.health = enemyStats.value.maxHealth;
         enemy.value.stats.stamina = enemyStats.value.maxStamina;
@@ -141,11 +185,12 @@ watch(
     </div>
 
     <div class="flex-1 relative">
-      <img
-        class="object-cover h-full rounded-lg"
-        :src="gameBackground"
-        alt="background"
-      />
+      <div class="flex-1 h-full relative overflow-hidden rounded-lg">
+        <img
+          class="absolute inset-0 w-full h-full object-cover"
+          :src="getBackgroundForStage()"
+        />
+      </div>
       <img
         class="absolute bottom-0 object-cover left-1/2 h-full -translate-x-1/2"
         :class="{
@@ -155,7 +200,6 @@ watch(
           'fade-in': isAppearing,
         }"
         :src="enemyImage"
-        alt="enemy"
       />
     </div>
 
@@ -233,15 +277,17 @@ watch(
     </div>
 
     <Modal v-model="isModalVisible">
-      <div class="flex flex-col mb-2">
-        <img :src="gameBackground" />
-        <span class="p-4 pb-2">{{
+      <div class="flex flex-col">
+        <span class="pb-4">{{
           enemy?.stats.health <= 0 ? "Victory!" : "Defeat!"
         }}</span>
       </div>
       <Button
         :on-click="
-          () => router.push(stage === 20 ? ROUTES.cutscene : ROUTES.character)
+          () => {
+            if (stage > highestStage) highestStage = stage;
+            router.push(stage === 120 ? ROUTES.cutscene : ROUTES.character);
+          }
         "
       >
         Continue
@@ -273,13 +319,13 @@ watch(
     transform: translateY(0);
   }
   25% {
-    transform: translateY(-2px);
+    transform: translateY(4px);
   }
   50% {
     transform: translateY(2px);
   }
   75% {
-    transform: translateY(-2px);
+    transform: translateY(4px);
   }
 }
 
