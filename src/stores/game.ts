@@ -17,6 +17,8 @@ export const useGameStore = defineStore("game", () => {
   const fightTurn = ref<FightTurn>(FightTurn.NONE);
   const stage = ref(1);
   const highestStage = ref(1);
+  const pointsCollected = ref(0);
+  const goldCollected = ref(0);
   const currentLanguage = ref<Language>(Language.ENGLISH);
   const labels = computed(() => LABELS[currentLanguage.value]);
   const currentCutsceneId = computed<CutsceneId>(() => {
@@ -95,5 +97,7 @@ export const useGameStore = defineStore("game", () => {
     highestStage,
     stages,
     labels,
+    pointsCollected,
+    goldCollected,
   };
 });

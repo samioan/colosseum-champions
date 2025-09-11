@@ -13,5 +13,5 @@ export const PLAYER_BASE_STATS: Record<StatKey, number> = {
   [StatKey.EXPERIENCE]: 0,
   [StatKey.MAX_EXPERIENCE]: 100,
   [StatKey.POINTS]: 0,
-  [StatKey.GOLD]: 1000,
+  [StatKey.GOLD]: 0,
 };

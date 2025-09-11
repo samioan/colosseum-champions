@@ -103,7 +103,20 @@ import {
   giantDefensePotion,
 } from "@/assets/items";
 import { smash } from "@/assets/abilities";
-import { defensive } from "@/assets/perks";
+import {
+  berserkersFury,
+  bulwark,
+  lastStand,
+  shieldWall,
+  vitalForce,
+  ironConstitution,
+  ancientStrength,
+  endlessReserves,
+  steadyResolve,
+  steadfast,
+  relentless,
+  brutality,
+} from "@/assets/perks";
 import {
   enemy1Death,
   enemy1Idle,
@@ -224,7 +237,18 @@ export {
   bigDefensePotion,
   giantDefensePotion,
   smash,
-  defensive,
+  berserkersFury,
+  bulwark,
+  lastStand,
+  shieldWall,
+  vitalForce,
+  ironConstitution,
+  ancientStrength,
+  endlessReserves,
+  steadyResolve,
+  steadfast,
+  relentless,
+  brutality,
   enemy1Death,
   enemy1Idle,
   enemy1Attack,

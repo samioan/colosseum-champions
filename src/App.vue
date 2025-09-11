@@ -1,6 +1,6 @@
 <template>
   <transition name="blackfade">
-    <div v-if="showOverlay" class="fixed inset-0 bg-black z-[60]" />
+    <div v-if="showOverlay" class="fixed inset-0 bg-black z-[1000]" />
   </transition>
 
   <RouterView />

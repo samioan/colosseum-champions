@@ -72,7 +72,9 @@ export default function handleFighting(
   updatedGladiatorStats: GladiatorStats,
   updatedEnemyStats: GladiatorStats,
   fightTurn: Ref<FightTurn>,
-  stage: Ref<number>
+  stage: Ref<number>,
+  pointsCollected: Ref<number>,
+  goldCollected: Ref<number>
 ) {
   if (fightTurn.value === FightTurn.NONE) {
     fightTurn.value = Math.random() < 0.5 ? FightTurn.PLAYER : FightTurn.ENEMY;
@@ -144,6 +146,7 @@ export default function handleFighting(
       StatAction.INCREASE,
       updatedGladiatorStats
     );
+    goldCollected.value += stage.value * 10;
     handleStat(
       gladiator.stats,
       StatKey.EXPERIENCE,
@@ -153,7 +156,7 @@ export default function handleFighting(
     );
     clearInterval(gladiator.intervalId);
     gladiator.intervalId = undefined;
-    checkForLevelUp(gladiator.stats, updatedGladiatorStats);
+    checkForLevelUp(gladiator.stats, updatedGladiatorStats, pointsCollected);
     fightTurn.value = FightTurn.NONE;
     return;
   }

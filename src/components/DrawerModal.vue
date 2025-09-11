@@ -50,7 +50,7 @@ const stats = computed(() =>
   <Modal v-model="open">
     <div class="flex flex-col">
       <div
-        class="flex justify-between items-center mb-4 gap-4 bg-cBgDark border border-cBgLight rounded-lg p-4"
+        class="flex justify-between items-center gap-4 border-b border-cBgLight p-4"
       >
         <span class="text-start">
           {{ label }}
@@ -58,9 +58,7 @@ const stats = computed(() =>
         <span @click="onClose">X</span>
       </div>
 
-      <div
-        class="flex items-center mb-4 gap-4 bg-cBgDark border border-cBgLight rounded-lg p-4"
-      >
+      <div class="flex items-center gap-4 p-4">
         <Icon :image="image" :size="IconSize.LARGE" class="shrink-0" />
 
         <div class="flex flex-col gap-4 items-start w-fit">
@@ -81,11 +79,13 @@ const stats = computed(() =>
 
       <span
         v-if="warningMessage"
-        class="p-4 bg-cBgDark border border-cBgLight rounded-lg text-xs mb-4 text-start text-cYellow"
+        class="p-4 bg-cBgDarker border border-cRed rounded-lg text-xs mx-4 mb-4 text-start text-cRed"
         >{{ warningMessage }}</span
       >
 
-      <div class="flex flex-col gap-4 items-center">
+      <div
+        class="flex flex-col gap-4 items-center p-4 border-t border-cBgLight"
+      >
         <Button
           v-for="button in buttons"
           :on-click="button.onClick"

@@ -34,16 +34,9 @@ export default function performAbility(
     }
     switch (valueObj.operator) {
       case Operator.MULTIPLICATION:
-        return (
-          curAttackerStats[valueObj.stat] *
-          (valueObj?.modifier ?? 1) *
-          (100 / (100 + curDefenderStats.defense))
-        );
+        return curAttackerStats[valueObj.stat] * (valueObj?.modifier ?? 1);
       case Operator.DIVISION:
-        return (
-          (curAttackerStats[valueObj.stat] / (valueObj?.modifier ?? 1)) *
-          (100 / (100 + curDefenderStats.defense))
-        );
+        return curAttackerStats[valueObj.stat] / (valueObj?.modifier ?? 1);
       default:
         return curAttackerStats[valueObj.stat];
     }

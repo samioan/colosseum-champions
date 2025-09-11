@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, watch } from "vue";
+import { computed, onMounted, watch } from "vue";
 
 import { storeToRefs } from "pinia";
 import { useGameStore } from "@/stores/game";
@@ -23,8 +23,14 @@ import { EQUIPMENT_LABELS } from "@/constants";
 const gameStore = useGameStore();
 const playerStore = usePlayerStore();
 
-const { gladiatorActivityButtons, drawer, labels, stages } =
-  storeToRefs(gameStore);
+const {
+  gladiatorActivityButtons,
+  drawer,
+  labels,
+  stages,
+  pointsCollected,
+  goldCollected,
+} = storeToRefs(gameStore);
 
 const {
   player,
@@ -138,6 +144,11 @@ const sections = computed(() => [
     condition: playerSelectedItems.value?.length,
   },
 ]);
+
+onMounted(() => {
+  pointsCollected.value = 0;
+  goldCollected.value = 0;
+});
 
 watch(
   player,

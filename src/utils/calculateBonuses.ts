@@ -52,7 +52,7 @@ export default function calculateBonuses(
           case Operator.ADDITION:
             return bonus.value;
           case Operator.MULTIPLICATION:
-            return gladiator.stats[bonus.stat] * (bonus.value - 1);
+            return Math.floor(gladiator.stats[bonus.stat] * bonus.value);
           default:
             return 0;
         }

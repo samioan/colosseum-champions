@@ -25,10 +25,10 @@ onUnmounted(() => {
     >
       <div
         v-if="open"
-        class="fixed inset-0 flex items-center justify-center z-50"
-        @click="open = false"
+        class="fixed inset-0 flex items-center justify-center z-60"
+        @click.self="open = false"
       >
-        <div class="bg-cBgDarker text-center p-4 w-[90%] max-w-md rounded-xl">
+        <div class="bg-cBgDark text-center w-[90%] max-w-md rounded-xl">
           <slot />
         </div>
       </div> </Transition
