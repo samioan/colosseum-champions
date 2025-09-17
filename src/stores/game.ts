@@ -6,10 +6,10 @@ import { DrawerState, FightTurn, CutsceneId, Language } from "@/enums";
 import type { Cutscene } from "@/types";
 import {
   perks,
-  abilities,
   weapon05,
   breastplate06,
   giantHealthPotion,
+  piercingThrust,
 } from "@/assets";
 
 export const useGameStore = defineStore("game", () => {
@@ -52,7 +52,7 @@ export const useGameStore = defineStore("game", () => {
     {
       onClick: () =>
         toggleDrawer(DrawerState.ABILITIES, labels.value.ABILITIES),
-      image: abilities,
+      image: piercingThrust,
     },
     {
       onClick: () => toggleDrawer(DrawerState.PERKS, labels.value.PERKS),

@@ -1,23 +1,13 @@
-import { StatKey, AbilityType, Operator, BonusStatus } from "@/enums";
-
-type AbilityPayload = {
-  type: AbilityType;
-  stat: StatKey;
-  value: {
-    stat: StatKey;
-    operator?: Operator;
-    modifier?: number;
-  };
-};
+import { AbilityId, BonusStatus } from "@/enums";
 
 export type Ability = {
+  id: AbilityId;
   label: string;
   description: string;
   image: string;
   points: number;
-  stamina: number;
+  energy: number;
   cooldown: number;
   maxCooldown: number;
   status: BonusStatus;
-  payload: AbilityPayload[];
 };

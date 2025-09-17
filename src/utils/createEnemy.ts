@@ -70,7 +70,7 @@ export default function createEnemy(level: number = 1) {
     if (level < 10) return equips;
 
     for (const id in equips) {
-      equips[id as EquipmentId].status = BonusStatus.EQUIPPED;
+      equips[id as EquipmentId].status = BonusStatus.UNEQUIPPED;
     }
 
     const slotGroups: Record<EquipmentSlot, EquipmentId[]> = {} as any;

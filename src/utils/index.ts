@@ -11,6 +11,7 @@ import createEnemy from "@/utils/createEnemy";
 import handleStat from "@/utils/handleStat";
 import createGladiator from "@/utils/createGladiator";
 import calculateBonuses from "@/utils/calculateBonuses";
+import calculateDamage from "@/utils/calculateDamage";
 
 export {
   getRandomRange,
@@ -26,4 +27,5 @@ export {
   selectPerk,
   useItem,
   calculateBonuses,
+  calculateDamage,
 };

@@ -3,68 +3,10 @@ import {
   handleStat,
   performAbility,
   checkForLevelUp,
-  getRandomRange,
+  calculateDamage,
 } from "@/utils";
-import {
-  StatAction,
-  StatKey,
-  FightTurn,
-  BonusStatus,
-  EquipmentSlot,
-} from "@/enums";
+import { StatAction, StatKey, FightTurn, BonusStatus } from "@/enums";
 import type { Ref } from "vue";
-
-function calculateDamage(attacker: Gladiator, defender: Gladiator) {
-  const attackerWeapon = Object.values(attacker?.equipment)?.filter(
-    (equip) =>
-      equip.status === BonusStatus.EQUIPPED &&
-      equip.slot === EquipmentSlot.WEAPON
-  )[0]?.attack;
-
-  const defenderArmor =
-    Object.values(defender?.equipment)
-      ?.filter(
-        (equip) =>
-          equip.status === BonusStatus.EQUIPPED &&
-          equip.slot !== EquipmentSlot.WEAPON
-      )
-      .map((equip) => equip.armor)
-      .reduce((a, b) => (a ?? 0) + (b ?? 0), 0) ?? 0;
-
-  const isCrit = getRandomRange(0, 100) >= 80;
-  const didEvade = getRandomRange(0, 100) >= 80;
-
-  const weaponDamage = attackerWeapon
-    ? Math.floor(
-        Math.random() * (attackerWeapon[1] - attackerWeapon[0] + 1) +
-          attackerWeapon[0]
-      )
-    : 0;
-
-  const minDamage = Math.max(
-    1,
-    Math.floor(attacker.stats.strength * 0.05 + attacker.stats.level)
-  );
-
-  const rawAttackPower = weaponDamage + minDamage;
-
-  const mitigatedDamage =
-    rawAttackPower * (100 / (100 + defender.stats.defense));
-
-  const afterArmor = Math.max(0, mitigatedDamage - defenderArmor);
-
-  let damage = Math.max(minDamage, Math.floor(afterArmor));
-
-  if (isCrit) {
-    damage *= 2;
-  }
-
-  if (didEvade) {
-    damage = minDamage;
-  }
-
-  return Math.floor(damage);
-}
 
 export default function handleFighting(
   gladiator: Gladiator,
@@ -105,13 +47,13 @@ export default function handleFighting(
 
   if (
     ability &&
-    curAttacker.stats.stamina >= ability.stamina &&
+    curAttacker.stats.stamina >= ability.energy &&
     ability.cooldown >= ability.maxCooldown
   ) {
     performAbility(
       ability,
-      curAttacker.stats,
-      curDefender.stats,
+      curAttacker,
+      curDefender,
       curAttackerStats,
       curDefenderStats
     );

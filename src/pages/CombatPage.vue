@@ -30,7 +30,7 @@ import {
 import { createEnemy, handleFighting } from "@/utils";
 import { ROUTES } from "@/constants";
 import { enemy1Death, enemy1Idle, enemy1Attack, enemy1Hurt } from "@/assets";
-import { DrawerState, FightTurn, IconSize } from "@/enums";
+import { DrawerState, FightTurn, IconSize, BonusStatus } from "@/enums";
 
 const router = useRouter();
 
@@ -58,6 +58,15 @@ onBeforeMount(() => {
   if (drawer.value.isOpen) {
     useGameStore().toggleDrawer(DrawerState.EMPTY, "");
   }
+  Object.values(player.value?.abilities)
+    ?.filter(
+      (ability) =>
+        ability.status === BonusStatus.EQUIPPED ||
+        ability.status === BonusStatus.ACTIVE
+    )
+    .forEach((ability) => {
+      ability.cooldown = 0;
+    });
   enemy.value = createEnemy(stage.value);
   enemy.value.stats.health = enemyStats.value.maxHealth;
   enemy.value.stats.stamina = enemyStats.value.maxStamina;
@@ -343,7 +352,11 @@ watch(
         <Button
           :on-click="
             () => {
-              if (stage > highestStage) highestStage = stage;
+              if (stage > highestStage) {
+                if (stage % 10 === 0 && enemy?.stats.health !== 0) {
+                  highestStage = highestStage;
+                } else highestStage = stage;
+              }
               router.push(stage === 120 ? ROUTES.cutscene : ROUTES.character);
             }
           "
