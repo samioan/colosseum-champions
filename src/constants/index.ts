@@ -8,7 +8,6 @@ import { PERKS } from "@/constants/perks";
 import { ITEMS } from "@/constants/items";
 import { EQUIPMENT } from "@/constants/equipment";
 import { EQUIPMENT_LABELS } from "@/constants/equipmentLabels";
-import { CUTSCENES } from "@/constants/cutscenes";
 import { STAGES } from "@/constants/stages";
 
 export {
@@ -22,6 +21,5 @@ export {
   ITEMS,
   EQUIPMENT,
   EQUIPMENT_LABELS,
-  CUTSCENES,
   STAGES,
 };

@@ -1,4 +1,5 @@
 import logo from "@/assets/logo.png";
+import ending from "@/assets/ending.png";
 
 import {
   background01,
@@ -136,7 +137,6 @@ import {
   enemy1Attack,
   enemy1Hurt,
 } from "@/assets/enemies";
-import { scene1, scene2 } from "@/assets/cutscenes";
 import {
   perks,
   gold,
@@ -274,8 +274,6 @@ export {
   enemy1Idle,
   enemy1Attack,
   enemy1Hurt,
-  scene1,
-  scene2,
   perks,
   gold,
   points,
@@ -284,4 +282,5 @@ export {
   strength,
   health,
   energy,
+  ending,
 };

@@ -1,6 +1,6 @@
 export const ROUTES = {
   menu: "/",
-  cutscene: "/cutscene",
+  ending: "/ending",
   character: "/character",
   combat: "/combat",
 };

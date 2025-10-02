@@ -1,5 +1,5 @@
 import { createRouter, createWebHistory } from "vue-router";
-import { CombatPage, CutscenePage, CharacterPage, MenuPage } from "@/pages";
+import { CombatPage, EndingPage, CharacterPage, MenuPage } from "@/pages";
 import { ROUTES } from "@/constants";
 
 const routes = [
@@ -8,8 +8,8 @@ const routes = [
     component: MenuPage,
   },
   {
-    path: ROUTES.cutscene,
-    component: CutscenePage,
+    path: ROUTES.ending,
+    component: EndingPage,
   },
   {
     path: ROUTES.character,

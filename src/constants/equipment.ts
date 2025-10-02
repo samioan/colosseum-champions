@@ -299,7 +299,7 @@ export const EQUIPMENT: Record<EquipmentId, Equipment> = {
   [EquipmentId.LEATHER_BREASTPLATE]: {
     label: "Leather Breastplate",
     image: breastplate01,
-    description: "DEF + 2",
+    description: "ARMOR: 2",
     gold: 100,
     status: BonusStatus.LOCKED,
     slot: EquipmentSlot.BREASTPLATE,
@@ -308,7 +308,7 @@ export const EQUIPMENT: Record<EquipmentId, Equipment> = {
   [EquipmentId.REINFORCED_BREASTPLATE]: {
     label: "Reinforced Breastplate",
     image: breastplate02,
-    description: "DEF + 4",
+    description: "ARMOR: 4",
     gold: 200,
     status: BonusStatus.LOCKED,
     slot: EquipmentSlot.BREASTPLATE,
@@ -317,7 +317,7 @@ export const EQUIPMENT: Record<EquipmentId, Equipment> = {
   [EquipmentId.EASTERN_BREASTPLATE]: {
     label: "Eastern Breastplate",
     image: breastplate03,
-    description: "DEF + 6",
+    description: "ARMOR: 6",
     gold: 300,
     status: BonusStatus.LOCKED,
     slot: EquipmentSlot.BREASTPLATE,
@@ -326,7 +326,7 @@ export const EQUIPMENT: Record<EquipmentId, Equipment> = {
   [EquipmentId.IRON_BREASTPLATE]: {
     label: "Iron Breastplate",
     image: breastplate04,
-    description: "DEF + 8",
+    description: "ARMOR: 8",
     gold: 400,
     status: BonusStatus.LOCKED,
     slot: EquipmentSlot.BREASTPLATE,
@@ -335,7 +335,7 @@ export const EQUIPMENT: Record<EquipmentId, Equipment> = {
   [EquipmentId.SCALE_BREASTPLATE]: {
     label: "Scale Breastplate",
     image: breastplate05,
-    description: "DEF + 10",
+    description: "ARMOR: 10",
     gold: 500,
     status: BonusStatus.LOCKED,
     slot: EquipmentSlot.BREASTPLATE,
@@ -344,7 +344,7 @@ export const EQUIPMENT: Record<EquipmentId, Equipment> = {
   [EquipmentId.STEEL_BREASTPLATE]: {
     label: "Steel Breastplate",
     image: breastplate06,
-    description: "DEF + 12",
+    description: "ARMOR: 12",
     gold: 600,
     status: BonusStatus.LOCKED,
     slot: EquipmentSlot.BREASTPLATE,
@@ -353,7 +353,7 @@ export const EQUIPMENT: Record<EquipmentId, Equipment> = {
   [EquipmentId.PLATE_BREASTPLATE]: {
     label: "Plate Breastplate",
     image: breastplate07,
-    description: "DEF + 14",
+    description: "ARMOR: 14",
     gold: 700,
     status: BonusStatus.LOCKED,
     slot: EquipmentSlot.BREASTPLATE,
@@ -362,7 +362,7 @@ export const EQUIPMENT: Record<EquipmentId, Equipment> = {
   [EquipmentId.KNIGHT_BREASTPLATE]: {
     label: "Knight Breastplate",
     image: breastplate08,
-    description: "DEF + 16",
+    description: "ARMOR: 16",
     gold: 800,
     status: BonusStatus.LOCKED,
     slot: EquipmentSlot.BREASTPLATE,
@@ -371,7 +371,7 @@ export const EQUIPMENT: Record<EquipmentId, Equipment> = {
   [EquipmentId.ELITE_BREASTPLATE]: {
     label: "Elite Breastplate",
     image: breastplate09,
-    description: "DEF + 18",
+    description: "ARMOR: 18",
     gold: 900,
     status: BonusStatus.LOCKED,
     slot: EquipmentSlot.BREASTPLATE,
@@ -380,7 +380,7 @@ export const EQUIPMENT: Record<EquipmentId, Equipment> = {
   [EquipmentId.DRAGON_BREASTPLATE]: {
     label: "Dragon Breastplate",
     image: breastplate10,
-    description: "DEF + 20",
+    description: "ARMOR: 20",
     gold: 1000,
     status: BonusStatus.LOCKED,
     slot: EquipmentSlot.BREASTPLATE,
@@ -389,7 +389,7 @@ export const EQUIPMENT: Record<EquipmentId, Equipment> = {
   [EquipmentId.SKULL_BREASTPLATE]: {
     label: "Skull Breastplate",
     image: breastplate11,
-    description: "DEF + 22",
+    description: "ARMOR: 22",
     gold: 1100,
     status: BonusStatus.LOCKED,
     slot: EquipmentSlot.BREASTPLATE,
@@ -398,7 +398,7 @@ export const EQUIPMENT: Record<EquipmentId, Equipment> = {
   [EquipmentId.DEATH_BREASTPLATE]: {
     label: "Death Breastplate",
     image: breastplate12,
-    description: "DEF + 24",
+    description: "ARMOR: 24",
     gold: 1200,
     status: BonusStatus.LOCKED,
     slot: EquipmentSlot.BREASTPLATE,
@@ -408,7 +408,7 @@ export const EQUIPMENT: Record<EquipmentId, Equipment> = {
   [EquipmentId.LEATHER_GAUNTLETS]: {
     label: "Leather Gauntlets",
     image: gauntlets01,
-    description: "DEF + 2",
+    description: "ARMOR: 2",
     gold: 100,
     status: BonusStatus.LOCKED,
     slot: EquipmentSlot.GAUNTLETS,
@@ -417,7 +417,7 @@ export const EQUIPMENT: Record<EquipmentId, Equipment> = {
   [EquipmentId.REINFORCED_GAUNTLETS]: {
     label: "Reinforced Gauntlets",
     image: gauntlets02,
-    description: "DEF + 4",
+    description: "ARMOR: 4",
     gold: 200,
     status: BonusStatus.LOCKED,
     slot: EquipmentSlot.GAUNTLETS,
@@ -426,7 +426,7 @@ export const EQUIPMENT: Record<EquipmentId, Equipment> = {
   [EquipmentId.EASTERN_GAUNTLETS]: {
     label: "Eastern Gauntlets",
     image: gauntlets03,
-    description: "DEF + 6",
+    description: "ARMOR: 6",
     gold: 300,
     status: BonusStatus.LOCKED,
     slot: EquipmentSlot.GAUNTLETS,
@@ -435,7 +435,7 @@ export const EQUIPMENT: Record<EquipmentId, Equipment> = {
   [EquipmentId.IRON_GAUNTLETS]: {
     label: "Iron Gauntlets",
     image: gauntlets04,
-    description: "DEF + 8",
+    description: "ARMOR: 8",
     gold: 400,
     status: BonusStatus.LOCKED,
     slot: EquipmentSlot.GAUNTLETS,
@@ -444,7 +444,7 @@ export const EQUIPMENT: Record<EquipmentId, Equipment> = {
   [EquipmentId.SCALE_GAUNTLETS]: {
     label: "Scale Gauntlets",
     image: gauntlets05,
-    description: "DEF + 10",
+    description: "ARMOR: 10",
     gold: 500,
     status: BonusStatus.LOCKED,
     slot: EquipmentSlot.GAUNTLETS,
@@ -453,7 +453,7 @@ export const EQUIPMENT: Record<EquipmentId, Equipment> = {
   [EquipmentId.STEEL_GAUNTLETS]: {
     label: "Steel Gauntlets",
     image: gauntlets06,
-    description: "DEF + 12",
+    description: "ARMOR: 12",
     gold: 600,
     status: BonusStatus.LOCKED,
     slot: EquipmentSlot.GAUNTLETS,
@@ -462,7 +462,7 @@ export const EQUIPMENT: Record<EquipmentId, Equipment> = {
   [EquipmentId.PLATE_GAUNTLETS]: {
     label: "Plate Gauntlets",
     image: gauntlets07,
-    description: "DEF + 14",
+    description: "ARMOR: 14",
     gold: 700,
     status: BonusStatus.LOCKED,
     slot: EquipmentSlot.GAUNTLETS,
@@ -471,7 +471,7 @@ export const EQUIPMENT: Record<EquipmentId, Equipment> = {
   [EquipmentId.KNIGHT_GAUNTLETS]: {
     label: "Knight Gauntlets",
     image: gauntlets08,
-    description: "DEF + 16",
+    description: "ARMOR: 16",
     gold: 800,
     status: BonusStatus.LOCKED,
     slot: EquipmentSlot.GAUNTLETS,
@@ -480,7 +480,7 @@ export const EQUIPMENT: Record<EquipmentId, Equipment> = {
   [EquipmentId.ELITE_GAUNTLETS]: {
     label: "Elite Gauntlets",
     image: gauntlets09,
-    description: "DEF + 18",
+    description: "ARMOR: 18",
     gold: 900,
     status: BonusStatus.LOCKED,
     slot: EquipmentSlot.GAUNTLETS,
@@ -489,7 +489,7 @@ export const EQUIPMENT: Record<EquipmentId, Equipment> = {
   [EquipmentId.DRAGON_GAUNTLETS]: {
     label: "Dragon Gauntlets",
     image: gauntlets10,
-    description: "DEF + 20",
+    description: "ARMOR: 20",
     gold: 1000,
     status: BonusStatus.LOCKED,
     slot: EquipmentSlot.GAUNTLETS,
@@ -498,7 +498,7 @@ export const EQUIPMENT: Record<EquipmentId, Equipment> = {
   [EquipmentId.SKULL_GAUNTLETS]: {
     label: "Skull Gauntlets",
     image: gauntlets11,
-    description: "DEF + 22",
+    description: "ARMOR: 22",
     gold: 1100,
     status: BonusStatus.LOCKED,
     slot: EquipmentSlot.GAUNTLETS,
@@ -507,7 +507,7 @@ export const EQUIPMENT: Record<EquipmentId, Equipment> = {
   [EquipmentId.DEATH_GAUNTLETS]: {
     label: "Death Gauntlets",
     image: gauntlets12,
-    description: "DEF + 24",
+    description: "ARMOR: 24",
     gold: 1200,
     status: BonusStatus.LOCKED,
     slot: EquipmentSlot.GAUNTLETS,
@@ -517,7 +517,7 @@ export const EQUIPMENT: Record<EquipmentId, Equipment> = {
   [EquipmentId.LEATHER_BOOTS]: {
     label: "Leather Boots",
     image: boots01,
-    description: "DEF + 2",
+    description: "ARMOR: 2",
     gold: 100,
     status: BonusStatus.LOCKED,
     slot: EquipmentSlot.BOOTS,
@@ -526,7 +526,7 @@ export const EQUIPMENT: Record<EquipmentId, Equipment> = {
   [EquipmentId.REINFORCED_BOOTS]: {
     label: "Reinforced Boots",
     image: boots02,
-    description: "DEF + 4",
+    description: "ARMOR: 4",
     gold: 200,
     status: BonusStatus.LOCKED,
     slot: EquipmentSlot.BOOTS,
@@ -535,7 +535,7 @@ export const EQUIPMENT: Record<EquipmentId, Equipment> = {
   [EquipmentId.EASTERN_BOOTS]: {
     label: "Eastern Boots",
     image: boots03,
-    description: "DEF + 6",
+    description: "ARMOR: 6",
     gold: 300,
     status: BonusStatus.LOCKED,
     slot: EquipmentSlot.BOOTS,
@@ -544,7 +544,7 @@ export const EQUIPMENT: Record<EquipmentId, Equipment> = {
   [EquipmentId.IRON_BOOTS]: {
     label: "Iron Boots",
     image: boots04,
-    description: "DEF + 8",
+    description: "ARMOR: 8",
     gold: 400,
     status: BonusStatus.LOCKED,
     slot: EquipmentSlot.BOOTS,
@@ -553,7 +553,7 @@ export const EQUIPMENT: Record<EquipmentId, Equipment> = {
   [EquipmentId.SCALE_BOOTS]: {
     label: "Scale Boots",
     image: boots05,
-    description: "DEF + 10",
+    description: "ARMOR: 10",
     gold: 500,
     status: BonusStatus.LOCKED,
     slot: EquipmentSlot.BOOTS,
@@ -562,7 +562,7 @@ export const EQUIPMENT: Record<EquipmentId, Equipment> = {
   [EquipmentId.STEEL_BOOTS]: {
     label: "Steel Boots",
     image: boots06,
-    description: "DEF + 12",
+    description: "ARMOR: 12",
     gold: 600,
     status: BonusStatus.LOCKED,
     slot: EquipmentSlot.BOOTS,
@@ -571,7 +571,7 @@ export const EQUIPMENT: Record<EquipmentId, Equipment> = {
   [EquipmentId.PLATE_BOOTS]: {
     label: "Plate Boots",
     image: boots07,
-    description: "DEF + 14",
+    description: "ARMOR: 14",
     gold: 700,
     status: BonusStatus.LOCKED,
     slot: EquipmentSlot.BOOTS,
@@ -580,7 +580,7 @@ export const EQUIPMENT: Record<EquipmentId, Equipment> = {
   [EquipmentId.KNIGHT_BOOTS]: {
     label: "Knight Boots",
     image: boots08,
-    description: "DEF + 16",
+    description: "ARMOR: 16",
     gold: 800,
     status: BonusStatus.LOCKED,
     slot: EquipmentSlot.BOOTS,
@@ -589,7 +589,7 @@ export const EQUIPMENT: Record<EquipmentId, Equipment> = {
   [EquipmentId.ELITE_BOOTS]: {
     label: "Elite Boots",
     image: boots09,
-    description: "DEF + 18",
+    description: "ARMOR: 18",
     gold: 900,
     status: BonusStatus.LOCKED,
     slot: EquipmentSlot.BOOTS,
@@ -598,7 +598,7 @@ export const EQUIPMENT: Record<EquipmentId, Equipment> = {
   [EquipmentId.DRAGON_BOOTS]: {
     label: "Dragon Boots",
     image: boots10,
-    description: "DEF + 20",
+    description: "ARMOR: 20",
     gold: 1000,
     status: BonusStatus.LOCKED,
     slot: EquipmentSlot.BOOTS,
@@ -607,7 +607,7 @@ export const EQUIPMENT: Record<EquipmentId, Equipment> = {
   [EquipmentId.SKULL_BOOTS]: {
     label: "Skull Boots",
     image: boots11,
-    description: "DEF + 22",
+    description: "ARMOR: 22",
     gold: 1100,
     status: BonusStatus.LOCKED,
     slot: EquipmentSlot.BOOTS,
@@ -616,7 +616,7 @@ export const EQUIPMENT: Record<EquipmentId, Equipment> = {
   [EquipmentId.DEATH_BOOTS]: {
     label: "Death Boots",
     image: boots12,
-    description: "DEF + 24",
+    description: "ARMOR: 24",
     gold: 1200,
     status: BonusStatus.LOCKED,
     slot: EquipmentSlot.BOOTS,
@@ -626,7 +626,7 @@ export const EQUIPMENT: Record<EquipmentId, Equipment> = {
   [EquipmentId.LEATHER_HELMET]: {
     label: "Leather Helmet",
     image: helmet01,
-    description: "DEF + 2",
+    description: "ARMOR: 2",
     gold: 100,
     status: BonusStatus.LOCKED,
     slot: EquipmentSlot.HELMET,
@@ -635,7 +635,7 @@ export const EQUIPMENT: Record<EquipmentId, Equipment> = {
   [EquipmentId.REINFORCED_HELMET]: {
     label: "Reinforced Helmet",
     image: helmet02,
-    description: "DEF + 4",
+    description: "ARMOR: 4",
     gold: 200,
     status: BonusStatus.LOCKED,
     slot: EquipmentSlot.HELMET,
@@ -644,7 +644,7 @@ export const EQUIPMENT: Record<EquipmentId, Equipment> = {
   [EquipmentId.EASTERN_HELMET]: {
     label: "Eastern Helmet",
     image: helmet03,
-    description: "DEF + 6",
+    description: "ARMOR: 6",
     gold: 300,
     status: BonusStatus.LOCKED,
     slot: EquipmentSlot.HELMET,
@@ -653,7 +653,7 @@ export const EQUIPMENT: Record<EquipmentId, Equipment> = {
   [EquipmentId.IRON_HELMET]: {
     label: "Iron Helmet",
     image: helmet04,
-    description: "DEF + 8",
+    description: "ARMOR: 8",
     gold: 400,
     status: BonusStatus.LOCKED,
     slot: EquipmentSlot.HELMET,
@@ -662,7 +662,7 @@ export const EQUIPMENT: Record<EquipmentId, Equipment> = {
   [EquipmentId.SCALE_HELMET]: {
     label: "Scale Helmet",
     image: helmet05,
-    description: "DEF + 10",
+    description: "ARMOR: 10",
     gold: 500,
     status: BonusStatus.LOCKED,
     slot: EquipmentSlot.HELMET,
@@ -671,7 +671,7 @@ export const EQUIPMENT: Record<EquipmentId, Equipment> = {
   [EquipmentId.STEEL_HELMET]: {
     label: "Steel Helmet",
     image: helmet06,
-    description: "DEF + 12",
+    description: "ARMOR: 12",
     gold: 600,
     status: BonusStatus.LOCKED,
     slot: EquipmentSlot.HELMET,
@@ -680,7 +680,7 @@ export const EQUIPMENT: Record<EquipmentId, Equipment> = {
   [EquipmentId.PLATE_HELMET]: {
     label: "Plate Helmet",
     image: helmet07,
-    description: "DEF + 14",
+    description: "ARMOR: 14",
     gold: 700,
     status: BonusStatus.LOCKED,
     slot: EquipmentSlot.HELMET,
@@ -689,7 +689,7 @@ export const EQUIPMENT: Record<EquipmentId, Equipment> = {
   [EquipmentId.KNIGHT_HELMET]: {
     label: "Knight Helmet",
     image: helmet08,
-    description: "DEF + 16",
+    description: "ARMOR: 16",
     gold: 800,
     status: BonusStatus.LOCKED,
     slot: EquipmentSlot.HELMET,
@@ -698,7 +698,7 @@ export const EQUIPMENT: Record<EquipmentId, Equipment> = {
   [EquipmentId.ELITE_HELMET]: {
     label: "Elite Helmet",
     image: helmet09,
-    description: "DEF + 18",
+    description: "ARMOR: 18",
     gold: 900,
     status: BonusStatus.LOCKED,
     slot: EquipmentSlot.HELMET,
@@ -707,7 +707,7 @@ export const EQUIPMENT: Record<EquipmentId, Equipment> = {
   [EquipmentId.DRAGON_HELMET]: {
     label: "Dragon Helmet",
     image: helmet10,
-    description: "DEF + 20",
+    description: "ARMOR: 20",
     gold: 1000,
     status: BonusStatus.LOCKED,
     slot: EquipmentSlot.HELMET,
@@ -716,7 +716,7 @@ export const EQUIPMENT: Record<EquipmentId, Equipment> = {
   [EquipmentId.SKULL_HELMET]: {
     label: "Skull Helmet",
     image: helmet11,
-    description: "DEF + 22",
+    description: "ARMOR: 22",
     gold: 1100,
     status: BonusStatus.LOCKED,
     slot: EquipmentSlot.HELMET,
@@ -725,7 +725,7 @@ export const EQUIPMENT: Record<EquipmentId, Equipment> = {
   [EquipmentId.DEATH_HELMET]: {
     label: "Death Helmet",
     image: helmet12,
-    description: "DEF + 24",
+    description: "ARMOR: 24",
     gold: 1200,
     status: BonusStatus.LOCKED,
     slot: EquipmentSlot.HELMET,

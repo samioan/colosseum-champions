@@ -182,7 +182,6 @@ export function useBonusDrawer(
     const item = selectedItem.value;
     if (!item) return {};
 
-    let warningMessage: string | undefined;
     const buttons: { label: string; disabled: boolean; onClick: () => void }[] =
       [];
 
@@ -196,9 +195,6 @@ export function useBonusDrawer(
             "status" in it &&
             (it as Ability | Perk).status === BonusStatus.EQUIPPED
         ).length === 3;
-
-      if (notEnoughPoints) warningMessage = labels.POINTS_ERROR;
-      else if (maxEquipped) warningMessage = labels.MAX_ERROR;
 
       buttons.push({
         label: itemLabels.button[item.status],
@@ -231,13 +227,11 @@ export function useBonusDrawer(
         points: item.points,
         status: itemStatus.value,
         buttons,
-        warningMessage,
       };
     }
 
     if ("amount" in item) {
       const notEnoughGold = pointsOrGold.value < item.gold;
-      if (notEnoughGold) warningMessage = labels.GOLD_ERROR;
 
       buttons.push({
         label: labels.BUY,
@@ -259,14 +253,12 @@ export function useBonusDrawer(
         gold: item.gold,
         status: itemStatus.value,
         buttons,
-        warningMessage,
       };
     }
 
     if ("slot" in item) {
       const notEnoughGold =
         pointsOrGold.value < item.gold && item.status === BonusStatus.LOCKED;
-      if (notEnoughGold) warningMessage = labels.GOLD_ERROR;
 
       const equipLabel = itemLabels.button[item.status];
 
@@ -293,13 +285,11 @@ export function useBonusDrawer(
         gold: item.gold,
         status: itemStatus.value,
         buttons,
-        warningMessage,
       };
     }
 
     if ("unlocked" in item) {
       const notEnoughGold = pointsOrGold.value < item.gold;
-      if (notEnoughGold) warningMessage = labels.GOLD_ERROR;
 
       buttons.push({
         label: labels.FIGHT,
@@ -320,7 +310,6 @@ export function useBonusDrawer(
         description: item.description,
         gold: item.gold,
         buttons,
-        warningMessage,
       };
     }
 

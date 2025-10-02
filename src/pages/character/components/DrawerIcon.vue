@@ -35,7 +35,8 @@ withDefaults(
       :size="IconSize.LARGE"
       :on-click="onSelect"
       :is-light="isLight"
-      >{{ overlayText }}</Icon
     >
+      {{ overlayText }}
+    </Icon>
   </div>
 </template>

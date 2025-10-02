@@ -4,22 +4,19 @@ import { ROUTES, LABELS } from "@/constants";
 import { usePlayerStore, useGameStore } from "@/stores";
 import { createGladiator } from "@/utils";
 import { Button } from "@/components";
-import { storeToRefs } from "pinia";
 import { logo } from "@/assets";
 
 const router = useRouter();
 const playerStore = usePlayerStore();
 const gameStore = useGameStore();
 
-const { labels } = storeToRefs(gameStore);
-
 const buttons = [
   {
-    text: labels.value.TUTORIAL,
+    text: LABELS.TUTORIAL,
     onClick: () => {},
   },
   {
-    text: labels.value.QUEST_FOR_GLORY,
+    text: LABELS.QUEST_FOR_GLORY,
     onClick: () => {
       gameStore.stage = 1;
       playerStore.player = createGladiator();
@@ -27,7 +24,7 @@ const buttons = [
     },
   },
   {
-    text: labels.value.OPTIONS,
+    text: LABELS.OPTIONS,
     onClick: () => {},
   },
 ];

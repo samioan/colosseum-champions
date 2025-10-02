@@ -1,6 +1,6 @@
-import CombatPage from "@/pages/CombatPage.vue";
-import CharacterPage from "@/pages/CharacterPage.vue";
+import CharacterPage from "@/pages/character/CharacterPage.vue";
+import CombatPage from "@/pages/combat/CombatPage.vue";
 import MenuPage from "@/pages/MenuPage.vue";
-import CutscenePage from "@/pages/CutscenePage.vue";
+import EndingPage from "@/pages/EndingPage.vue";
 
-export { CombatPage, CharacterPage, MenuPage, CutscenePage };
+export { CombatPage, CharacterPage, MenuPage, EndingPage };

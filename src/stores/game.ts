@@ -1,9 +1,8 @@
 import { defineStore } from "pinia";
 import { ref, computed } from "vue";
 import { useRouter } from "vue-router";
-import { CUTSCENES, LABELS, ROUTES, STAGES } from "@/constants";
-import { DrawerState, FightTurn, CutsceneId, Language } from "@/enums";
-import type { Cutscene } from "@/types";
+import { LABELS, ROUTES, STAGES } from "@/constants";
+import { DrawerState, FightTurn } from "@/enums";
 import {
   perks,
   weapon05,
@@ -19,22 +18,6 @@ export const useGameStore = defineStore("game", () => {
   const highestStage = ref(1);
   const pointsCollected = ref(0);
   const goldCollected = ref(0);
-  const currentLanguage = ref<Language>(Language.ENGLISH);
-  const labels = computed(() => LABELS[currentLanguage.value]);
-  const currentCutsceneId = computed<CutsceneId>(() => {
-    return (
-      {
-        1: CutsceneId.STAGE_1,
-        6: CutsceneId.STAGE_5,
-        11: CutsceneId.STAGE_10,
-        16: CutsceneId.STAGE_15,
-        21: CutsceneId.STAGE_20,
-      }[stage.value] ?? CutsceneId.STAGE_1
-    );
-  });
-  const currentCutscene = computed<Cutscene>(
-    () => CUTSCENES[currentCutsceneId.value]
-  );
 
   const drawer = ref<{ isOpen: boolean; state: DrawerState; title: string }>({
     isOpen: false,
@@ -50,25 +33,23 @@ export const useGameStore = defineStore("game", () => {
 
   const gladiatorActivityButtons = computed(() => [
     {
-      onClick: () =>
-        toggleDrawer(DrawerState.ABILITIES, labels.value.ABILITIES),
+      onClick: () => toggleDrawer(DrawerState.ABILITIES, LABELS.ABILITIES),
       image: piercingThrust,
     },
     {
-      onClick: () => toggleDrawer(DrawerState.PERKS, labels.value.PERKS),
+      onClick: () => toggleDrawer(DrawerState.PERKS, LABELS.PERKS),
       image: perks,
     },
     {
-      onClick: () =>
-        toggleDrawer(DrawerState.EQUIPMENT, labels.value.EQUIPMENT),
+      onClick: () => toggleDrawer(DrawerState.EQUIPMENT, LABELS.EQUIPMENT),
       image: breastplate06,
     },
     {
-      onClick: () => toggleDrawer(DrawerState.ITEMS, labels.value.ITEMS),
+      onClick: () => toggleDrawer(DrawerState.ITEMS, LABELS.ITEMS),
       image: giantHealthPotion,
     },
     {
-      onClick: () => toggleDrawer(DrawerState.STAGES, labels.value.STAGES),
+      onClick: () => toggleDrawer(DrawerState.STAGES, LABELS.STAGES),
       image: weapon05,
     },
   ]);
@@ -91,12 +72,9 @@ export const useGameStore = defineStore("game", () => {
     drawer,
     toggleDrawer,
     fightTurn,
-    currentCutsceneId,
-    currentCutscene,
     stage,
     highestStage,
     stages,
-    labels,
     pointsCollected,
     goldCollected,
   };

@@ -16,7 +16,6 @@ const props = withDefaults(
     points?: number;
     gold?: number;
     status?: string;
-    warningMessage?: string;
     buttons?: {
       label: string;
       onClick: () => void;
@@ -32,7 +31,6 @@ const props = withDefaults(
     points: 0,
     gold: 0,
     status: "",
-    warningMessage: "",
     buttons: undefined,
   }
 );
@@ -76,12 +74,6 @@ const stats = computed(() =>
           <span class="text-xs text-cYellow" v-if="status">{{ status }}</span>
         </div>
       </div>
-
-      <span
-        v-if="warningMessage"
-        class="p-4 bg-cBgDarker border border-cRed rounded-lg text-xs mx-4 mb-4 text-start text-cRed"
-        >{{ warningMessage }}</span
-      >
 
       <div
         class="flex flex-col gap-4 items-center p-4 border-t border-cBgLight"

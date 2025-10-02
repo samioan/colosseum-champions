@@ -5,5 +5,4 @@ export type { GladiatorStats } from "@/types/gladiatorStats";
 export type { Item } from "@/types/item";
 export type { Equipment } from "@/types/equipment";
 export type { Bonus } from "@/types/bonus";
-export type { Cutscene } from "@/types/cutscene";
 export type { Stage } from "@/types/stage";
