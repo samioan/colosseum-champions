@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, onBeforeMount, watch, ref } from "vue";
+import { computed, onBeforeMount, watch } from "vue";
 import { useRouter } from "vue-router";
 import { storeToRefs } from "pinia";
 import { usePlayerStore, useEnemyStore, useGameStore } from "@/stores";
@@ -20,6 +20,16 @@ import {
   background12,
   points,
   gold,
+  enemy1,
+  enemy2,
+  enemy3,
+  enemy4,
+  enemy5,
+  enemy6,
+  enemy7,
+  enemy8,
+  enemy9,
+  enemy10,
 } from "@/assets";
 import { createEnemy, handleFighting } from "@/utils";
 import { LABELS, ROUTES } from "@/constants";
@@ -101,11 +111,25 @@ const backgrounds = [
   background12,
 ];
 
+const enemies = [
+  enemy1,
+  enemy2,
+  enemy3,
+  enemy4,
+  enemy5,
+  enemy6,
+  enemy7,
+  enemy8,
+  enemy9,
+  enemy10,
+];
+
 const enemyImageProps = computed(() => ({
   fightTurn: fightTurn.value,
   stage: stage.value,
   playerHealth: player.value.stats.health,
   enemyHealth: enemy.value.stats.health,
+  enemy: enemies[stage.value - 1],
 }));
 
 function getBackgroundForStage() {
@@ -310,71 +334,3 @@ watch(
     </Modal>
   </div>
 </template>
-
-<style scoped>
-@keyframes shakeAttack {
-  0%,
-  100% {
-    transform: translateX(0);
-  }
-  25% {
-    transform: translateX(-2px);
-  }
-  50% {
-    transform: translateX(2px);
-  }
-  75% {
-    transform: translateX(-2px);
-  }
-}
-
-@keyframes shakeHit {
-  0%,
-  100% {
-    transform: translateY(0);
-  }
-  25% {
-    transform: translateY(4px);
-  }
-  50% {
-    transform: translateY(2px);
-  }
-  75% {
-    transform: translateY(4px);
-  }
-}
-
-@keyframes fadeOut {
-  0% {
-    opacity: 1;
-  }
-  100% {
-    opacity: 0;
-  }
-}
-
-@keyframes fadeIn {
-  0% {
-    opacity: 0;
-  }
-  100% {
-    opacity: 1;
-  }
-}
-
-.shake-attack {
-  animation: shakeAttack 0.5s ease-in-out;
-}
-
-.shake-hit {
-  animation: shakeHit 0.5s ease-in-out;
-}
-
-.fade-out {
-  animation: fadeOut 0.75s ease-in forwards;
-}
-
-.fade-in {
-  animation: fadeIn 0.75s ease-in forwards;
-}
-</style>

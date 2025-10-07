@@ -1,13 +1,13 @@
 <script setup lang="ts">
 import { computed, ref } from "vue";
 import { FightTurn } from "@/enums";
-import { enemy1Death, enemy1Idle, enemy1Attack, enemy1Hurt } from "@/assets";
 
 const props = defineProps<{
   fightTurn: FightTurn;
   stage: number;
   playerHealth: number;
   enemyHealth: number;
+  enemy: string;
 }>();
 
 const isAttacking = ref(false);
@@ -41,20 +41,17 @@ const enemyImage = computed(() => {
   if (props.enemyHealth > 0) {
     if (props.fightTurn === FightTurn.ENEMY) {
       shakeEnemyAttack();
-      return enemy1Attack;
     } else if (props.fightTurn === FightTurn.PLAYER) {
       shakeEnemyHit();
-      return enemy1Hurt;
     } else if (props.fightTurn === FightTurn.NONE) {
       if (props.playerHealth > 0) {
         appearEnemy();
       }
-      return enemy1Idle;
     }
   } else {
     fadeEnemy();
-    return enemy1Death;
   }
+  return props.enemy;
 });
 </script>
 
@@ -79,6 +76,7 @@ const enemyImage = computed(() => {
   }
   25% {
     transform: translateX(-2px);
+    filter: drop-shadow(0 0 1rem crimson);
   }
   50% {
     transform: translateX(2px);
@@ -95,6 +93,7 @@ const enemyImage = computed(() => {
   }
   25% {
     transform: translateY(4px);
+    filter: brightness(1.5);
   }
   50% {
     transform: translateY(2px);
@@ -107,18 +106,22 @@ const enemyImage = computed(() => {
 @keyframes fadeOut {
   0% {
     opacity: 1;
+    transform: rotate(0deg) scale(1);
   }
   100% {
     opacity: 0;
+    transform: rotate(180deg) scale(0);
   }
 }
 
 @keyframes fadeIn {
   0% {
     opacity: 0;
+    transform: rotate(180deg) scale(0);
   }
   100% {
     opacity: 1;
+    transform: rotate(0deg) scale(1);
   }
 }
 
