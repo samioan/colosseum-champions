@@ -1,10 +1,11 @@
 <script setup lang="ts">
+import { onMounted, onUnmounted } from "vue";
 import { useRouter } from "vue-router";
 import { ROUTES, LABELS } from "@/constants";
 import { usePlayerStore, useGameStore } from "@/stores";
 import { createGladiator } from "@/utils";
 import { Button } from "@/components";
-import { logo } from "@/assets";
+import { logo, menuPage } from "@/assets";
 
 const router = useRouter();
 const playerStore = usePlayerStore();
@@ -28,6 +29,27 @@ const buttons = [
     onClick: () => {},
   },
 ];
+
+let audio = new Audio(menuPage);
+
+function playSound() {
+  audio.currentTime = 0;
+  audio.loop = true;
+  audio.volume = 0.5;
+  audio.play();
+}
+
+onMounted(() => {
+  audio.volume = 0.5;
+  audio.play().catch(() => {
+    window.addEventListener("click", playSound, { once: true });
+  });
+});
+
+onUnmounted(() => {
+  audio.pause();
+  audio.currentTime = 0;
+});
 </script>
 
 <template>

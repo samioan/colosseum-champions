@@ -33,4 +33,5 @@ export const LABELS: Record<Label, string> = {
   [Label.AVAILABLE]: "Available",
   [Label.HEALTH_POTION]: "Health Potion",
   [Label.FIGHT]: "Fight",
+  [Label.PLAYER_NAME]: "Lanslet",
 };

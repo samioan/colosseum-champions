@@ -1,6 +1,5 @@
 <script setup lang="ts">
-import { computed, onMounted, watch } from "vue";
-
+import { computed, onMounted, watch, onUnmounted } from "vue";
 import { storeToRefs } from "pinia";
 import { useGameStore } from "@/stores/game";
 import { usePlayerStore } from "@/stores/player";
@@ -14,7 +13,7 @@ import {
   StatsSection,
 } from "@/pages/character/components";
 import { DrawerState } from "@/enums";
-import { gold, points, experience } from "@/assets";
+import { gold, points, experience, characterPage } from "@/assets";
 import { useBonusDrawer } from "@/composables";
 import { LABELS, EQUIPMENT_LABELS } from "@/constants";
 
@@ -142,10 +141,14 @@ const sections = computed(() => [
   },
 ]);
 
-onMounted(() => {
-  pointsCollected.value = 0;
-  goldCollected.value = 0;
-});
+let audio = new Audio(characterPage);
+
+function playSound() {
+  audio.currentTime = 0;
+  audio.loop = true;
+  audio.volume = 0.5;
+  audio.play();
+}
 
 watch(
   player,
@@ -157,6 +160,20 @@ watch(
   },
   { deep: true, immediate: true }
 );
+
+onMounted(() => {
+  pointsCollected.value = 0;
+  goldCollected.value = 0;
+  audio.volume = 0.5;
+  audio.play().catch(() => {
+    window.addEventListener("click", playSound, { once: true });
+  });
+});
+
+onUnmounted(() => {
+  audio.pause();
+  audio.currentTime = 0;
+});
 </script>
 
 <template>

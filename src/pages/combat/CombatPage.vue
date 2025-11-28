@@ -1,5 +1,12 @@
 <script setup lang="ts">
-import { computed, onBeforeMount, watch } from "vue";
+import {
+  computed,
+  onBeforeMount,
+  watch,
+  ref,
+  onMounted,
+  onUnmounted,
+} from "vue";
 import { useRouter } from "vue-router";
 import { storeToRefs } from "pinia";
 import { usePlayerStore, useEnemyStore, useGameStore } from "@/stores";
@@ -30,6 +37,16 @@ import {
   enemy8,
   enemy9,
   enemy10,
+  enemy11,
+  enemy12,
+  enemy13,
+  enemy14,
+  enemy15,
+  enemy16,
+  enemy17,
+  combatPage,
+  victory,
+  defeat,
 } from "@/assets";
 import { createEnemy, handleFighting } from "@/utils";
 import { LABELS, ROUTES } from "@/constants";
@@ -122,14 +139,45 @@ const enemies = [
   enemy8,
   enemy9,
   enemy10,
+  enemy11,
+  enemy12,
+  enemy13,
+  enemy14,
+  enemy15,
+  enemy16,
 ];
+
+const selectedEnemy = ref("");
+const selectedHue = ref(0);
+
+let audio = new Audio(combatPage);
+
+function playSound() {
+  audio.currentTime = 0;
+  audio.loop = true;
+  audio.volume = 0.5;
+  audio.play();
+}
+
+watch(
+  () => stage.value,
+  () => {
+    selectedEnemy.value =
+      stage.value === 120
+        ? enemy17
+        : enemies[Math.floor(Math.random() * enemies.length)];
+    selectedHue.value = Math.floor(Math.random() * 360);
+  },
+  { immediate: true }
+);
 
 const enemyImageProps = computed(() => ({
   fightTurn: fightTurn.value,
   stage: stage.value,
   playerHealth: player.value.stats.health,
   enemyHealth: enemy.value.stats.health,
-  enemy: enemies[stage.value - 1],
+  enemy: selectedEnemy.value,
+  hue: selectedHue.value,
 }));
 
 function getBackgroundForStage() {
@@ -187,6 +235,28 @@ watch(
   },
   { deep: true, immediate: true }
 );
+
+watch(isModalVisible, () => {
+  if (isModalVisible.value) {
+    audio.pause();
+    audio = new Audio(enemy?.value.stats.health <= 0 ? victory : defeat);
+    audio.volume = 0.5;
+    audio.loop = false;
+    audio.play();
+  }
+});
+
+onMounted(() => {
+  audio.volume = 0.5;
+  audio.play().catch(() => {
+    window.addEventListener("click", playSound, { once: true });
+  });
+});
+
+onUnmounted(() => {
+  audio.pause();
+  audio.currentTime = 0;
+});
 </script>
 
 <template>
@@ -204,7 +274,9 @@ watch(
     </div>
 
     <div class="flex-1 relative">
-      <div class="flex-1 h-full relative overflow-hidden rounded-lg">
+      <div
+        class="flex-1 h-full relative overflow-hidden rounded-lg bg-cBgDarker border border-cBgLight"
+      >
         <img
           class="absolute inset-0 w-full h-full object-cover"
           :src="getBackgroundForStage()"
@@ -300,7 +372,7 @@ watch(
         }}</span>
       </div>
       <div
-        class="flex justify-between gap-4 p-4 border-b border-cBgLight text-xs"
+        class="flex flex-wrap justify-center gap-4 p-4 border-b border-cBgLight text-xs"
       >
         <div class="flex gap-4 items-center">
           <Icon :image="getBackgroundForStage()" :size="IconSize.MEDIUM" />

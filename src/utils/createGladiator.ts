@@ -5,12 +5,12 @@ import {
   PERKS,
   ITEMS,
   EQUIPMENT,
+  LABELS,
 } from "@/constants";
-import { createName } from "@/utils";
 
 export default function createGladiator(): Gladiator {
   return {
-    name: createName(),
+    name: LABELS.PLAYER_NAME,
     stats: JSON.parse(JSON.stringify(PLAYER_BASE_STATS)),
     abilities: JSON.parse(JSON.stringify(ABILITIES)),
     perks: JSON.parse(JSON.stringify(PERKS)),
