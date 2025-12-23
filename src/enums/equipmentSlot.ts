@@ -1,0 +1,8 @@
+export enum EquipmentSlot {
+  WEAPON = "WEAPON",
+  SHIELD = "SHIELD",
+  HELMET = "HELMET",
+  GAUNTLETS = "GAUNTLETS",
+  BOOTS = "BOOTS",
+  BREASTPLATE = "BREASTPLATE",
+}

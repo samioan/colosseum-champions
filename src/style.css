@@ -1,12 +1,23 @@
-:root {
+@import "tailwindcss";
+
+@theme {
+  --color-cRed: #fb2c36;
+  --color-cGreen: #00c951;
+  --color-cOrange: #e17100;
+  --color-cBlue: #2b7fff;
+  --color-cYellow: #fdc700;
+  --color-cDarkRed: #e7000b;
+  --color-cTitle: #f6f3f4;
+  --color-cText: #d1d5dc;
+  --color-cBgLight: #57534d;
+  --color-cBgDark: #292526;
+  --color-cBgDarker: #1c1919;
+}
+
+--color- :root {
   font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;
   font-weight: 400;
-
-  color-scheme: light dark;
-  color: rgba(255, 255, 255, 0.87);
-  background-color: #242424;
-
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
@@ -14,9 +25,15 @@
 }
 
 body {
+  box-sizing: border-box;
   margin: 0;
+  touch-action: manipulation;
 }
 
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+.scrollbar-hidden::-webkit-scrollbar {
+  display: none;
+}
+.scrollbar-hidden {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}

@@ -1,0 +1,57 @@
+import { defineStore } from "pinia";
+import { ref, computed, type ComputedRef } from "vue";
+import type { Gladiator, GladiatorStats } from "@/types";
+import { createEnemy, calculateBonuses } from "@/utils";
+import { StatKey } from "@/enums";
+
+export const useEnemyStore = defineStore("enemy", () => {
+  const enemy = ref<Gladiator>(createEnemy());
+
+  const enemyHeaderProps = computed(() => ({
+    name: enemy.value.name,
+    level: enemy.value.stats.level,
+  }));
+
+  const enemyStats: ComputedRef<GladiatorStats> = computed(() => {
+    const computedPerks = calculateBonuses(
+      enemy.value,
+      enemy.value.stats,
+      enemy.value.perks
+    );
+
+    const updatedStats = Object.fromEntries(
+      Object.entries(enemy.value.stats).map((stat) => [
+        stat[0],
+        stat[1] + (computedPerks[stat[0] as StatKey] ?? 0),
+      ])
+    ) as GladiatorStats;
+
+    const updatedPerks = calculateBonuses(
+      enemy.value,
+      updatedStats,
+      enemy.value.perks
+    );
+
+    return Object.fromEntries(
+      Object.entries(enemy.value.stats).map((stat) => [
+        stat[0],
+        stat[1] + (updatedPerks[stat[0] as StatKey] ?? 0),
+      ])
+    ) as GladiatorStats;
+  });
+
+  const enemyMainStats = computed(() => [
+    {
+      stat: enemyStats.value.health,
+      maxStat: enemyStats.value.maxHealth,
+      colorClass: "bg-cRed",
+    },
+  ]);
+
+  return {
+    enemy,
+    enemyStats,
+    enemyHeaderProps,
+    enemyMainStats,
+  };
+});

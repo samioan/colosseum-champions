@@ -1,11 +1,46 @@
-<script setup lang="ts">
-import { useCounterStore } from "@stores/counter";
+<template>
+  <transition name="blackfade">
+    <div v-if="showOverlay" class="fixed inset-0 bg-black z-[1000]" />
+  </transition>
 
-const counter = useCounterStore();
+  <RouterView />
+</template>
+
+<script setup lang="ts">
+import { ref, onMounted } from "vue";
+import { useRouter } from "vue-router";
+
+const showOverlay = ref(true);
+const router = useRouter();
+
+onMounted(() => {
+  setTimeout(() => (showOverlay.value = false), 400);
+});
+
+router.beforeEach(async (_to, _from, next) => {
+  showOverlay.value = true;
+  await new Promise((r) => setTimeout(r, 400));
+  next();
+});
+
+router.afterEach(() => {
+  setTimeout(() => {
+    showOverlay.value = false;
+  }, 0);
+});
 </script>
 
-<template>
-  <button class="bg-[black]" @click="counter.increment">
-    Count: {{ counter.count }}
-  </button>
-</template>
+<style>
+.blackfade-enter-active,
+.blackfade-leave-active {
+  transition: opacity 0.4s ease;
+}
+.blackfade-enter-from,
+.blackfade-leave-to {
+  opacity: 0;
+}
+.blackfade-enter-to,
+.blackfade-leave-from {
+  opacity: 1;
+}
+</style>
