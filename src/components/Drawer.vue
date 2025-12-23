@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, watch, onUnmounted, computed, onMounted } from "vue";
+import { ref, watch, onUnmounted, onMounted } from "vue";
 
 defineProps<{ title: string }>();
 const open = defineModel<boolean>();

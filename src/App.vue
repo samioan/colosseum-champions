@@ -17,7 +17,7 @@ onMounted(() => {
   setTimeout(() => (showOverlay.value = false), 400);
 });
 
-router.beforeEach(async (to, from, next) => {
+router.beforeEach(async (_to, _from, next) => {
   showOverlay.value = true;
   await new Promise((r) => setTimeout(r, 400));
   next();
